@@ -103,15 +103,17 @@ class MyObject {
     GL.bindBuffer(GL.ARRAY_BUFFER, this.OBJECT_VERTEX);
 
     GL.vertexAttribPointer(this._position, 3, GL.FLOAT, false, 4 * (3 + 3), 0);
-    GL.vertexAttribPointer(this._color, 3, GL.FLOAT, false, 4 * (3 + 3), 3 * 4);
+    GL.vertexAttribPointer(this._color, 3, GL.FLOAT, false, 4 * (3 + 3), 3 * 4  );
 
     GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.OBJECT_FACES);
     GL.drawElements(GL.TRIANGLES, this.object_faces.length, GL.UNSIGNED_SHORT, 0);
 
-    for (let i = 0; i < this.child.length; i++) {
+    if (this.child.length > 0) {
+      for (let i = 0; i < this.child.length; i++) {
       
-      this.child[i].draw();
-    }
+        this.child[i].draw();
+      }
+    }  
   }
 
   setRotateMove(PHI, THETA, r) {
@@ -133,6 +135,62 @@ class MyObject {
   addChild(child) {
     this.child.push(child);
   }
+}
+
+function generateSphere(x, y, z, radius, segments) {
+  var vertices = [];
+  // var colors = [];
+
+  var sphereColors = [];
+
+  for (var i = 0; i < 5; i++) {
+    sphereColors.push([Math.random(), Math.random(), Math.random()])
+  }
+
+  // console.log(segments);
+  for (var i = 0; i <= segments; i++) {
+    var v = Math.PI * (-0.5 + i / segments);
+    var sinV = Math.sin(v);
+    var cosV = Math.cos(v);
+
+    for (var j = 0; j <= segments; j++) {
+      var u = 2 * Math.PI * (j / segments);
+      var sinU = Math.sin(u);
+      var cosU = Math.cos(u);
+
+      var xCoord = cosU * cosV;
+      var yCoord = sinU * cosV;
+      var zCoord = sinV;
+
+      if (j > 60 && j < 90) {
+        // var vertexX = 0.5;
+        // var vertexY = 0.5;
+        // var vertexZ = z + radius + (7/5.3)/2* zCoord;
+      } else {
+        var vertexX = x + radius + 0.75 * xCoord;
+        var vertexY = y + radius + 1 * yCoord;
+        var vertexZ = z + radius + (7/5.3)/2 * zCoord;
+      }
+
+      var colorIndex = j % sphereColors.length;
+      vertices.push(vertexX, vertexY, vertexZ, 221/255, 112/255, 24/255);
+    }
+  }
+  
+
+  var faces = [];
+  for (var i = 0; i < segments; i++) {
+    for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      faces.push(index, nextIndex, index + 1);
+      faces.push(nextIndex, nextIndex + 1, index + 1);
+    }
+  }
+
+  console.log(segments)
+  return { vertices: vertices, faces: faces };
 }
 
 function normalizeScreen(x, y, width, height) {
@@ -220,7 +278,7 @@ function main() {
     dY = 0;
   var THETA = 0,
     PHI = 0;
-  var AMORTIZATION = 0.95;
+  var AMORTIZATION = 0.1;
   var rotationX = 0;
   var rotationY = 0;
 
@@ -695,6 +753,12 @@ var waist_faces = []
       top_circle_index++;
     }
 
+  var head_array = generateSphere(0, 0, -0.25, 0.5, 100);
+  var head_array2 = generateSphere(0, 0, -0.25, 0.5, 100);
+
+  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
+  var head2 = new MyObject(head_array2.vertices, head_array2.faces, shader_fragment_source, shader_vertex_source);
+  
   var wraist = new MyObject(waistVertex, waist_faces, shader_fragment_source, shader_vertex_source);
 
   var leg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
@@ -732,6 +796,9 @@ var waist_faces = []
   neck.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neck.MOVEMATRIX, neck.MOVEMATRIX, [0, 1.5, 0.0]);
 
+  head.MOVEMATRIX = glMatrix.mat4.create();
+  head2.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.25,0]);
   //Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
 
@@ -757,8 +824,8 @@ var waist_faces = []
       // LIBS.rotateZ(MOVEMATRIX, dt*0.0004);
       // console.log(dt);
       // time_prev = time;
-      glMatrix.mat4.rotateY(body.MOVEMATRIX, body.MOVEMATRIX, THETA*0.1);
-      glMatrix.mat4.rotateX(body.MOVEMATRIX, body.MOVEMATRIX, PHI*0.1);
+      glMatrix.mat4.rotateY(head.MOVEMATRIX, head.MOVEMATRIX, THETA*0.1);
+      glMatrix.mat4.rotateX(head.MOVEMATRIX, head.MOVEMATRIX, PHI*0.1);
     }
 
     wraist.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -766,6 +833,8 @@ var waist_faces = []
     leg.child[0].setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     body.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     neck.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    head.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    head2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     // wraist.draw();
 
     // wraist.setIdentityMove();
@@ -827,6 +896,7 @@ var waist_faces = []
     leg.draw();
     body.draw();
     neck.draw();
+    head.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
