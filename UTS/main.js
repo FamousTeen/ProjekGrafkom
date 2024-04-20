@@ -753,6 +753,93 @@ var waist_faces = []
       top_circle_index++;
     }
 
+    var bodyVertex2 = []
+  bodyVertex2.push(0);
+  bodyVertex2.push(0);
+  bodyVertex2.push(0);
+  bodyVertex2.push(221/255);
+  bodyVertex2.push(112/255);
+  bodyVertex2.push(24/255);
+
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        ((CANVAS.width) * Math.cos(degrees_to_radians(i))) / CANVAS.width;
+      var y =
+        ((CANVAS.height) * Math.sin(degrees_to_radians(i))) / CANVAS.height;
+        bodyVertex2.push(x);
+      bodyVertex2.push(0);
+      bodyVertex2.push(y);
+      bodyVertex2.push(221/255);
+      bodyVertex2.push(112/255);
+      bodyVertex2.push(24/255);
+    }
+    if (i == 360) {
+      bodyVertex2.push(0);
+      bodyVertex2.push(1);
+      bodyVertex2.push(0);
+      bodyVertex2.push(221/255);
+      bodyVertex2.push(112/255);
+      bodyVertex2.push(24/255);
+    }
+    if (i >= 360) {
+      var x =
+        ((CANVAS.width) * Math.cos(degrees_to_radians(i % 360))) /
+        CANVAS.width;
+      var y =
+        ((CANVAS.height) * Math.sin(degrees_to_radians(i % 360))) /
+        CANVAS.height;
+        bodyVertex2.push(x);
+      bodyVertex2.push(2.3);
+      bodyVertex2.push(y);
+      bodyVertex2.push(221/255);
+      bodyVertex2.push(112/255);
+      bodyVertex2.push(24/255);
+    }
+    if (i == 720) {
+      var x =
+        ((CANVAS.width) * Math.cos(degrees_to_radians(360))) / CANVAS.width;
+      var y =
+        ((CANVAS.height) * Math.sin(degrees_to_radians(360))) /
+        CANVAS.height;
+        bodyVertex2.push(x);
+      bodyVertex2.push(1);
+      bodyVertex2.push(y);
+      bodyVertex2.push(221/255);
+      bodyVertex2.push(112/255);
+      bodyVertex2.push(24/255);
+    }
+  }
+
+  var body_faces2 = []
+
+    for (var i = 0; i < bodyVertex2.length / 6 - 1; i++) {
+      if (i <= 360) {
+        body_faces2.push(0);
+        body_faces2.push(i);
+        body_faces2.push(i + 1);
+      }
+      if (i > 362) {
+        body_faces2.push(362);
+        body_faces2.push(i);
+        body_faces2.push(i + 1);
+      }
+    }
+
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+
+    for (var i = 0; i <= 360; i++) {
+      body_faces2.push(bottom_circle_index);
+      body_faces2.push(bottom_circle_index + 1);
+      body_faces2.push(top_circle_index);
+      body_faces2.push(top_circle_index);
+      body_faces2.push(top_circle_index + 1);
+      body_faces2.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
   var head_array = generateSphere(0, 0, -0.25, 0.5, 100);
   var head_array2 = generateSphere(0, 0, -0.25, 0.5, 100);
 
@@ -767,6 +854,8 @@ var waist_faces = []
   var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
   
   var neck = new MyObject(neckVertex, neck_faces, shader_fragment_source, shader_vertex_source);
+
+  var body2 = new MyObject(bodyVertex2, body_faces2, shader_fragment_source, shader_vertex_source);
 
 
   leg.addChild(leg2);
@@ -799,6 +888,10 @@ var waist_faces = []
   head.MOVEMATRIX = glMatrix.mat4.create();
   head2.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.25,0]);
+
+  body2.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(body2.MOVEMATRIX, body2.MOVEMATRIX, [-0.5, 5.25,0]);
+
   //Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
 
@@ -824,8 +917,8 @@ var waist_faces = []
       // LIBS.rotateZ(MOVEMATRIX, dt*0.0004);
       // console.log(dt);
       // time_prev = time;
-      glMatrix.mat4.rotateY(head.MOVEMATRIX, head.MOVEMATRIX, THETA*0.1);
-      glMatrix.mat4.rotateX(head.MOVEMATRIX, head.MOVEMATRIX, PHI*0.1);
+      glMatrix.mat4.rotateY(VIEWMATRIX, VIEWMATRIX, THETA*0.1);
+      glMatrix.mat4.rotateX(VIEWMATRIX, VIEWMATRIX, PHI*0.1);
     }
 
     wraist.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -835,6 +928,7 @@ var waist_faces = []
     neck.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     head.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     head2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    body2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     // wraist.draw();
 
     // wraist.setIdentityMove();
@@ -897,6 +991,7 @@ var waist_faces = []
     body.draw();
     neck.draw();
     head.draw();
+    body2.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
