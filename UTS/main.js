@@ -172,6 +172,62 @@ function generateSphere(x, y, z, radius, segments) {
         var vertexZ = z + radius + (7/5.3)/2 * zCoord;
       }
 
+      // var colorIndex = j % sphereColors.length;
+      vertices.push(vertexX, vertexY, vertexZ, 221/255, 112/255, 24/255);
+    }
+  }
+  
+
+  var faces = [];
+  for (var i = 0; i < segments; i++) {
+    for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      faces.push(index, nextIndex, index + 1);
+      faces.push(nextIndex, nextIndex + 1, index + 1);
+    }
+  }
+
+  console.log(segments)
+  return { vertices: vertices, faces: faces };
+}
+
+function generateSphere2(x, y, z, radius, segments) {
+  var vertices = [];
+  // var colors = [];
+
+  var sphereColors = [];
+
+  for (var i = 0; i < 5; i++) {
+    sphereColors.push([Math.random(), Math.random(), Math.random()])
+  }
+
+  // console.log(segments);
+  for (var i = 0; i <= segments; i++) {
+    var v = Math.PI * (-0.5 + i / segments);
+    var sinV = Math.sin(v);
+    var cosV = Math.cos(v);
+
+    for (var j = 0; j <= segments; j++) {
+      var u = 2 * Math.PI * (j / segments);
+      var sinU = Math.sin(u);
+      var cosU = Math.cos(u);
+
+      var xCoord = cosU * cosV;
+      var yCoord = sinU * cosV;
+      var zCoord = sinV;
+
+      if (j > 41 && j <= 100) {
+        var vertexX = 0.5;
+        var vertexY = 0.5;
+        var vertexZ = z + radius + (7/5.3)/2 * zCoord * 0.75;
+      } else {
+        var vertexX = x + radius + 0.75 * xCoord * 1.2;
+        var vertexY = y + radius + 1 * yCoord;
+        var vertexZ = z + radius + (7/5.3)/2 * zCoord * 0.75;
+      }
+
       var colorIndex = j % sphereColors.length;
       vertices.push(vertexX, vertexY, vertexZ, 221/255, 112/255, 24/255);
     }
@@ -272,39 +328,37 @@ function main() {
   CANVAS.width = window.innerWidth;
   CANVAS.height = window.innerHeight;
 
+  var AMORTIZATION = 0.95;
+  var THETA = 0,
+    PHI = 0;
   var drag = false;
   var x_prev, y_prev;
   var dX = 0,
     dY = 0;
-  var THETA = 0,
-    PHI = 0;
-  var AMORTIZATION = 0.1;
-  var rotationX = 0;
-  var rotationY = 0;
 
-  var keyDown = function (e) {
-    switch (e.key) {
-      case "a":
-        rotationY -= 0.01;
-        drag = true;
-        break;
+  // var keyDown = function (e) {
+  //   switch (e.key) {
+  //     case "a":
+  //       rotationY -= 0.01;
+  //       drag = true;
+  //       break;
 
-      case "d":
-        rotationY += 0.01;
-        drag = true;
-        break;
+  //     case "d":
+  //       rotationY += 0.01;
+  //       drag = true;
+  //       break;
 
-      case "w":
-        rotationX -= 0.01;
-        drag = true;
-        break;
+  //     case "w":
+  //       rotationX -= 0.01;
+  //       drag = true;
+  //       break;
 
-      case "s":
-        rotationX += 0.01;
-        drag = true;
-        break;
-    }
-  };
+  //     case "s":
+  //       rotationX += 0.01;
+  //       drag = true;
+  //       break;
+  //   }
+  // };
 
   var keyUp = function (e) {
     drag = false;
@@ -312,9 +366,8 @@ function main() {
 
   var mouseDown = function (e) {
     drag = true;
-    x_prev = e.pageX;
-    y_prev = e.pageY;
-    e.preventDefault(); // buat batesi default action mouse
+    (x_prev = e.pageX), (y_prev = e.pageY);
+    e.preventDefault();
     return false;
   };
 
@@ -323,31 +376,22 @@ function main() {
   };
 
   var mouseMove = function (e) {
-    if (!drag) {
-      // jika drag == false
-      return false;
-    }
-
-    // var dX = e.pageX - x_prev;
-    // var dY = e.pageY - y_prev;
-    // THETA += dX * 2 * Math.PI / CANVAS.width;
-    // PHI += dY * 2 * Math.PI / CANVAS.height;
-    dX = ((e.pageX - x_prev) * 2 * Math.PI) / CANVAS.width;
-    dY = ((e.pageY - y_prev) * 2 * Math.PI) / CANVAS.height;
+    if (!drag) return false;
+    (dX = ((e.pageX - x_prev) * Math.PI) / CANVAS.width),
+      (dY = ((e.pageY - y_prev) * Math.PI) / CANVAS.height);
     THETA += dX;
     PHI += dY;
-    x_prev = e.pageX;
-    y_prev = e.pageY;
+    (x_prev = e.pageX), (y_prev = e.pageY);
     e.preventDefault();
   };
 
-  window.addEventListener("keydown", keyDown);
-  window.addEventListener("keyup", keyUp);
+  // window.addEventListener("keydown", keyDown);
+  // window.addEventListener("keyup", keyUp);
 
   CANVAS.addEventListener("mousedown", mouseDown, false);
-  CANVAS.addEventListener("mouseup", mouseUp);
-  CANVAS.addEventListener("mouseout", mouseUp, false); // luar dari canvas
-  CANVAS.addEventListener("mousemove", mouseMove, false); // pas mouse e gerak
+  CANVAS.addEventListener("mouseup", mouseUp, false);
+  CANVAS.addEventListener("mouseout", mouseUp, false);
+  CANVAS.addEventListener("mousemove", mouseMove, false);
 
   try {
     GL = CANVAS.getContext("webgl", { antialias: false });
@@ -381,6 +425,279 @@ function main() {
       gl_FragColor = vec4(vColor,1.0);
   }
   `;
+
+  function generateCylinderHorizon(z1, z2, radius, radius2) {
+    var cylinderVertex = [];
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(221/255);
+    cylinderVertex.push(112/255);
+    cylinderVertex.push(24/255);
+  
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(i))) / CANVAS.height;
+      cylinderVertex.push(z1);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+    if (i == 360) {
+      cylinderVertex.push(1);
+      cylinderVertex.push(0);
+      cylinderVertex.push(0);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(i % 360))) /
+        CANVAS.height;
+      cylinderVertex.push(z2);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(360))) /
+        CANVAS.height;
+      cylinderVertex.push(z2);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+  }
+  
+  var cylinder_faces = []
+  
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+  
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+  
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
+
+  function generateCylinderHorizonRotate(z1, z2, radius, radius2, array_color) {
+    var cylinderVertex = [];
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
+  
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(i))) / CANVAS.height;
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(z1);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+    if (i == 360) {
+      cylinderVertex.push(0);
+      cylinderVertex.push(0);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(i % 360))) /
+        CANVAS.height;
+        cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(360))) /
+        CANVAS.height;
+        cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+  }
+  
+  var cylinder_faces = []
+  
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+  
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+  
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
+
+  function generateCylinderVerti(z1, z2, radius, radius2) {
+    var cylinderVertex = []
+  cylinderVertex.push(0);
+  cylinderVertex.push(0);
+  cylinderVertex.push(0);
+  cylinderVertex.push(221/255);
+  cylinderVertex.push(112/255);
+  cylinderVertex.push(24/255);
+
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(i))) / CANVAS.height;
+      cylinderVertex.push(x);
+      cylinderVertex.push(z1);
+      cylinderVertex.push(y);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+    if (i == 360) {
+      cylinderVertex.push(0);
+      cylinderVertex.push(1);
+      cylinderVertex.push(0);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(i % 360))) /
+        CANVAS.height;
+      cylinderVertex.push(x);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(y);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(degrees_to_radians(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians(360))) /
+        CANVAS.height;
+        cylinderVertex.push(x);
+      cylinderVertex.push(1);
+      cylinderVertex.push(y);
+      cylinderVertex.push(221/255);
+      cylinderVertex.push(112/255);
+      cylinderVertex.push(24/255);
+    }
+  }
+
+  var cylinder_faces = []
+
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
 
   // C3P0
 
@@ -465,99 +782,10 @@ var triangle_faces = [
   32, 34, 35
 ];
 
-// pinggang
-var waistVertex = [];
-
 function degrees_to_radians(degrees) {
   var pi = Math.PI;
   return degrees * (pi / 180);
 }
-
-waistVertex.push(0);
-waistVertex.push(0);
-waistVertex.push(0);
-waistVertex.push(221/255);
-waistVertex.push(112/255);
-waistVertex.push(24/255);
-
-for (var i = 0; i <= 720; i++) {
-  if (i <= 360) {
-    var x =
-      ((CANVAS.width / 2) * Math.cos(degrees_to_radians(i))) / CANVAS.width;
-    var y =
-      ((CANVAS.height / 2) * Math.sin(degrees_to_radians(i))) / CANVAS.height;
-    waistVertex.push(0);
-    waistVertex.push(x);
-    waistVertex.push(y);
-    waistVertex.push(221/255);
-    waistVertex.push(112/255);
-    waistVertex.push(24/255);
-  }
-  if (i == 360) {
-    waistVertex.push(1);
-    waistVertex.push(0);
-    waistVertex.push(0);
-    waistVertex.push(221/255);
-    waistVertex.push(112/255);
-    waistVertex.push(24/255);
-  }
-  if (i >= 360) {
-    var x =
-      ((CANVAS.width / 2) * Math.cos(degrees_to_radians(i % 360))) /
-      CANVAS.width;
-    var y =
-      ((CANVAS.height / 2) * Math.sin(degrees_to_radians(i % 360))) /
-      CANVAS.height;
-    waistVertex.push(2.3);
-    waistVertex.push(x);
-    waistVertex.push(y);
-    waistVertex.push(221/255);
-    waistVertex.push(112/255);
-    waistVertex.push(24/255);
-  }
-  if (i == 720) {
-    var x =
-      ((CANVAS.width / 2) * Math.cos(degrees_to_radians(360))) / CANVAS.width;
-    var y =
-      ((CANVAS.height / 2) * Math.sin(degrees_to_radians(360))) /
-      CANVAS.height;
-    waistVertex.push(1);
-    waistVertex.push(x);
-    waistVertex.push(y);
-    waistVertex.push(221/255);
-    waistVertex.push(112/255);
-    waistVertex.push(24/255);
-  }
-}
-
-var waist_faces = []
-
-  for (var i = 0; i < waistVertex.length / 6 - 1; i++) {
-    if (i <= 360) {
-      waist_faces.push(0);
-      waist_faces.push(i);
-      waist_faces.push(i + 1);
-    }
-    if (i > 362) {
-      waist_faces.push(362);
-      waist_faces.push(i);
-      waist_faces.push(i + 1);
-    }
-  }
-
-  var bottom_circle_index = 0;
-  var top_circle_index = 363;
-
-  for (var i = 0; i <= 360; i++) {
-    waist_faces.push(bottom_circle_index);
-    waist_faces.push(bottom_circle_index + 1);
-    waist_faces.push(top_circle_index);
-    waist_faces.push(top_circle_index);
-    waist_faces.push(top_circle_index + 1);
-    waist_faces.push(bottom_circle_index + 1);
-    bottom_circle_index++;
-    top_circle_index++;
-  }
 
   // body
   var bodyVertex = [
@@ -665,111 +893,49 @@ var waist_faces = []
     20+24, 22+24, 23+24
   ];
 
-  // neck
-  var neckVertex = []
-  neckVertex.push(0);
-  neckVertex.push(0);
-  neckVertex.push(0);
-  neckVertex.push(221/255);
-  neckVertex.push(112/255);
-  neckVertex.push(24/255);
-
-  for (var i = 0; i <= 720; i++) {
-    if (i <= 360) {
-      var x =
-        ((CANVAS.width / 2) * Math.cos(degrees_to_radians(i))) / CANVAS.width;
-      var y =
-        ((CANVAS.height / 2) * Math.sin(degrees_to_radians(i))) / CANVAS.height;
-        neckVertex.push(x);
-      neckVertex.push(0);
-      neckVertex.push(y);
-      neckVertex.push(221/255);
-      neckVertex.push(112/255);
-      neckVertex.push(24/255);
-    }
-    if (i == 360) {
-      neckVertex.push(0);
-      neckVertex.push(1);
-      neckVertex.push(0);
-      neckVertex.push(221/255);
-      neckVertex.push(112/255);
-      neckVertex.push(24/255);
-    }
-    if (i >= 360) {
-      var x =
-        ((CANVAS.width / 2) * Math.cos(degrees_to_radians(i % 360))) /
-        CANVAS.width;
-      var y =
-        ((CANVAS.height / 2) * Math.sin(degrees_to_radians(i % 360))) /
-        CANVAS.height;
-        neckVertex.push(x);
-      neckVertex.push(2.3);
-      neckVertex.push(y);
-      neckVertex.push(221/255);
-      neckVertex.push(112/255);
-      neckVertex.push(24/255);
-    }
-    if (i == 720) {
-      var x =
-        ((CANVAS.width / 2) * Math.cos(degrees_to_radians(360))) / CANVAS.width;
-      var y =
-        ((CANVAS.height / 2) * Math.sin(degrees_to_radians(360))) /
-        CANVAS.height;
-        neckVertex.push(x);
-      neckVertex.push(1);
-      neckVertex.push(y);
-      neckVertex.push(221/255);
-      neckVertex.push(112/255);
-      neckVertex.push(24/255);
-    }
-  }
-
-  var neck_faces = []
-
-    for (var i = 0; i < neckVertex.length / 6 - 1; i++) {
-      if (i <= 360) {
-        neck_faces.push(0);
-        neck_faces.push(i);
-        neck_faces.push(i + 1);
-      }
-      if (i > 362) {
-        neck_faces.push(362);
-        neck_faces.push(i);
-        neck_faces.push(i + 1);
-      }
-    }
-
-    var bottom_circle_index = 0;
-    var top_circle_index = 363;
-
-    for (var i = 0; i <= 360; i++) {
-      neck_faces.push(bottom_circle_index);
-      neck_faces.push(bottom_circle_index + 1);
-      neck_faces.push(top_circle_index);
-      neck_faces.push(top_circle_index);
-      neck_faces.push(top_circle_index + 1);
-      neck_faces.push(bottom_circle_index + 1);
-      bottom_circle_index++;
-      top_circle_index++;
-    }
 
   var head_array = generateSphere(0, 0, -0.25, 0.5, 100);
-  var head_array2 = generateSphere(0, 0, -0.25, 0.5, 100);
-
-  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
-  var head2 = new MyObject(head_array2.vertices, head_array2.faces, shader_fragment_source, shader_vertex_source);
+  var shoulder_array = generateSphere2(0, 0, -0.25, 0.5, 100);
+  var neck_array = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+  var wraist_array = generateCylinderHorizon(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+  var hand_array = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
+  var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
+  var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
   
-  var wraist = new MyObject(waistVertex, waist_faces, shader_fragment_source, shader_vertex_source);
+  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
+    
+  var wraist = new MyObject(wraist_array.vertices, wraist_array.faces, shader_fragment_source, shader_vertex_source);
 
-  var leg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
-  var leg2 = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
+  var rightLeg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
+  
+  var leftLeg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
 
   var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
   
-  var neck = new MyObject(neckVertex, neck_faces, shader_fragment_source, shader_vertex_source);
+  var neck = new MyObject(neck_array.vertices, neck_array.faces, shader_fragment_source, shader_vertex_source);
 
+  var rightHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
 
-  leg.addChild(leg2);
+  var rightShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source)
+
+  var leftArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+  
+  var innerLeftArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  wraist.addChild(rightLeg);
+  wraist.addChild(leftLeg);
+  rightHand.addChild(rightShoulder);
+  leftHand.addChild(leftShoulder);
+  rightArm.addChild(innerRightArm);
+  leftArm.addChild(innerLeftArm);
 
   var PROJMATRIX = LIBS.get_projection(
     40,
@@ -782,13 +948,13 @@ var waist_faces = []
   wraist.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, 0.0]);
   
-  leg.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leg.MOVEMATRIX, leg.MOVEMATRIX, [-0.65, -1, 0.0]);
+  rightLeg.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
   
   LIBS.translateZ(VIEWMATRIX, -20);
   
-  leg.child[0].MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [0.65, -1, 0.0]);
+  leftLeg.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
 
   body.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(body.MOVEMATRIX, body.MOVEMATRIX, [0.05, 0.95, 0.0]);
@@ -797,9 +963,36 @@ var waist_faces = []
   glMatrix.mat4.translate(neck.MOVEMATRIX, neck.MOVEMATRIX, [0, 1.5, 0.0]);
 
   head.MOVEMATRIX = glMatrix.mat4.create();
-  head2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.25,0]);
-  //Drawing
+  glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.25,-0.25]);
+
+  rightHand.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,0]);
+  glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
+
+  rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25]);
+
+  leftHand.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,0]);
+  glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
+  glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
+
+  leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25]);
+  glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
+
+  rightArm.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3]);
+
+  leftArm.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
+
+  innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
+
+  innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
+  // Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
 
   GL.enable(GL.DEPTH_TEST);
@@ -814,29 +1007,37 @@ var waist_faces = []
       // mencegah kalau time = null
       var dt = time - time_prev;
       if (!drag) {
-        dX *= AMORTIZATION;
-        dY *= AMORTIZATION;
-        THETA += dX;
-        PHI += dY;
+        (dX *= AMORTIZATION), (dY *= AMORTIZATION);
+        (THETA += dX), (PHI += dY);
       }
       // LIBS.rotateX(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateY(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateZ(MOVEMATRIX, dt*0.0004);
       // console.log(dt);
       // time_prev = time;
-      glMatrix.mat4.rotateY(head.MOVEMATRIX, head.MOVEMATRIX, THETA*0.1);
-      glMatrix.mat4.rotateX(head.MOVEMATRIX, head.MOVEMATRIX, PHI*0.1);
+      glMatrix.mat4.rotateY(VIEWMATRIX, VIEWMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateX(VIEWMATRIX, VIEWMATRIX, PHI*0.1);
+      // glMatrix.mat4.rotateY(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateX(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, -PHI*0.1);
+      // glMatrix.mat4.rotateY(hand.MOVEMATRIX, hand.MOVEMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateX(hand.MOVEMATRIX, hand.MOVEMATRIX, PHI*0.1);
     }
 
     wraist.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    leg.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    leg.child[0].setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightLeg.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftLeg.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     body.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     neck.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     head.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    head2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    // wraist.draw();
-
+    rightHand.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightShoulder.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftHand.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftShoulder.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightArm.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftArm.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    innerRightArm.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    innerLeftArm.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    
     // wraist.setIdentityMove();
     // temps = LIBS.get_I4();
 
@@ -860,10 +1061,10 @@ var waist_faces = []
     // console.log(LIBS.degToRad(dt*0.05));
     // WEBGL MATRIX
     // THETA = LIBS.degToRad(dt*0.05)
-    leg.MOVEMATRIX = glMatrix.mat4.create();
-    leg.child[0].MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leg.MOVEMATRIX, leg.MOVEMATRIX, [-0.65, -1, 0.0]);
-    glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [0.65, -1, 0.0]);
+    // leg.MOVEMATRIX = glMatrix.mat4.create();
+    // leg.child[0].MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(leg.MOVEMATRIX, leg.MOVEMATRIX, [-0.65, -1, 0.0]);
+    // glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [0.65, -1, 0.0]);
     // console.log((LIBS.degToRad(dt*0.05)))
 
     // if (THETA % 2 < 0.5) {
@@ -893,10 +1094,13 @@ var waist_faces = []
     //   glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [-1.0, 0.0, 0.0]);
     // }
     wraist.draw();
-    leg.draw();
     body.draw();
     neck.draw();
     head.draw();
+    rightHand.draw();
+    leftHand.draw();
+    rightArm.draw();
+    leftArm.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
