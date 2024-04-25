@@ -596,7 +596,7 @@ function main() {
       cylinderVertex.push(z2);
       cylinderVertex.push(array_color[0]);
       cylinderVertex.push(array_color[1]);
-      cylinderVertex.push(array_color[2]);
+      cylinderVertex.push(array_color[1]);
     }
     if (i >= 360) {
       var x =
@@ -1025,6 +1025,61 @@ function degrees_to_radians(degrees) {
     20+24, 22+24, 23+24
   ];
 
+    var mouthVertex = [
+    // telapak kaki
+    // depan permukaan kubus
+    -0.25/1.5, -0.25/3, 0.5, 201/255, 92/255, 4/255,
+    0.25/1.5, -0.25/3, 0.5, 201/255, 92/255, 4/255,
+    0.25/1.5, 0.25/3, 0.5, 201/255, 92/255, 4/255,
+    -0.25/1.5, 0.25/3, 0.5, 201/255, 92/255, 4/255,
+    // kiri permukaan kubus
+    -0.25/1.5, -0.25/3, -0.25, 201/255, 92/255, 4/255,
+    -0.25/1.5, 0.25/3, -0.25, 201/255, 92/255, 4/255,
+    -0.25/1.5, 0.25/3, 0.5, 201/255, 92/255, 4/255,
+    -0.25/1.5, -0.25/3, 0.5, 201/255, 92/255, 4/255,
+      // kanan permukaan kanan
+      0.25/1.5, -0.25/3, -0.25, 201/255, 92/255, 4/255,
+      0.25/1.5, 0.25/3, -0.25, 201/255, 92/255, 4/255,
+      0.25/1.5, 0.25/3, 0.5, 201/255, 92/255, 4/255,
+      0.25/1.5, -0.25/3, 0.5, 201/255, 92/255, 4/255,
+      // bawah permukaan kubus
+      -0.25/1.5, -0.25/3, -0.25, 201/255, 92/255, 4/255,
+      -0.25/1.5, -0.25/3, 0.5, 201/255, 92/255, 4/255,
+      0.25/1.5, -0.25/3, 0.5, 201/255, 92/255, 4/255,
+      0.25/1.5, -0.25/3, -0.25, 201/255, 92/255, 4/255,
+      // atas permukaan kubus
+      -0.25/1.5, 0.25/3, -0.25, 201/255, 92/255, 4/255,
+      -0.25/1.5, 0.25/3, 0.5, 201/255, 92/255, 4/255,
+      0.25/1.5, 0.25/3, 0.5, 201/255, 92/255, 4/255,
+      0.25/1.5, 0.25/3, -0.25, 201/255, 92/255, 4/255,
+  
+    // kaki
+    // belakang permukaan balok (diperpanjang)
+    -0.25/1.5, -0.25/3, -0.25, 201/255, 92/255, 4/255,
+    0.25/1.5, -0.25/3, -0.25, 201/255, 92/255, 4/255,
+    0.25/1.5, 0.25/3, -0.25, 201/255, 92/255, 4/255,
+    -0.25/1.5, 0.25/3, -0.25, 201/255, 92/255, 4/255
+  ];
+
+    var mouth_faces = [
+      0, 1, 2,
+      0, 2, 3,
+    
+      4, 5, 6,
+      4, 6, 7,
+    
+      8, 9, 10,
+      8, 10, 11,
+    
+      12, 13, 14,
+      12, 14, 15,
+    
+      16, 17, 18,
+      16, 18, 19,
+    
+      20, 21, 22,
+      20, 22, 23];
+
 
   //Vertex , face robot r2d2
 
@@ -1299,6 +1354,9 @@ var foot_faces = [
 
 
   var head_array = generateSphere(0, 0, -0.25, 0.5, 100);
+  var eye_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 5), (CANVAS.height / 3.5), [221/255, 112/255, 24/255])
+  var inner_eye_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 12), (CANVAS.height / 12), [201/255, 92/255, 4/255])
+
   var shoulder_array = generateSphere2(0, 0, -0.25, 0.5, 100);
 
   var neck_array = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
@@ -1352,6 +1410,27 @@ var foot_faces = [
 
   var neckDeco = new MyObject(neck_deco_array.vertices,neck_deco_array.faces, shader_fragment_source, shader_vertex_source);
 
+  var rightEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerLeftEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
+
+  wraist.addChild(rightLeg);
+  wraist.addChild(leftLeg);
+  rightHand.addChild(rightShoulder);
+  leftHand.addChild(leftShoulder);
+  rightArm.addChild(innerRightArm);
+  leftArm.addChild(innerLeftArm);
+  neck.addChild(neckDeco);
+  rightEye.addChild(leftEye);
+  rightEye.addChild(innerRightEye);
+  leftEye.addChild(innerLeftEye);
+
   //Robot r2d2
 
   var robotBody = new MyObject(body_robot_array.vertices , neck_deco_array.faces , shader_fragment_source ,shader_vertex_source);
@@ -1373,16 +1452,6 @@ var foot_faces = [
   var armRobot2 = new MyObject(arm2_Vertex , arm2_faces , shader_fragment_source , shader_vertex_source);
   
   var footRobot = new MyObject(foot_vertex , foot_faces , shader_fragment_source , shader_vertex_source);
-
-
-
-  wraist.addChild(rightLeg);
-  wraist.addChild(leftLeg);
-  rightHand.addChild(rightShoulder);
-  leftHand.addChild(leftShoulder);
-  rightArm.addChild(innerRightArm);
-  leftArm.addChild(innerLeftArm);
-  neck.addChild(neckDeco);
 
   var PROJMATRIX = LIBS.get_projection(
     40,
@@ -1443,6 +1512,20 @@ var foot_faces = [
   neckDeco.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neckDeco.MOVEMATRIX, neckDeco.MOVEMATRIX, [-0.65, 3.4, 0.0]);
 
+  rightEye.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightEye.MOVEMATRIX, rightEye.MOVEMATRIX, [-0.25, 4.15, 0.065]);
+
+  leftEye.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftEye.MOVEMATRIX, leftEye.MOVEMATRIX, [0.25, 4.15, 0.065]);
+
+  innerRightEye.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(innerRightEye.MOVEMATRIX, innerRightEye.MOVEMATRIX, [-0.25, 4.15, 0.0675]);
+
+  innerLeftEye.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(innerLeftEye.MOVEMATRIX, innerLeftEye.MOVEMATRIX, [0.25, 4.15, 0.0675]);
+
+  mouth.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(mouth.MOVEMATRIX, mouth.MOVEMATRIX, [0, 3.65, 0.05]);
   //robo r2d2
 
   robotBody.MOVEMATRIX = glMatrix.mat4.create();
@@ -1475,13 +1558,6 @@ var foot_faces = [
   footRobot.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(footRobot.MOVEMATRIX, footRobot.MOVEMATRIX,[10, 1 ,0])
 
-
-
-  
-
-
-
-
   
   // Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -1507,7 +1583,7 @@ var foot_faces = [
       // console.log(dt);
       // time_prev = time;
       glMatrix.mat4.rotateY(VIEWMATRIX, VIEWMATRIX, THETA*0.1);
-      // glMatrix.mat4.rotateX(VIEWMATRIX, VIEWMATRIX, PHI*0.1);
+      glMatrix.mat4.rotateX(VIEWMATRIX, VIEWMATRIX, PHI*0.1);
       // glMatrix.mat4.rotateY(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, THETA*0.1);
       // glMatrix.mat4.rotateX(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, -PHI*0.1);
       // glMatrix.mat4.rotateY(hand.MOVEMATRIX, hand.MOVEMATRIX, THETA*0.1);
@@ -1529,6 +1605,11 @@ var foot_faces = [
     innerRightArm.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     innerLeftArm.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     neckDeco.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    innerLeftEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    innerRightEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    mouth.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
     //robo r2d2
     robotBody.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
@@ -1608,6 +1689,8 @@ var foot_faces = [
     rightArm.draw();
     leftArm.draw();
     neckDeco.draw();
+    rightEye.draw();
+    mouth.draw();
 
     //robo r2d2
     robotBody.draw();
