@@ -3272,38 +3272,40 @@ var triangle_robot_faces = [
 
   //Mace Windu
 
-  var mulut_array = generateMulut_Lego (0, 0, -0.25, 0.5, 100);
+   var mulut_array = generateMulut_Lego (0, 0, -0.25, 0.5, 100);
 
-  var mata2_array = generateMata2_Lego (0, 0, -0.25, 0.5, 100);
-
-  var mata_array = generateMata_Lego (0, 0, -0.25, 0.5, 100);
-
-  var sayap_array = generateSayap_Lego (0, 0, -0.25, 0.5, 100);
-
-  var saber_array6 = generateLightSaber6_Lego (0, 0, -0.25, 0.5, 100);
-
-  var saber_array5 = generateLightSaber5_Lego (0, 0, -0.25, 0.5, 100);
-
-  var saber_array4 = generateLightSaber4_Lego (0, 0, -0.25, 0.5, 100);
-
-  var saber_array3 = generateLightSaber3_Lego (0, 0, -0.25, 0.5, 100);
-
-  var saber_array2 = generateLightSaber2_Lego (0, 0 , -0.25, 0.5, 100);
-
-  var saber_array1 = generateLightSaber1_Lego (0, 0 , -0.25, 0.5, 100);
-
-  var head_array_kecil = generateCylinderKecil_Lego (0, 0, -0.25, 0.5, 100);
-
-  var head_array_Lego = generateCylinder_Lego(0, 0, -0.25, 0.5, 100);
-  var shoulder_array_Lego = generateSphere2_Lego(0, 0, -0.25, 0.5, 100);
-
-  var neck_array_Lego = generateCylinderVerti_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
-  var neck_deco_array_Lego = generateCylinderHorizon_Lego(1, 0.3, (CANVAS.width / 7), (CANVAS.height / 7));
-
-  var wraist_array_Lego = generateCylinderHorizon_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
-  var hand_array_Lego = generateCylinderVerti_Lego(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
-  var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
-  var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
+   var mata2_array = generateMata2_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var mata_array = generateMata_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var sayap_array = generateSayap_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var saber_array6 = generateLightSaber6_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var saber_array5 = generateLightSaber5_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var saber_array4 = generateLightSaber4_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var saber_array3 = generateLightSaber3_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var saber_array2 = generateLightSaber2_Lego (0, 0 , -0.25, 0.5, 100);
+ 
+   var saber_array1 = generateLightSaber1_Lego (0, 0 , -0.25, 0.5, 100);
+ 
+   var head_array_kecil = generateCylinderKecil_Lego (0, 0, -0.25, 0.5, 100);
+ 
+   var head_array_Lego = generateCylinder_Lego(0, 0, -0.25, 0.5, 100);
+   var shoulder_array_Lego = generateSphere2_Lego(0, 0, -0.25, 0.5, 100);
+ 
+   var neck_array_Lego = generateCylinderVerti_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+   var neck_deco_array_Lego = generateCylinderHorizon_Lego(1, 0.3, (CANVAS.width / 7), (CANVAS.height / 7));
+ 
+   var wraist_array_Lego = generateCylinderHorizon_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+   var hand_array_Lego = generateCylinderVerti_Lego(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
+   var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
+   var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
+//  =======
+   
 
 
   
