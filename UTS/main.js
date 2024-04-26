@@ -137,6 +137,1233 @@ class MyObject {
   }
 }
 
+//Mace Windu
+function generateMulut_Lego (x, y, radius, segments){
+  var segments = 50;
+  var radius = 0.6; // Radius silinder
+  var height = 0.05; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+  
+  // Warna oranye
+  var Color = [0, 0, 0];
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var u = j / segments;
+          var x = radius * cosTheta;
+          var y = height * u - height / 2; // Menggunakan u untuk ketinggian silinder
+          var z = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color); // Menambahkan warna
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i < segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = height / 2; // Ketinggian atas silinder
+      var z = radius * sinTheta;
+  
+      vertices.push(x, y, z,);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+    // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i < segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = -height / 2; // Ketinggian bawah silinder
+      var z = radius * sinTheta;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+    // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateMata2_Lego(x, y , radius, segments) {
+  var segments = 50;
+  var radius = 0.10; // Radius silinder
+  var height = 0.5; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [0,0,0];
+  
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateMata_Lego(x, y , radius, segments) {
+  var segments = 50;
+  var radius = 0.10; // Radius silinder
+  var height = 0.5; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [0,0,0];
+  
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateSayap_Lego(y, height) {
+  var vertices = [];
+var faces = [];
+
+var baseWidth = 3.0; // Panjang basis 
+var topWidth = 0.96; // Panjang atas 
+var height = 4.0; // Tinggi
+
+// Definisi vertices untuk trapesium
+var vertexPositions = [
+  [baseWidth / 2, 0, 0],      
+  [-baseWidth / 2, 0, 0],     
+  [topWidth / 1, height, 0],  
+  [-topWidth / 1, height, 0]  
+];
+
+// Memiringkan secara vertikal
+var angle = -75 * Math.PI / 180; // Konversi derajat ke radian, dan arah rotasi dibalik
+var cosAngle = Math.cos(angle);
+var sinAngle = Math.sin(angle);
+
+// Mengaplikasikan rotasi pada setiap titik trapesium
+for (var i = 0; i < vertexPositions.length; i++) {
+  var vertex = vertexPositions[i];
+  var y = vertex[1];
+  var z = vertex[2];
+  vertex[1] = z * cosAngle - y * sinAngle;
+  vertex[2] = z * sinAngle + y * cosAngle;
+}
+
+// Definisi wajah
+var faceIndices = [
+  [0, 1, 2], 
+  [1, 3, 2]  
+];
+
+// Membuat vertices dan wajah
+for (var i = 0; i < faceIndices.length; i++) {
+  var face = faceIndices[i];
+  for (var j = 0; j < face.length; j++) {
+    var vertex = vertexPositions[face[j]];
+    vertices.push(...vertex); // Menambahkan vertex
+    vertices.push(139 / 255, 69 / 255, 19 / 255); //warna
+  }
+  // Membuat wajah
+  var offset = i * 3;
+  faces.push(offset, offset + 1, offset + 2);
+}
+
+return { vertices: vertices, faces: faces };
+
+}
+
+function generateLightSaber6_Lego (x, y, radius, segments){ // pegangan lightsaber
+  var segments = 50;
+  var radius = 0.30; // Radius silinder
+  var height = 1.0; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [169 / 255, 169 / 255, 169 / 255];
+  
+  // Membuat sisi silinder dan menambahkan warna
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color); // Menambahkan warna
+          
+          // Jangan menambahkan warna lagi di sini
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = (i * (segments + 1) + j) * 2; // Mengkoreksi indeks untuk warna
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1; // Mengkoreksi indeks untuk warna
+  
+    // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1; // Mengkoreksi indeks untuk warna
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateLightSaber5_Lego (x, y, radius, segments){ //pegangan lightsaber
+  var segments = 50;
+  var radius = 0.30; // Radius silinder
+  var height = 0.4; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [169 / 255, 169 / 255, 169 / 255];
+  
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateLightSaber4_Lego (x, y, radius, segments){ //pegangan lightsaber
+  var segments = 50;
+  var radius = 0.20; // Radius silinder
+  var height = 0.2; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [169 / 255, 169 / 255, 169 / 255];
+  
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateLightSaber3_Lego (x, y, radius, segments){ //pegangan lightsaber
+  var segments = 50;
+  var radius = 0.40; // Radius silinder
+  var height = 0.3; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [169 / 255, 169 / 255, 169 / 255];
+  
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}
+
+function generateLightSaber2_Lego (x, y, radius, segments){ //pegangan lightsaber
+  var segments = 50;
+  var radius = 0.40; // Radius silinder
+  var height = 0.3; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [169 / 255, 169 / 255, 169 / 255];
+  
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+}  
+
+function generateLightSaber1_Lego(x, y, radius, segments) { // laser LightSaber
+  var segments = 50;
+  var radius = 0.15; // Radius silinder
+  var height = 5.0; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+
+  var Color = [
+      (128 + 0) / 255,
+      (0 + 0) / 255,
+      (128 + 255) / 255
+  ];
+  
+  // Membuat sisi silinder dan menambahkan warna
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var z = (height * j) / segments - height / 2;
+          var x = radius * cosTheta;
+          var y = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color); // Menambahkan warna
+          
+          // Jangan menambahkan warna lagi di sini
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = (i * (segments + 1) + j) * 2; // Mengkoreksi indeks untuk warna
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1; // Mengkoreksi indeks untuk warna
+  
+    // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = radius * sinTheta;
+      var z = -height / 2;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1; // Mengkoreksi indeks untuk warna
+  
+  // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+
+  
+  return { vertices: vertices, faces: faces };
+}
+
+
+function generateCylinderKecil_Lego(x, y, radius, segments){ // di atas kepala lego
+  var segments = 50;
+  var radius = 0.5; // Radius silinder
+  var height = 0.5; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+  
+  // Warna oranye
+  var Color = [139 / 255, 69 / 255, 19 / 255]; // Nilai RGB dalam rentang 0-1
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var u = j / segments;
+          var x = radius * cosTheta;
+          var y = height * u - height / 2; // Menggunakan u untuk ketinggian silinder
+          var z = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color); // Menambahkan warna
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i < segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = height / 2; // Ketinggian atas silinder
+      var z = radius * sinTheta;
+  
+      vertices.push(x, y, z,);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+    // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i < segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = -height / 2; // Ketinggian bawah silinder
+      var z = radius * sinTheta;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color); // Menambahkan warna
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+    // Menambahkan wajah untuk sisi silinder
+for (var i = 0; i < segments; i++) {
+  for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      // Membuat wajah pertama
+      faces.push(index, nextIndex, index + 1);
+      // Membuat wajah kedua
+      faces.push(bottomCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+  }
+}
+  
+  return { vertices: vertices, faces: faces };
+  
+}
+
+function generateCylinder_Lego(x, y, z, radius, segments) { // kepala lego
+  var segments = 50;
+  var radius = 0.8; // Radius silinder
+  var height = 1.0; // Tinggi silinder
+  
+  var vertices = [];
+  var faces = [];
+  
+  // Warna oranye
+  var Color = [139 / 255, 69 / 255, 19 / 255]; // Nilai RGB dalam rentang 0-1
+  
+  // Membuat sisi silinder
+  for (var i = 0; i <= segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      for (var j = 0; j <= segments; j++) {
+          var u = j / segments;
+          var x = radius * cosTheta;
+          var y = height * u - height / 2; // Menggunakan u untuk ketinggian silinder
+          var z = radius * sinTheta;
+  
+          vertices.push(x, y, z);
+          vertices.push(...Color);
+      }
+  }
+  
+  // Menambahkan wajah untuk sisi silinder
+  for (var i = 0; i < segments; i++) {
+      for (var j = 0; j < segments; j++) {
+          var index = i * (segments + 1) + j;
+          var nextIndex = index + segments + 1;
+  
+          faces.push(index, nextIndex, index + 1);
+          faces.push(nextIndex, nextIndex + 1, index + 1);
+      }
+  }
+  
+  // Menambahkan tutup atas
+  for (var i = 0; i < segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = height / 2; // Ketinggian atas silinder
+      var z = radius * sinTheta;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var topCenterIndex = vertices.length / 6 - 1;
+  
+  for (var i = 0; i < segments; i++) {
+    for (var j = 0; j < segments; j++) {
+        var index = i * (segments + 1) + j;
+        var nextIndex = index + segments + 1;
+  
+        // Membuat wajah pertama
+        faces.push(index, nextIndex, index + 1);
+        // Membuat wajah kedua
+        faces.push(topCenterIndex-20,nextIndex, nextIndex + 1, index + 1);
+    }
+  }
+  
+  // Menambahkan tutup bawah
+  for (var i = 0; i < segments; i++) {
+      var theta = (2 * Math.PI * i) / segments;
+      var cosTheta = Math.cos(theta);
+      var sinTheta = Math.sin(theta);
+  
+      var x = radius * cosTheta;
+      var y = -height / 2; // Ketinggian bawah silinder
+      var z = radius * sinTheta;
+  
+      vertices.push(x, y, z);
+      vertices.push(...Color);
+  }
+  
+  var bottomCenterIndex = vertices.length / 6 - 1;
+  
+  for (var i = 0; i < segments; i++) {
+    for (var j = 0; j < segments; j++) {
+        var index = i * (segments + 1) + j;
+        var nextIndex = index + segments + 1;
+  
+        // Membuat wajah pertama
+        faces.push(index, nextIndex, index + 1);
+        // Membuat wajah kedua
+        faces.push(bottomCenterIndex-40,nextIndex, nextIndex + 1, index + 1);
+    }
+  }
+  
+  return { vertices: vertices, faces: faces };
+  
+  // var faces = [];
+  // for (var i = 0; i < segments; i++) {
+  //   for (var j = 0; j < segments; j++) {
+  //     var index = i * (segments + 1) + j;
+  //     var nextIndex = index + segments + 1;
+
+  //     faces.push(index, nextIndex, index + 1);
+  //     faces.push(nextIndex, nextIndex + 1, index + 1);
+  //   }
+  // }
+
+  // console.log(segments)
+  // return { vertices: vertices, faces: faces };
+}
+
+function generateSphere2_Lego(x, y, z, radius, segments) {
+  var vertices = [];
+  // var colors = [];
+
+  var sphereColors = [];
+
+  for (var i = 0; i < 5; i++) {
+    sphereColors.push([Math.random(), Math.random(), Math.random()])
+  }
+
+  // console.log(segments);
+  for (var i = 0; i <= segments; i++) {
+    var v = Math.PI * (-0.5 + i / segments);
+    var sinV = Math.sin(v);
+    var cosV = Math.cos(v);
+
+    for (var j = 0; j <= segments; j++) {
+      var u = 2 * Math.PI * (j / segments);
+      var sinU = Math.sin(u);
+      var cosU = Math.cos(u);
+
+      var xCoord = cosU * cosV;
+      var yCoord = sinU * cosV;
+      var zCoord = sinV;
+
+      if (j > 41 && j <= 100) {
+        var vertexX = 0.5;
+        var vertexY = 0.5;
+        var vertexZ = z + radius + (7/5.3)/2 * zCoord * 0.75;
+      } else {
+        var vertexX = x + radius + 0.75 * xCoord * 1.2;
+        var vertexY = y + radius + 1 * yCoord;
+        var vertexZ = z + radius + (7/5.3)/2 * zCoord * 0.75;
+      }
+
+      var colorIndex = j % sphereColors.length;
+      vertices.push(vertexX, vertexY, vertexZ, 210/255, 180/255, 140/255);
+    }
+  }
+  
+
+  var faces = [];
+  for (var i = 0; i < segments; i++) {
+    for (var j = 0; j < segments; j++) {
+      var index = i * (segments + 1) + j;
+      var nextIndex = index + segments + 1;
+
+      faces.push(index, nextIndex, index + 1);
+      faces.push(nextIndex, nextIndex + 1, index + 1);
+    }
+  }
+
+  console.log(segments)
+  return { vertices: vertices, faces: faces };
+}
+
+//--------------------------------------------------------------------------------------------------
+
+
 function generateSphereFull(x, y, z, radius, segments) {
   var vertices = [];
   var colors = [];
@@ -476,6 +1703,478 @@ function main() {
       gl_FragColor = vec4(vColor,1.0);
   }
   `;
+
+  // Mace Windu
+
+  function generateCylinderHorizon_Lego(z1, z2, radius, radius2) { // kaki lutut
+    var cylinderVertex = [];
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(210/255);
+    cylinderVertex.push(180/255);
+    cylinderVertex.push(140/255);
+  
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(i))) / CANVAS.height;
+      cylinderVertex.push(z1);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+    if (i == 360) {
+      cylinderVertex.push(1);
+      cylinderVertex.push(0);
+      cylinderVertex.push(0);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(i % 360))) /
+        CANVAS.height;
+      cylinderVertex.push(z2);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(360))) /
+        CANVAS.height;
+      cylinderVertex.push(z2);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);;
+    }
+  }
+  
+  var cylinder_faces = []
+  
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+  
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+  
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
+
+  function generateCylinderHorizonRotate_Lego(z1, z2, radius, radius2, array_color) { // buat tangan
+    var cylinderVertex = [];
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
+  
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(i))) / CANVAS.height;
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(z1);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+    if (i == 360) {
+      cylinderVertex.push(0);
+      cylinderVertex.push(0);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(i % 360))) /
+        CANVAS.height;
+        cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(360))) /
+        CANVAS.height;
+        cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+    }
+  }
+  
+  var cylinder_faces = []
+  
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+  
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+  
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
+
+  function generateCylinderVerti_Lego(z1, z2, radius, radius2) { // buat leher dan lengan
+    var cylinderVertex = []
+  cylinderVertex.push(0);
+  cylinderVertex.push(0);
+  cylinderVertex.push(0);
+  cylinderVertex.push(210/255);
+  cylinderVertex.push(180/255);
+  cylinderVertex.push(140/255);
+
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(i))) / CANVAS.height;
+      cylinderVertex.push(x);
+      cylinderVertex.push(z1);
+      cylinderVertex.push(y);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+    if (i == 360) {
+      cylinderVertex.push(0);
+      cylinderVertex.push(1);
+      cylinderVertex.push(0);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(i % 360))) /
+        CANVAS.height;
+      cylinderVertex.push(x);
+      cylinderVertex.push(z2);
+      cylinderVertex.push(y);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(degrees_to_radians_Lego(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(degrees_to_radians_Lego(360))) /
+        CANVAS.height;
+        cylinderVertex.push(x);
+      cylinderVertex.push(1);
+      cylinderVertex.push(y);
+      cylinderVertex.push(210/255);
+      cylinderVertex.push(180/255);
+      cylinderVertex.push(140/255);
+    }
+  }
+
+  var cylinder_faces = []
+
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
+
+// Leg  
+var legVertex_Lego = [
+  // telapak kaki
+  // depan permukaan kubus
+  -0.5, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna kaki depan permukaan kubus
+  0.5, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna kaki depan permukaan kubus
+  0.5, 0.25, 0.5, 210/255, 180/255, 140/255, // Warna kaki depan permukaan kubus
+  -0.5, 0.25, 0.5, 210/255, 180/255, 140/255, // Warna kaki depan permukaan kubus
+  // kiri permukaan kubus
+  -0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan kubus
+  -0.5, 0.25, -0.5, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan kubus
+  -0.5, 0.25, 0.5, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan kubus
+  -0.5, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan kubus
+  // kanan permukaan kanan
+  0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan kanan
+  0.5, 0.25, -0.5, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan kanan
+  0.5, 0.25, 0.5, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan kanan
+  0.5, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan kanan
+  // bawah permukaan kubus
+  -0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki bawah permukaan kubus
+  -0.5, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna kaki bawah permukaan kubus
+  0.5, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna kaki bawah permukaan kubus
+  0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki bawah permukaan kubus
+  // atas permukaan kubus
+  -0.5, 0.25, -0.5, 210/255, 180/255, 140/255, // Warna kaki atas permukaan kubus
+  -0.5, 0.25, 0.5, 210/255, 180/255, 140/255, // Warna kaki atas permukaan kubus
+  0.5, 0.25, 0.5, 210/255, 180/255, 140/255, // Warna kaki atas permukaan kubus
+  0.5, 0.25, -0.5, 210/255, 180/255, 140/255, // Warna kaki atas permukaan kubus
+
+  // kaki
+  // belakang permukaan balok (diperpanjang)
+  -0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki belakang permukaan balok (diperpanjang)
+  0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki belakang permukaan balok (diperpanjang)
+  0.5, 1.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki belakang permukaan balok (diperpanjang)
+  -0.5, 1.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki belakang permukaan balok (diperpanjang)
+  // depan permukaan balok
+  -0.5, 0, 0.03125, 210/255, 180/255, 140/255, // Warna kaki depan permukaan balok
+  0.5, 0, 0.03125, 210/255, 180/255, 140/255, // Warna kaki depan permukaan balok
+  0.5, 1.5, 0.03125, 210/255, 180/255, 140/255, // Warna kaki depan permukaan balok
+  -0.5, 1.5, 0.03125, 210/255, 180/255, 140/255, // Warna kaki depan permukaan balok
+  // kanan permukaan balok
+  0.5, 0, -0.5, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan balok
+  0.5, 1.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan balok
+  0.5, 1.5, 0.03125, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan balok
+  0.5, 0, 0.03125, 210/255, 180/255, 140/255, // Warna kaki kanan permukaan balok
+  // kiri permukaan balok
+  -0.5, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan balok
+  -0.5, 1.5, -0.5, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan balok
+  -0.5, 1.5, 0.03125, 210/255, 180/255, 140/255, // Warna kaki kiri permukaan balok
+  -0.5, -0.5, 0.03125, 210/255, 180/255, 140/255 // Warna kaki kiri permukaan balok
+];
+
+
+var triangle_faces_Lego = [
+  0, 1, 2,
+  0, 2, 3,
+
+  4, 5, 6,
+  4, 6, 7,
+
+  8, 9, 10,
+  8, 10, 11,
+
+  12, 13, 14,
+  12, 14, 15,
+
+  16, 17, 18,
+  16, 18, 19,
+
+  20, 21, 22,
+  20, 22, 23,
+
+  24, 25, 26,
+  24, 26, 27,
+
+  28, 29, 30,
+  28, 30, 31,
+
+  32, 33, 34,
+  32, 34, 35
+];
+
+function degrees_to_radians_Lego(degrees) {
+  var pi = Math.PI;
+  return degrees * (pi / 180);
+}
+
+  // body
+var bodyVertex_Lego = [
+  // tubuh bawah
+  // depan permukaan kubus
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  // kiri permukaan kubus
+  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  // kanan permukaan kubus
+  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  // bawah permukaan kubus
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  // atas permukaan kubus
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  // belakang permukaan kubus
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+
+  // tubuh atas
+  // depan permukaan kubus
+  -1.2, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.1, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  // kiri permukaan kubus
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  // kanan permukaan kubus
+  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  // bawah permukaan kubus
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  // atas permukaan kubus
+  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  // belakang permukaan kubus
+  -1.2, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.1, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 1, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 1, -0.5, 210/255, 180/255, 140/255 // Warna coklat muda terang untuk tubuh atas
+];
+
+
+  var body_faces_Lego = [
+    // tubuh bagian bawah
+    0, 1, 2,
+    0, 2, 3,
+  
+    4, 5, 6,
+    4, 6, 7,
+  
+    8, 9, 10,
+    8, 10, 11,
+  
+    12, 13, 14,
+    12, 14, 15,
+  
+    16, 17, 18,
+    16, 18, 19,
+  
+    20, 21, 22,
+    20, 22, 23,
+  
+    20+4, 21+4, 22+4,
+    20+4, 22+4, 23+4,
+
+    20+8, 21+8, 22+8,
+    20+8, 22+8, 23+8,
+
+    20+12, 21+12, 22+12,
+    20+12, 22+12, 23+12,
+
+    20+16, 21+16, 22+16,
+    20+16, 22+16, 23+16,
+
+    20+20, 21+20, 22+20,
+    20+20, 22+20, 23+20,
+
+    20+24, 21+24, 22+24,
+    20+24, 22+24, 23+24
+  ];
+
+
+  //----------------------------------------------------------------------------------
 
   function generateCylinderHorizon(z1, z2, radius, radius2) {
     var cylinderVertex = [];
@@ -1377,6 +3076,40 @@ var foot_faces = [
   var robot_arm_upper = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
   var robot_arm_upper2 = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
 
+  //Mace Windu
+
+  var mulut_array = generateMulut_Lego (0, 0, -0.25, 0.5, 100);
+
+  var mata2_array = generateMata2_Lego (0, 0, -0.25, 0.5, 100);
+
+  var mata_array = generateMata_Lego (0, 0, -0.25, 0.5, 100);
+
+  var sayap_array = generateSayap_Lego (0, 0, -0.25, 0.5, 100);
+
+  var saber_array6 = generateLightSaber6_Lego (0, 0, -0.25, 0.5, 100);
+
+  var saber_array5 = generateLightSaber5_Lego (0, 0, -0.25, 0.5, 100);
+
+  var saber_array4 = generateLightSaber4_Lego (0, 0, -0.25, 0.5, 100);
+
+  var saber_array3 = generateLightSaber3_Lego (0, 0, -0.25, 0.5, 100);
+
+  var saber_array2 = generateLightSaber2_Lego (0, 0 , -0.25, 0.5, 100);
+
+  var saber_array1 = generateLightSaber1_Lego (0, 0 , -0.25, 0.5, 100);
+
+  var head_array_kecil = generateCylinderKecil_Lego (0, 0, -0.25, 0.5, 100);
+
+  var head_array_Lego = generateCylinder_Lego(0, 0, -0.25, 0.5, 100);
+  var shoulder_array_Lego = generateSphere2_Lego(0, 0, -0.25, 0.5, 100);
+
+  var neck_array_Lego = generateCylinderVerti_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+  var neck_deco_array_Lego = generateCylinderHorizon_Lego(1, 0.3, (CANVAS.width / 7), (CANVAS.height / 7));
+
+  var wraist_array_Lego = generateCylinderHorizon_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+  var hand_array_Lego = generateCylinderVerti_Lego(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
+  var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
+  var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
 
 
   
@@ -1420,6 +3153,59 @@ var foot_faces = [
 
   var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
 
+  //Mace Windu
+  var mulut = new MyObject(mulut_array.vertices, mulut_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var mata2 = new MyObject(mata2_array.vertices, mata2_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var mata = new MyObject(mata_array.vertices, mata_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var sayap = new MyObject(sayap_array.vertices, sayap_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var saber6 = new MyObject(saber_array6.vertices, saber_array6.faces, shader_fragment_source, shader_vertex_source);
+
+  var saber5 = new MyObject(saber_array5.vertices, saber_array5.faces, shader_fragment_source, shader_vertex_source);
+
+  var saber4 = new MyObject(saber_array4.vertices, saber_array4.faces, shader_fragment_source, shader_vertex_source);
+
+  var saber3 = new MyObject(saber_array3.vertices, saber_array3.faces, shader_fragment_source, shader_vertex_source);
+
+  var saber2 = new MyObject(saber_array2.vertices, saber_array2.faces, shader_fragment_source, shader_vertex_source);
+
+  var saber1 = new MyObject(saber_array1.vertices, saber_array1.faces, shader_fragment_source, shader_vertex_source);
+
+  var headKecil = new MyObject(head_array_kecil.vertices, head_array_kecil.faces, shader_fragment_source, shader_vertex_source);
+  
+  var head_Lego = new MyObject(head_array_Lego.vertices, head_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+    
+  var wraist_Lego = new MyObject(wraist_array_Lego.vertices, wraist_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightLeg_Lego = new MyObject(legVertex_Lego, triangle_faces_Lego, shader_fragment_source, shader_vertex_source);
+  
+  var leftLeg_Lego = new MyObject(legVertex_Lego, triangle_faces_Lego, shader_fragment_source, shader_vertex_source);
+
+  var body_Lego = new MyObject(bodyVertex_Lego, body_faces_Lego, shader_fragment_source, shader_vertex_source);
+  
+  var neck_Lego = new MyObject(neck_array_Lego.vertices, neck_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightHand_Lego = new MyObject(hand_array_Lego.vertices,hand_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightShoulder_Lego = new MyObject(shoulder_array_Lego.vertices, shoulder_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftHand_Lego = new MyObject(hand_array_Lego.vertices,hand_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftShoulder_Lego = new MyObject(shoulder_array_Lego.vertices, shoulder_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightArm_Lego = new MyObject(arm_array_Lego.vertices,arm_array_Lego.faces, shader_fragment_source, shader_vertex_source)
+
+  var leftArm_Lego = new MyObject(arm_array_Lego.vertices,arm_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightArm_Lego = new MyObject(inner_arm_array_Lego.vertices,inner_arm_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+  
+  var innerLeftArm_Lego = new MyObject(inner_arm_array_Lego.vertices,inner_arm_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
+  var neckDeco_Lego = new MyObject(neck_deco_array_Lego.vertices,neck_deco_array_Lego.faces, shader_fragment_source, shader_vertex_source);
+
   wraist.addChild(rightLeg);
   wraist.addChild(leftLeg);
   rightHand.addChild(rightShoulder);
@@ -1430,6 +3216,7 @@ var foot_faces = [
   rightEye.addChild(leftEye);
   rightEye.addChild(innerRightEye);
   leftEye.addChild(innerLeftEye);
+  
 
   //Robot r2d2
 
@@ -1467,7 +3254,7 @@ var foot_faces = [
   rightLeg.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
   
-  LIBS.translateZ(VIEWMATRIX, -20);
+  LIBS.translateZ(VIEWMATRIX, -18);
   
   leftLeg.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
@@ -1558,6 +3345,91 @@ var foot_faces = [
   footRobot.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(footRobot.MOVEMATRIX, footRobot.MOVEMATRIX,[10, 1 ,0])
 
+  //Mace Windu
+  mulut.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(mulut.MOVEMATRIX, mulut.MOVEMATRIX, [-5.55, 3.35, 0.196]);
+
+  mata2.MOVEMATRIX = glMatrix.mat4.create(); // mata kanan
+  glMatrix.mat4.translate(mata2.MOVEMATRIX, mata2.MOVEMATRIX, [-5.90, 3.80, 0.500]);
+
+  mata.MOVEMATRIX = glMatrix.mat4.create(); // mata kiri
+  glMatrix.mat4.translate(mata.MOVEMATRIX, mata.MOVEMATRIX, [-5.20, 3.80, 0.500]);
+
+  sayap.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(sayap.MOVEMATRIX, sayap.MOVEMATRIX, [-5.55, -0.91, -1.532]);
+
+  wraist_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(wraist_Lego.MOVEMATRIX, wraist_Lego.MOVEMATRIX, [-6.70, 0.0, 0.0]);
+  
+  rightLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightLeg_Lego.MOVEMATRIX, rightLeg_Lego.MOVEMATRIX, [-6.21, -1, 0.0]);
+  
+  // LIBS.translateZ(VIEWMATRIX, -20);
+  
+  leftLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftLeg_Lego.MOVEMATRIX, leftLeg_Lego.MOVEMATRIX, [-4.89, -1, 0.0]);
+
+  body_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(body_Lego.MOVEMATRIX, body_Lego.MOVEMATRIX, [-5.50, 0.95, 0.0]);
+
+  neck_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(neck_Lego.MOVEMATRIX, neck_Lego.MOVEMATRIX, [-5.55, 1.5, 0.0]);
+
+  saber6.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(saber6.MOVEMATRIX, saber6.MOVEMATRIX, [-3.90, 0.455, 0.030]);
+
+  saber5.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(saber5.MOVEMATRIX, saber5.MOVEMATRIX, [-3.90, 0.550, 0.700]);
+
+  saber4.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(saber4.MOVEMATRIX, saber4.MOVEMATRIX, [-3.90, 0.550, -0.620]);
+
+  saber3.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(saber3.MOVEMATRIX, saber3.MOVEMATRIX, [-3.90, 0.550, -0.450]);
+
+  saber2.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(saber2.MOVEMATRIX, saber2.MOVEMATRIX, [-3.90, 0.550, 0.450]);
+
+  saber1.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(saber1.MOVEMATRIX, saber1.MOVEMATRIX, [-3.90, 0.550, 3.200]);
+
+  headKecil.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(headKecil.MOVEMATRIX, headKecil.MOVEMATRIX, [-5.55, 4.2, -0.004]);
+
+  head_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(head_Lego.MOVEMATRIX, head_Lego.MOVEMATRIX, [-5.55, 3.6,-0.04]);
+
+  rightHand_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, [-7.10, 1,0]);
+  glMatrix.mat4.rotateZ(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8));
+
+  rightShoulder_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightShoulder_Lego.MOVEMATRIX, rightShoulder_Lego.MOVEMATRIX, [-6.98, 1.3,-0.25]);
+
+  leftHand_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, [-3.98, 1,0]);
+  glMatrix.mat4.rotateY(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(180));
+  glMatrix.mat4.rotateZ(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8));
+
+  leftShoulder_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, [-4.10, 1.3,0.25]);
+  glMatrix.mat4.rotateY(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(180));
+
+  rightArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(rightArm_Lego.MOVEMATRIX, rightArm_Lego.MOVEMATRIX, [-7.20, 0.60,-0.3]);
+
+  leftArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(leftArm_Lego.MOVEMATRIX, leftArm_Lego.MOVEMATRIX, [-3.90, 0.60,-0.3]);
+
+  innerRightArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(innerRightArm_Lego.MOVEMATRIX, innerRightArm_Lego.MOVEMATRIX, [-7.20, 0.490,-0.305]);
+
+  innerLeftArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(innerLeftArm_Lego.MOVEMATRIX, innerLeftArm_Lego.MOVEMATRIX, [-3.90, 0.490,-0.305]);
+
+  neckDeco_Lego.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(neckDeco_Lego.MOVEMATRIX, neckDeco_Lego.MOVEMATRIX, [-6.0, 3.4, 0.0]);
+
   
   // Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -1622,6 +3494,34 @@ var foot_faces = [
     armRobot.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     armRobot2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     footRobot.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+
+    //Mace Windu
+    wraist_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightLeg_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftLeg_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    body_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    neck_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    head_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightHand_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightShoulder_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftHand_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftShoulder_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    rightArm_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    leftArm_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    innerRightArm_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    innerLeftArm_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    neckDeco_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    headKecil.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    saber1.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    saber2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    saber3.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    saber4.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    saber5.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    saber6.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    sayap.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    mata.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    mata2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    mulut.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
 
 
@@ -1704,6 +3604,33 @@ var foot_faces = [
     armRobot2.draw();
     footRobot.draw();
 
+    //Mace Windu
+    wraist_Lego.draw();
+    body_Lego.draw();
+    neck_Lego.draw();
+    head_Lego.draw();
+    rightHand_Lego.draw();
+    leftHand_Lego.draw();
+    rightArm_Lego.draw();
+    leftArm_Lego.draw();
+    neckDeco_Lego.draw();
+    headKecil.draw();
+    saber1.draw();
+    saber2.draw();
+    saber3.draw();
+    saber4.draw();
+    saber5.draw();
+    saber6.draw();
+    sayap.draw();
+    mata.draw();
+    mata2.draw();
+    mulut.draw();
+    leftLeg_Lego.draw();
+    rightLeg_Lego.draw();
+    leftShoulder_Lego.draw();
+    rightShoulder_Lego.draw();
+    innerRightArm_Lego.draw();
+    innerLeftArm_Lego.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
