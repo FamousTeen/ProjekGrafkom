@@ -110,7 +110,6 @@ class MyObject {
 
     if (this.child.length > 0) {
       for (let i = 0; i < this.child.length; i++) {
-      
         this.child[i].draw();
       }
     }  
@@ -3258,6 +3257,83 @@ var triangle_robot_faces = [
   var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
+  var leg_deco1 = [0.5, -0.5, 0.6, -0.6];
+
+  // var mouseDown = function (e) {
+  //   leg_deco1.push(
+  //     normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[0]
+  //   );
+  //   leg_deco1.push(
+  //     normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[1]
+  //   );
+  //   console.log(normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[0]);
+  //   console.log(normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[1]);
+  // };
+
+  CANVAS.addEventListener("mousedown", mouseDown, false);
+
+  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
+    
+  var wraist = new MyObject(wraist_array.vertices, wraist_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightLeg = new MyObject(legVertex, leg_faces, shader_fragment_source, shader_vertex_source);
+  
+  var leftLeg = new MyObject(legVertex, leg_faces, shader_fragment_source, shader_vertex_source);
+
+  var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
+  
+  var neck = new MyObject(neck_array.vertices, neck_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source)
+
+  var leftArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+  
+  var innerLeftArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var neckDeco = new MyObject(neck_deco_array.vertices,neck_deco_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerLeftEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
+
+  // var legDeco = new MyObject(leg_deco1,leg_deco1, shader_fragment_source, shader_vertex_source);
+
+  body.addChild(rightArm);
+  body.addChild(leftArm);
+  body.addChild(wraist);
+  body.addChild(rightLeg);
+  body.addChild(leftLeg);
+  rightArm.addChild(innerRightArm);
+  leftArm.addChild(innerLeftArm);
+  body.addChild(rightShoulder);
+  body.addChild(leftShoulder);
+  rightShoulder.addChild(rightHand);
+  leftShoulder.addChild(leftHand);
+  body.addChild(neck);
+  neck.addChild(neckDeco);
+  body.addChild(head)
+  head.addChild(rightEye);
+  head.addChild(leftEye);
+  head.addChild(mouth);
+  rightEye.addChild(innerRightEye);
+  leftEye.addChild(innerLeftEye);
+
   //robot r2d2 array
 
   var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
@@ -3401,17 +3477,6 @@ var triangle_robot_faces = [
   var innerLeftArm_Lego = new MyObject(inner_arm_array_Lego.vertices,inner_arm_array_Lego.faces, shader_fragment_source, shader_vertex_source);
 
   var neckDeco_Lego = new MyObject(neck_deco_array_Lego.vertices,neck_deco_array_Lego.faces, shader_fragment_source, shader_vertex_source);
-
-  wraist.addChild(rightLeg);
-  wraist.addChild(leftLeg);
-  rightHand.addChild(rightShoulder);
-  leftHand.addChild(leftShoulder);
-  rightArm.addChild(innerRightArm);
-  leftArm.addChild(innerLeftArm);
-  neck.addChild(neckDeco);
-  rightEye.addChild(leftEye);
-  rightEye.addChild(innerRightEye);
-  leftEye.addChild(innerLeftEye);
   
 
   //Robot r2d2
@@ -3443,16 +3508,6 @@ var triangle_robot_faces = [
   var triangleRobot = new MyObject(triangle_robot_vertex , triangle_robot_faces, shader_fragment_source , shader_vertex_source)
   
   var triangleRobot2 = new MyObject(triangle_robot_vertex , triangle_robot_faces, shader_fragment_source , shader_vertex_source)
-
-
-
-  wraist.addChild(rightLeg);
-  wraist.addChild(leftLeg);
-  rightHand.addChild(rightShoulder);
-  leftHand.addChild(leftShoulder);
-  rightArm.addChild(innerRightArm);
-  leftArm.addChild(innerLeftArm);
-  neck.addChild(neckDeco);
 
   var PROJMATRIX = LIBS.get_projection(
     40,
@@ -3690,6 +3745,19 @@ var triangle_robot_faces = [
   GL.clearDepth(1.0);
   var time_prev = 0;
 
+  // C-3P0
+  var goombaPos = [0,0,0];
+  var goombaMoveSpeed = 0.05;
+  var walkFront = true;
+
+    var goombaFeet1Pos = [0,0,0];
+    var goombaFeet2Pos = [0,0,0];
+    var goombaFeet1RotatePos = 0;
+    var rotateBack1 = false;
+    var goombaFeet2RotatePos = 0;
+    var rotateBack2 = true;
+    var goombaRotateSpeed = 0.02;
+
   var animate = function (time) {
     var dt = time - time_prev;
     if (time > 0) {
@@ -3718,6 +3786,9 @@ var triangle_robot_faces = [
       // glMatrix.mat4.rotateX(hand.MOVEMATRIX, hand.MOVEMATRIX, PHI*0.1);
     }
 
+
+
+    // C-3PO
     wraist.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     rightLeg.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     leftLeg.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -3841,17 +3912,43 @@ var triangle_robot_faces = [
     //   glMatrix.mat4.translate(leg.MOVEMATRIX, leg.MOVEMATRIX, [-1.0, 0.0, 0.0]);
     //   glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [-1.0, 0.0, 0.0]);
     // }
-    wraist.draw();
+
+    //posisi awal
+    if (walkFront == true) {
+      goombaPos[2] += goombaMoveSpeed;
+      if(goombaPos[2] >= 5) {
+        walkFront = false;
+      }
+    }
+    else {
+      goombaPos[2] -= goombaMoveSpeed;
+      if(goombaPos[2] <= -5) {
+        walkFront = true;
+      }
+    }
+
+    console.log(goombaPos[2])
+
+    LIBS.translateZ(body.MOVEMATRIX, goombaPos[2]);
+    // LIBS.rotateX(body.MOVEMATRIX, 1.5);
+
+    if (walkFront == false) {
+      LIBS.rotateY(body.MOVEMATRIX, Math.PI);
+    }
+
+    // wraist.draw();
     body.draw();
-    neck.draw();
-    head.draw();
-    rightHand.draw();
-    leftHand.draw();
-    rightArm.draw();
-    leftArm.draw();
-    neckDeco.draw();
-    rightEye.draw();
-    mouth.draw();
+    // neck.draw();
+    // head.draw();
+    // rightShoulder.draw();
+    // leftShoulder.draw();
+    // rightArm.draw();
+    // leftArm.draw();
+    // neckDeco.draw();
+    // rightEye.draw();
+    // leftEye.draw();
+    // mouth.draw();
+    // legDeco.drawSpline(leg_deco1);
 
     //robo r2d2
     robotBody.draw();
