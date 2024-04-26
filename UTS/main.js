@@ -1359,7 +1359,7 @@ var arm2_faces = [
   -1.2, -0.5, 0.5, 221/255, 112/255, 24/255,
   1.1, -0.5, 0.5, 221/255, 112/255, 24/255,
   1.1, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  -1.2, 0.0002, 0.5, 221/255, 112/255, 24/255
+  -1.2, 0.0002, 0.5, 221/255, 112/255, 24/255,
   // kiri permukaan kubus
   -1.175, -0.5, -0.5, 221/255, 112/255, 24/255,
   -1.175, 0.0002, -0.5, 221/255, 112/255, 24/255,
@@ -1643,8 +1643,6 @@ var triangle_faces = [
 
   var bottomRobot = new MyObject(robot_bottom.vertices , robot_bottom.faces , shader_fragment_source , shader_vertex_source);
 
-  var triangleRobot = new MyObject(triangle_vertex , triangle_faces , shader_fragment_source , shader_vertex_source);
-
 
 
   wraist.addChild(rightLeg);
@@ -1775,10 +1773,6 @@ var triangle_faces = [
   bottomRobot.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(bottomRobot.MOVEMATRIX, bottomRobot.MOVEMATRIX,[6 , -0.3 , 0])
 
-
-  triangleRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(triangleRobot.MOVEMATRIX , triangleRobot.MOVEMATRIX , [9 , 0 , 0])
-
   
 
   
@@ -1847,7 +1841,6 @@ var triangle_faces = [
     footRobot.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     footRobot2.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
     bottomRobot.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
-    triangleRobot.setuniformmatrix4(PROJMATRIX , VIEWMATRIX);
 
 
 
@@ -1931,7 +1924,6 @@ var triangle_faces = [
     footRobot.draw();
     footRobot2.draw();
     bottomRobot.draw();
-    triangleRobot.draw();
 
     
     GL.flush();
