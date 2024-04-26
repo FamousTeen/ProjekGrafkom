@@ -1458,7 +1458,7 @@ var foot_faces = [
   20+24, 22+24, 23+24
 ];
 
-var triangle_vertex = [
+var triangle_robot_vertex = [
   // telapak kaki
   // depan permukaan kubus
   -0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
@@ -1509,7 +1509,7 @@ var triangle_vertex = [
   -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
 ];
 
-var triangle_faces = [
+var triangle_robot_faces = [
   0, 1, 2,
   0, 2, 3,
 
