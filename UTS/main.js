@@ -659,14 +659,17 @@ function main() {
     return { vertices: cylinderVertex, faces: cylinder_faces };
   }
 
-  function generateCylinderVerti(z1, z2, radius, radius2) {
+  function generateCylinderVerti(z1, z2, radius, radius2, array_color) {
     var cylinderVertex = []
   cylinderVertex.push(0);
   cylinderVertex.push(0);
   cylinderVertex.push(0);
-  cylinderVertex.push(221/255);
-  cylinderVertex.push(112/255);
-  cylinderVertex.push(24/255);
+  cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
+  // cylinderVertex.push(221/255);
+  // cylinderVertex.push(112/255);
+  // cylinderVertex.push(24/255);
 
   for (var i = 0; i <= 720; i++) {
     if (i <= 360) {
@@ -677,17 +680,17 @@ function main() {
       cylinderVertex.push(x);
       cylinderVertex.push(z1);
       cylinderVertex.push(y);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
     }
     if (i == 360) {
       cylinderVertex.push(0);
       cylinderVertex.push(1);
       cylinderVertex.push(0);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
     }
     if (i >= 360) {
       var x =
@@ -699,9 +702,9 @@ function main() {
       cylinderVertex.push(x);
       cylinderVertex.push(z2);
       cylinderVertex.push(y);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
     }
     if (i == 720) {
       var x =
@@ -712,9 +715,9 @@ function main() {
         cylinderVertex.push(x);
       cylinderVertex.push(1);
       cylinderVertex.push(y);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+      cylinderVertex.push(array_color[1]);
+      cylinderVertex.push(array_color[2]);
     }
   }
 
@@ -982,8 +985,8 @@ function degrees_to_radians(degrees) {
     // belakang permukaan kubus
     -1.2, 0, -0.5, 221/255, 112/255, 24/255,
     1.1, 0, -0.5, 221/255, 112/255, 24/255,
-    0.9, 1, -0.5, 221/255, 112/255, 24/255,
-    -1, 1, -0.5, 221/255, 112/255, 24/255
+    0.9, 2, -0.5, 221/255, 112/255, 24/255,
+    -1, 2, -0.5, 221/255, 112/255, 24/255
   ];
 
   var body_faces = [
@@ -1545,17 +1548,17 @@ var triangle_robot_faces = [
 
   var shoulder_array = generateSphere2(0, 0, -0.25, 0.5, 100);
 
-  var neck_array = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+  var neck_array = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2), [221/255, 112/255, 24/255]);
   var neck_deco_array = generateCylinderHorizon(0, 1.3, (CANVAS.width / 7), (CANVAS.height / 7));
 
   var wraist_array = generateCylinderHorizon(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
-  var hand_array = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
+  var hand_array = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255]);
   var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
   //robot r2d2 array
 
-  var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [128/255, 128/255, 128/255])
+  var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
   var head_robot_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   var top_robot_head = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [128/255, 128/255, 128/255])
   var robot_arm_extension = generateCylinderHorizon(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255])
