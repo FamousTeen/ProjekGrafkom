@@ -1,79 +1,5 @@
 var GL;
 
-function normalizeScreen(x, y, width, height) {
-  var nx = (2 * x) / width - 1;
-  var ny = (-2 * y) / height + 1;
-
-  return [nx, ny];
-}
-
-function generateBSpline(controlPoint, m, degree) {
-  var curves = [];
-  var knotVector = [];
-
-  var n = controlPoint.length / 2;
-
-  // Calculate the knot values based on the degree and number of control points
-  for (var i = 0; i < n + degree + 1; i++) {
-    if (i < degree + 1) {
-      knotVector.push(0);
-    } else if (i >= n) {
-      knotVector.push(n - degree);
-    } else {
-      knotVector.push(i - degree);
-    }
-  }
-
-  var basisFunc = function (i, j, t) {
-    if (j == 0) {
-      if (knotVector[i] <= t && t < knotVector[i + 1]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-
-    var den1 = knotVector[i + j] - knotVector[i];
-    var den2 = knotVector[i + j + 1] - knotVector[i + 1];
-
-    var term1 = 0;
-    var term2 = 0;
-
-    if (den1 != 0 && !isNaN(den1)) {
-      term1 = ((t - knotVector[i]) / den1) * basisFunc(i, j - 1, t);
-    }
-
-    if (den2 != 0 && !isNaN(den2)) {
-      term2 = ((knotVector[i + j + 1] - t) / den2) * basisFunc(i + 1, j - 1, t);
-    }
-
-    return term1 + term2;
-  };
-
-  for (var t = 0; t < m; t++) {
-    var x = 0;
-    var y = 0;
-
-    var u =
-      (t / m) * (knotVector[controlPoint.length / 2] - knotVector[degree]) +
-      knotVector[degree];
-
-    //C(t)
-    for (var key = 0; key < n; key++) {
-      var C = basisFunc(key, degree, u);
-      // console.log(C);
-      x += controlPoint[key * 2] * C;
-      y += controlPoint[key * 2 + 1] * C;
-      // console.log(t + " " + degree + " " + x + " " + y + " " + C);
-    }
-    curves.push(x);
-    curves.push(y);
-    curves.push(0.03125);
-  }
-  // console.log(curves);
-  return curves;
-}
-
 class MyObject {
   object_vertex = [];
   OBJECT_VERTEX = GL.createBuffer();
@@ -107,7 +33,6 @@ class MyObject {
   _Mmatrix;
   _color;
   _position;
-  uniform_color;
 
   MOVEMATRIX; // WORLD SPACE
 
@@ -142,7 +67,6 @@ class MyObject {
 
     this._color = GL.getAttribLocation(this.SHADER_PROGRAM, "color");
     this._position = GL.getAttribLocation(this.SHADER_PROGRAM, "position");
-    this.uniform_color = GL.getUniformLocation(this.SHADER_PROGRAM, "outColor");
 
     GL.enableVertexAttribArray(this._color);
     GL.enableVertexAttribArray(this._position);
@@ -190,23 +114,6 @@ class MyObject {
         this.child[i].draw();
       }
     }  
-  }
-
-  drawSpline() {
-      GL.useProgram(this.SHADER_PROGRAM);
-      
-      var bspline = generateBSpline(this.object_vertex, 100, 2);
-
-      GL.vertexAttribPointer(this._position, 3, GL.FLOAT, false, 4 * (3 + 3), 0);
-      
-      var bspline_vbo = GL.createBuffer();
-      GL.bindBuffer(GL.ARRAY_BUFFER, bspline_vbo);
-      GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(bspline), GL.STATIC_DRAW);
-
-      GL.uniform3f(this.uniform_color, 1, 1, 1);
-
-      GL.bindBuffer(GL.ARRAY_BUFFER, bspline_vbo);
-      GL.drawArrays(GL.LINE_STRIP, 0, bspline.length / 3);
   }
 
   setRotateMove(PHI, THETA, r) {
@@ -1620,11 +1527,86 @@ function generateSphere2(x, y, z, radius, segments) {
   return { vertices: vertices, faces: faces };
 }
 
+function normalizeScreen(x, y, width, height) {
+  var nx = (2 * x) / width - 1;
+  var ny = (-2 * y) / height + 1;
+
+  return [nx, ny];
+}
+
+function generateBSpline(controlPoint, m, degree) {
+  var curves = [];
+  var knotVector = [];
+
+  var n = controlPoint.length / 2;
+
+  // Calculate the knot values based on the degree and number of control points
+  for (var i = 0; i < n + degree + 1; i++) {
+    if (i < degree + 1) {
+      knotVector.push(0);
+    } else if (i >= n) {
+      knotVector.push(n - degree);
+    } else {
+      knotVector.push(i - degree);
+    }
+  }
+
+  var basisFunc = function (i, j, t) {
+    if (j == 0) {
+      if (knotVector[i] <= t && t < knotVector[i + 1]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
+    var den1 = knotVector[i + j] - knotVector[i];
+    var den2 = knotVector[i + j + 1] - knotVector[i + 1];
+
+    var term1 = 0;
+    var term2 = 0;
+
+    if (den1 != 0 && !isNaN(den1)) {
+      term1 = ((t - knotVector[i]) / den1) * basisFunc(i, j - 1, t);
+    }
+
+    if (den2 != 0 && !isNaN(den2)) {
+      term2 = ((knotVector[i + j + 1] - t) / den2) * basisFunc(i + 1, j - 1, t);
+    }
+
+    return term1 + term2;
+  };
+
+  for (var t = 0; t < m; t++) {
+    var x = 0;
+    var y = 0;
+
+    var u =
+      (t / m) * (knotVector[controlPoint.length / 2] - knotVector[degree]) +
+      knotVector[degree];
+
+    //C(t)
+    for (var key = 0; key < n; key++) {
+      var C = basisFunc(key, degree, u);
+      console.log(C);
+      x += controlPoint[key * 2] * C;
+      y += controlPoint[key * 2 + 1] * C;
+      console.log(t + " " + degree + " " + x + " " + y + " " + C);
+    }
+    curves.push(x);
+    curves.push(y);
+  }
+  console.log(curves);
+  return curves;
+}
+
 function main() {
   var CANVAS = document.getElementById("mycanvas");
 
   CANVAS.width = window.innerWidth;
   CANVAS.height = window.innerHeight;
+
+  var AMORTIZATION = 0.95;
   var THETA = 0,
     PHI = 0;
   var drag = false;
@@ -1660,14 +1642,6 @@ function main() {
     drag = false;
   };
 
-  var AMORTIZATION = 0.95;
-  var THETA = 0,
-    PHI = 0;
-  var drag = false;
-  var x_prev, y_prev;
-  var dX = 0,
-    dY = 0;
-
   var mouseDown = function (e) {
     drag = true;
     (x_prev = e.pageX), (y_prev = e.pageY);
@@ -1681,21 +1655,21 @@ function main() {
 
   var mouseMove = function (e) {
     if (!drag) return false;
-    (dX = ((e.pageX - x_prev) * Math.PI) / CANVAS.width),
-      (dY = ((e.pageY - y_prev) * Math.PI) / CANVAS.height);
-    THETA += dX;
-    PHI += dY;
-    (x_prev = e.pageX), (y_prev = e.pageY);
-    e.preventDefault();
+    // (dX = ((e.pageX - x_prev) * Math.PI) / CANVAS.width),
+    //   (dY = ((e.pageY - y_prev) * Math.PI) / CANVAS.height);
+    // THETA += dX;
+    // PHI += dY;
+    // (x_prev = e.pageX), (y_prev = e.pageY);
+    // e.preventDefault();
   };
+
+  // window.addEventListener("keydown", keyDown);
+  // window.addEventListener("keyup", keyUp);
 
   CANVAS.addEventListener("mousedown", mouseDown, false);
   CANVAS.addEventListener("mouseup", mouseUp, false);
   CANVAS.addEventListener("mouseout", mouseUp, false);
   CANVAS.addEventListener("mousemove", mouseMove, false);
-
-  // window.addEventListener("keydown", keyDown);
-  // window.addEventListener("keyup", keyUp);
 
   try {
     GL = CANVAS.getContext("webgl", { antialias: false });
@@ -1728,14 +1702,6 @@ function main() {
   void main(void){
       gl_FragColor = vec4(vColor,1.0);
   }
-  `;
-
-  var shader_fragment_source2 = `
-        precision mediump float;
-        uniform vec3 outColor;
-        void main(void){
-            gl_FragColor = vec4(outColor,1.);
-        }
   `;
 
   // Mace Windu
@@ -2540,7 +2506,7 @@ var legVertex = [
   -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
 ];
 
-var leg_faces = [
+var triangle_faces = [
   0, 1, 2,
   0, 2, 3,
 
@@ -3292,63 +3258,6 @@ var triangle_robot_faces = [
   var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
-  var leg_deco1 = [0.5, -0.5, 0.6, -0.6];
-
-  // var mouseDown = function (e) {
-  //   leg_deco1.push(
-  //     normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[0]
-  //   );
-  //   leg_deco1.push(
-  //     normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[1]
-  //   );
-  //   console.log(normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[0]);
-  //   console.log(normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[1]);
-  // };
-
-  CANVAS.addEventListener("mousedown", mouseDown, false);
-
-  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
-    
-  var wraist = new MyObject(wraist_array.vertices, wraist_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightLeg = new MyObject(legVertex, leg_faces, shader_fragment_source, shader_vertex_source);
-  
-  var leftLeg = new MyObject(legVertex, leg_faces, shader_fragment_source, shader_vertex_source);
-
-  var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
-  
-  var neck = new MyObject(neck_array.vertices, neck_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var leftHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var leftShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source)
-
-  var leftArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var innerRightArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
-  
-  var innerLeftArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var neckDeco = new MyObject(neck_deco_array.vertices,neck_deco_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var leftEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var innerRightEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var innerLeftEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
-
-  var legDeco = new MyObject(leg_deco1,leg_deco1, shader_fragment_source, shader_vertex_source);
-
   //robot r2d2 array
 
   var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
@@ -3395,6 +3304,50 @@ var triangle_robot_faces = [
    var hand_array_Lego = generateCylinderVerti_Lego(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
    var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
    var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
+//  =======
+   
+
+
+  
+  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
+    
+  var wraist = new MyObject(wraist_array.vertices, wraist_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightLeg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
+  
+  var leftLeg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
+
+  var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
+  
+  var neck = new MyObject(neck_array.vertices, neck_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source)
+
+  var leftArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+  
+  var innerLeftArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var neckDeco = new MyObject(neck_deco_array.vertices,neck_deco_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerLeftEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
 
   //Mace Windu
   var mulut = new MyObject(mulut_array.vertices, mulut_array.faces, shader_fragment_source, shader_vertex_source);
@@ -3515,7 +3468,7 @@ var triangle_robot_faces = [
   rightLeg.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
   
-  LIBS.translateZ(VIEWMATRIX, -15);
+  LIBS.translateZ(VIEWMATRIX, -18);
   
   leftLeg.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
@@ -3661,6 +3614,8 @@ var triangle_robot_faces = [
   rightLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(rightLeg_Lego.MOVEMATRIX, rightLeg_Lego.MOVEMATRIX, [-6.21, -1, 0.0]);
   
+  // LIBS.translateZ(VIEWMATRIX, -20);
+  
   leftLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(leftLeg_Lego.MOVEMATRIX, leftLeg_Lego.MOVEMATRIX, [-4.89, -1, 0.0]);
 
@@ -3736,28 +3691,28 @@ var triangle_robot_faces = [
   var time_prev = 0;
 
   var animate = function (time) {
-    var AMORTIZATION = 0.95;
-    
+    var dt = time - time_prev;
     if (time > 0) {
       // mencegah kalau time = null
       var dt = time - time_prev;
-      var dt = time - time_prev;
-    if (!drag) {
-      (dX *= AMORTIZATION), (dY *= AMORTIZATION);
-      (THETA += dX), (PHI += dY);
-    }
-      // else {
-        VIEWMATRIX = LIBS.get_I4();
-        LIBS.translateZ(VIEWMATRIX, -20);
-        LIBS.rotateY(VIEWMATRIX, THETA);
-        LIBS.rotateX(VIEWMATRIX, PHI);
-      // }
+      if (!drag) {
+        dX *= AMORTIZATION;
+        dY *= AMORTIZATION;
+        THETA += dX;
+        PHI += dY;
+      }
+      LIBS.rotateX(VIEWMATRIX, PHI);
+      LIBS.rotateY(VIEWMATRIX, THETA);
+      
+      time_prev = time;
       // LIBS.rotateX(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateY(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateZ(MOVEMATRIX, dt*0.0004);
       // console.log(dt);
       // time_prev = time;
-      // glMatrix.mat4.rotateY(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateY(VIEWMATRIX, VIEWMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateX(VIEWMATRIX, VIEWMATRIX, PHI*0.1);
+      // // glMatrix.mat4.rotateY(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, THETA*0.1);
       // glMatrix.mat4.rotateX(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, -PHI*0.1);
       // glMatrix.mat4.rotateY(hand.MOVEMATRIX, hand.MOVEMATRIX, THETA*0.1);
       // glMatrix.mat4.rotateX(hand.MOVEMATRIX, hand.MOVEMATRIX, PHI*0.1);
@@ -3897,7 +3852,6 @@ var triangle_robot_faces = [
     neckDeco.draw();
     rightEye.draw();
     mouth.draw();
-    legDeco.drawSpline(leg_deco1);
 
     //robo r2d2
     robotBody.draw();
@@ -3947,6 +3901,6 @@ var triangle_robot_faces = [
     window.requestAnimationFrame(animate);
   };
 
-  animate(0);
+  animate();
 }
 window.addEventListener("load", main);
