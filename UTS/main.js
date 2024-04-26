@@ -3267,6 +3267,8 @@ var triangle_robot_faces = [
   var robot_arm_extension2 = generateCylinderHorizon(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255])
   var robot_arm_upper = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
   var robot_arm_upper2 = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
+  var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [1/255, 1/255, 200/255])
+  
 
   //Mace Windu
 
@@ -3437,6 +3439,9 @@ var triangle_robot_faces = [
   var bottomRobot = new MyObject(robot_bottom.vertices , robot_bottom.faces , shader_fragment_source , shader_vertex_source);
 
   var triangleRobot = new MyObject(triangle_robot_vertex , triangle_robot_faces, shader_fragment_source , shader_vertex_source)
+  
+  var triangleRobot2 = new MyObject(triangle_robot_vertex , triangle_robot_faces, shader_fragment_source , shader_vertex_source)
+
 
 
   wraist.addChild(rightLeg);
@@ -3573,9 +3578,16 @@ var triangle_robot_faces = [
   glMatrix.mat4.translate(bottomRobot.MOVEMATRIX, bottomRobot.MOVEMATRIX,[6 , -0.46 , 0])
 
   triangleRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(triangleRobot.MOVEMATRIX , triangleRobot.MOVEMATRIX , [6.7 ,-0.5 ,0 ])
+  glMatrix.mat4.translate(triangleRobot.MOVEMATRIX , triangleRobot.MOVEMATRIX , [6.8 ,-0.5 ,0 ])
   glMatrix.mat4.rotateX(triangleRobot.MOVEMATRIX,
     triangleRobot.MOVEMATRIX , degrees_to_radians(180))
+
+    triangleRobot2.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(triangleRobot2.MOVEMATRIX , triangleRobot.MOVEMATRIX , [-1.6   ,-0.01 ,0 ])
+  glMatrix.mat4.rotateX(triangleRobot2.MOVEMATRIX,
+    triangleRobot2.MOVEMATRIX , degrees_to_radians(180))
+    glMatrix.mat4.rotateZ(triangleRobot2.MOVEMATRIX,
+      triangleRobot2.MOVEMATRIX , degrees_to_radians(180))
 
 
 
@@ -3733,6 +3745,8 @@ var triangle_robot_faces = [
     footRobot2.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
     bottomRobot.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
     triangleRobot.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    triangleRobot2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+
 
     //Mace Windu
     wraist_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -3845,6 +3859,7 @@ var triangle_robot_faces = [
     footRobot2.draw();
     bottomRobot.draw();
     triangleRobot.draw();
+    triangleRobot2.draw();
 
     //Mace Windu
     wraist_Lego.draw();
