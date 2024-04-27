@@ -2105,67 +2105,67 @@ function degrees_to_radians_Lego(degrees) {
 var bodyVertex_Lego = [
   // tubuh bawah
   // depan permukaan kubus
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255,
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
   // kiri permukaan kubus
-  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, 
   // kanan permukaan kubus
-  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, 
   // bawah permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
   // atas permukaan kubus
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, 
   // belakang permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255,
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255,
 
   // tubuh atas
   // depan permukaan kubus
-  -1.2, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.1, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.2, 0, 0.5, 210/255, 180/255, 140/255,
+  1.1, 0, 0.5, 210/255, 180/255, 140/255,
+  0.9, 2, 0.5, 210/255, 180/255, 140/255,
+  -1, 2, 0.5, 210/255, 180/255, 140/255,
   // kiri permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255,
+  -1, 2, -0.5, 210/255, 180/255, 140/255, 
+  -1, 2, 0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255,
   // kanan permukaan kubus
-  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, -0.5, 210/255, 180/255, 140/255,
+  0.9, 2, -0.5, 210/255, 180/255, 140/255,
+  0.9, 2, 0.5, 210/255, 180/255, 140/255,
+  1.075, 0, 0.5, 210/255, 180/255, 140/255,
   // bawah permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255, 
+  1.075, 0, 0.5, 210/255, 180/255, 140/255, 
+  1.075, 0, -0.5, 210/255, 180/255, 140/255, 
   // atas permukaan kubus
-  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, -0.5, 210/255, 180/255, 140/255, 
+  -1, 2, 0.5, 210/255, 180/255, 140/255, 
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, 
+  0.9, 2, -0.5, 210/255, 180/255, 140/255, 
   // belakang permukaan kubus
-  -1.2, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.1, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 1, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 1, -0.5, 210/255, 180/255, 140/255 // Warna coklat muda terang untuk tubuh atas
+  -1.2, 0, -0.5, 210/255, 180/255, 140/255, 
+  1.1, 0, -0.5, 210/255, 180/255, 140/255, 
+  0.9, 1, -0.5, 210/255, 180/255, 140/255, 
+  -1, 1, -0.5, 210/255, 180/255, 140/255 
 ];
 
 
