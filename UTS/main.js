@@ -1687,6 +1687,13 @@ function main() {
     THETA += dX;
     PHI += dY;
     (x_prev = e.pageX), (y_prev = e.pageY);
+<<<<<<< Updated upstream
+=======
+    e.preventDefault();
+  };
+
+  function zoom(e) {
+>>>>>>> Stashed changes
     e.preventDefault();
   };
 
@@ -3473,7 +3480,26 @@ var triangle_robot_faces = [
   var innerLeftArm_Lego = new MyObject(inner_arm_array_Lego.vertices,inner_arm_array_Lego.faces, shader_fragment_source, shader_vertex_source);
 
   var neckDeco_Lego = new MyObject(neck_deco_array_Lego.vertices,neck_deco_array_Lego.faces, shader_fragment_source, shader_vertex_source);
-  
+
+  body.addChild(rightArm);
+  body.addChild(leftArm);
+  body.addChild(wraist);
+  body.addChild(rightLeg);
+  body.addChild(leftLeg);
+  rightArm.addChild(innerRightArm);
+  leftArm.addChild(innerLeftArm);
+  body.addChild(rightShoulder);
+  body.addChild(leftShoulder);
+  rightShoulder.addChild(rightHand);
+  leftShoulder.addChild(leftHand);
+  body.addChild(neck);
+  neck.addChild(neckDeco);
+  body.addChild(head)
+  head.addChild(rightEye);
+  head.addChild(leftEye);
+  head.addChild(mouth);
+  rightEye.addChild(innerRightEye);
+  leftEye.addChild(innerLeftEye);
 
   //Robot r2d2
 
@@ -3534,7 +3560,11 @@ var triangle_robot_faces = [
   rightLeg.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
   
+<<<<<<< Updated upstream
   LIBS.translateZ(VIEWMATRIX, -15);
+=======
+  
+>>>>>>> Stashed changes
   
   leftLeg.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
@@ -3791,6 +3821,7 @@ var triangle_robot_faces = [
     if (time > 0) {
       // mencegah kalau time = null
       var dt = time - time_prev;
+<<<<<<< Updated upstream
       var dt = time - time_prev;
     if (!drag) {
       (dX *= AMORTIZATION), (dY *= AMORTIZATION);
@@ -3802,6 +3833,20 @@ var triangle_robot_faces = [
         LIBS.rotateY(VIEWMATRIX, THETA);
         LIBS.rotateX(VIEWMATRIX, PHI);
       // }
+=======
+      if (!drag) {
+        dX *= AMORTIZATION;
+        dY *= AMORTIZATION;
+        THETA += dX;
+        PHI += dY;
+      }
+      VIEWMATRIX = LIBS.get_I4();
+      LIBS.translateZ(VIEWMATRIX, -20);
+      LIBS.rotateX(VIEWMATRIX, PHI);
+      LIBS.rotateY(VIEWMATRIX, THETA);
+      
+      time_prev = time;
+>>>>>>> Stashed changes
       // LIBS.rotateX(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateY(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateZ(MOVEMATRIX, dt*0.0004);
@@ -3963,7 +4008,110 @@ var triangle_robot_faces = [
       LIBS.rotateY(body.MOVEMATRIX, Math.PI);
     }
 
+<<<<<<< Updated upstream
     // wraist.draw();
+=======
+    leftLeg.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, c3poPos[2]]);
+
+    rightLeg.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, c3poPos[2]]);
+
+    rightHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,c3poPos[2]]);
+    glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
+
+    rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25+c3poPos[2]]);
+
+    leftHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,c3poPos[2]]);
+    glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
+    glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
+
+    leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25+ c3poPos[2]]);
+    glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
+
+    rightArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3])
+    LIBS.translateZ(rightArm.MOVEMATRIX, c3poPos[2])
+
+    leftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
+    LIBS.translateZ(leftArm.MOVEMATRIX, c3poPos[2])
+
+
+    innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
+    LIBS.translateZ(innerRightArm.MOVEMATRIX, c3poPos[2])
+
+
+    innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
+    LIBS.translateZ(innerLeftArm.MOVEMATRIX, c3poPos[2])
+
+
+
+    // leg animation
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -c3poPos[2]);
+    leftLeg.MOVEMATRIX = LIBS.mul(leftLeg.MOVEMATRIX, temp);
+
+    if (rotateBackLeg1 == true) {
+      c3poFeet1RotatePos -= c3poRotateSpeed;
+      if (c3poFeet1RotatePos <= -0.35) {
+        rotateBackLeg1 = false;
+      }
+    }
+    else {
+      c3poFeet1RotatePos += c3poRotateSpeed;
+      if (c3poFeet1RotatePos >= 0.35) {
+        rotateBackLeg1 = true;
+      }
+    }
+
+    if (walkFront == false) {
+      LIBS.rotateY(leftLeg.MOVEMATRIX, Math.PI);
+    }
+    
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, c3poFeet1RotatePos);
+    leftLeg.MOVEMATRIX = LIBS.mul(leftLeg.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, c3poPos[2]);
+    leftLeg.MOVEMATRIX = LIBS.mul(leftLeg.MOVEMATRIX, temp);
+
+
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -c3poPos[2]);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+
+    if (rotateBackLeg2 == true) {
+      c3poFeet2RotatePos -= c3poRotateSpeed;
+      if (c3poFeet2RotatePos <= -0.35) {
+        rotateBackLeg2 = false;
+      }
+    }
+    else {
+      c3poFeet2RotatePos += c3poRotateSpeed;
+      if (c3poFeet2RotatePos >= 0.35) {
+        rotateBackLeg2 = true;
+      }
+    }
+
+    if (walkFront == false) {
+      LIBS.rotateY(rightLeg.MOVEMATRIX, Math.PI);
+    }
+    
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, c3poFeet2RotatePos);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, c3poPos[2]);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+
+>>>>>>> Stashed changes
     body.draw();
     // neck.draw();
     // head.draw();
