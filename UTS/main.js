@@ -1612,7 +1612,10 @@ function main() {
   var x_prev, y_prev;
   var dX = 0,
     dY = 0;
+  var scrollX = 0, scrollY = 0;
 
+  
+// test
   // var keyDown = function (e) {
   //   switch (e.key) {
   //     case "a":
@@ -1662,8 +1665,17 @@ function main() {
     // e.preventDefault();
   };
 
-  // window.addEventListener("keydown", keyDown);
-  // window.addEventListener("keyup", keyUp);
+  function zoom(e) {
+    e.preventDefault();
+  
+    scale += e.deltaY * -0.01;
+  
+    // Restrict scale
+    scale = Math.min(Math.max(0.125, scale), 4);
+  
+    // Apply scale transform
+    el.style.transform = `scale(${scale})`;
+  }
 
   CANVAS.addEventListener("mousedown", mouseDown, false);
   CANVAS.addEventListener("mouseup", mouseUp, false);
@@ -3254,7 +3266,7 @@ var triangle_robot_faces = [
 
   var wraist_array = generateCylinderHorizon(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
   var hand_array = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255]);
-  var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
+  var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [0, 0, 0])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
   //robot r2d2 array
@@ -3444,49 +3456,48 @@ var triangle_robot_faces = [
   glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, 0.0]);
   
   rightLeg.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
+  // glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
   
   LIBS.translateZ(VIEWMATRIX, -18);
   
   leftLeg.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
+  // glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
 
   body.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(body.MOVEMATRIX, body.MOVEMATRIX, [0.05, 0.95, 0.0]);
+
+  rightHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,0]);
+    glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
+
+    rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25]);
+
+    leftHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,0]);
+    glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
+    glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
+
+    leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25]);
+    glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
+
+    rightArm.MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3;])
+
+    leftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
+
+    innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
+
+    innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
 
   neck.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neck.MOVEMATRIX, neck.MOVEMATRIX, [0, 1.5, 0.0]);
 
   head.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.5,-0.25]);
-
-  rightHand.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,0]);
-  glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
-
-  rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25]);
-
-  leftHand.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,0]);
-  glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
-  glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
-
-  leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25]);
-  glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
-
-  rightArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3]);
-
-  leftArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
-
-  innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
-
-  innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
 
   neckDeco.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neckDeco.MOVEMATRIX, neckDeco.MOVEMATRIX, [-0.65, 3.4, 0.0]);
@@ -3669,17 +3680,17 @@ var triangle_robot_faces = [
   var time_prev = 0;
 
   // C-3P0
-  var goombaPos = [0,0,0];
-  var goombaMoveSpeed = 0.05;
+  var c3poPos = [0,0,0];
+  var c3poMovSpeed = 0.05;
   var walkFront = true;
 
-    var goombaFeet1Pos = [0,0,0];
-    var goombaFeet2Pos = [0,0,0];
-    var goombaFeet1RotatePos = 0;
-    var rotateBack1 = false;
-    var goombaFeet2RotatePos = 0;
-    var rotateBack2 = true;
-    var goombaRotateSpeed = 0.02;
+  var c3poFeet1RotatePos = 0;
+  var rotateBackLeg1 = false;
+  var c3poFeet2RotatePos = 0;
+  var rotateBackLeg2 = true;
+  var c3poRotateSpeed = 0.05;
+  var rotateBackHand1 = false;
+  var c3poHand1RotatePos = 0;
 
   var animate = function (time) {
     var dt = time - time_prev;
@@ -3836,40 +3847,238 @@ var triangle_robot_faces = [
     //   glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [-1.0, 0.0, 0.0]);
     // }
 
+    // C-3PO
     //posisi awal
     if (walkFront == true) {
-      goombaPos[2] += goombaMoveSpeed;
-      if(goombaPos[2] >= 5) {
+      c3poPos[2] += c3poMovSpeed;
+      if(c3poPos[2] >= 15) {
         walkFront = false;
       }
     }
     else {
-      goombaPos[2] -= goombaMoveSpeed;
-      if(goombaPos[2] <= -5) {
+      c3poPos[2] -= c3poMovSpeed;
+      if(c3poPos[2] <= -15) {
         walkFront = true;
       }
     }
 
-    console.log(goombaPos[2])
-
-    LIBS.translateZ(body.MOVEMATRIX, goombaPos[2]);
+    // inisialisasi part move matrix & static animation
+    body.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(body.MOVEMATRIX, body.MOVEMATRIX, [0.05, 0.95, c3poPos[2]]);
     // LIBS.rotateX(body.MOVEMATRIX, 1.5);
 
+    wraist.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, c3poPos[2]]);
+
     if (walkFront == false) {
-      LIBS.rotateY(body.MOVEMATRIX, Math.PI);
+      LIBS.rotateY(body.MOVEMATRIX, Math.PI*2);
+      LIBS.rotateY(wraist.MOVEMATRIX, Math.PI*2);
     }
 
-    // wraist.draw();
+    leftLeg.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, c3poPos[2]]);
+
+    rightLeg.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, c3poPos[2]]);
+
+    rightHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.33, 2.25,0]);
+    glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
+    glMatrix.mat4.rotateX(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(180));
+
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [1.53, 0,0]);
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 0,0]);
+
+    rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25]);
+
+    leftHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.33, 2.25,c3poPos[2]]);
+    glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
+    glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
+    glMatrix.mat4.rotateX(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
+
+    leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25+c3poPos[2]]);
+    glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
+
+    // rightArm.MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3]);
+
+    leftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [-2.65, 0.75,-0.3]);
+    LIBS.translateZ(leftArm.MOVEMATRIX, c3poPos[2]);
+    glMatrix.mat4.rotateX(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, degrees_to_radians(180));
+
+    // innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
+
+    innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
+    LIBS.translateZ(innerLeftArm.MOVEMATRIX, c3poPos[2]);
+
+
+    // leg animation
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -c3poPos[2]);
+    leftLeg.MOVEMATRIX = LIBS.mul(leftLeg.MOVEMATRIX, temp);
+
+    if (rotateBackLeg1 == true) {
+      c3poFeet1RotatePos -= c3poRotateSpeed;
+      if (c3poFeet1RotatePos <= -0.35) {
+        rotateBackLeg1 = false;
+      }
+    }
+    else {
+      c3poFeet1RotatePos += c3poRotateSpeed;
+      if (c3poFeet1RotatePos >= 0.35) {
+        rotateBackLeg1 = true;
+      }
+    }
+
+    if (walkFront == false) {
+      LIBS.rotateY(leftLeg.MOVEMATRIX, Math.PI);
+    }
+    
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, c3poFeet1RotatePos);
+    leftLeg.MOVEMATRIX = LIBS.mul(leftLeg.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, c3poPos[2]);
+    leftLeg.MOVEMATRIX = LIBS.mul(leftLeg.MOVEMATRIX, temp);
+
+
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -c3poPos[2]);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+
+    if (rotateBackLeg2 == true) {
+      c3poFeet2RotatePos -= c3poRotateSpeed;
+      if (c3poFeet2RotatePos <= -0.35) {
+        rotateBackLeg2 = false;
+      }
+    }
+    else {
+      c3poFeet2RotatePos += c3poRotateSpeed;
+      if (c3poFeet2RotatePos >= 0.35) {
+        rotateBackLeg2 = true;
+      }
+    }
+
+    if (walkFront == false) {
+      LIBS.rotateY(rightLeg.MOVEMATRIX, Math.PI);
+    }
+    
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, c3poFeet2RotatePos);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, c3poPos[2]);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+    
+    // hand animation
+
+    temp = LIBS.get_I4();
+    LIBS.translateX(temp, 0.05);
+    leftShoulder.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, temp);
+    leftHand.MOVEMATRIX = LIBS.mul(leftHand.MOVEMATRIX, temp);
+    leftArm.MOVEMATRIX = LIBS.mul(leftArm.MOVEMATRIX, temp);
+    innerLeftArm.MOVEMATRIX = LIBS.mul(innerLeftArm.MOVEMATRIX, temp);
+
+    temp = LIBS.get_I4();
+    LIBS.translateY(temp, 0.95);
+    leftShoulder.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, temp);
+    leftHand.MOVEMATRIX = LIBS.mul(leftHand.MOVEMATRIX, temp);
+    leftArm.MOVEMATRIX = LIBS.mul(leftArm.MOVEMATRIX, temp);
+    innerLeftArm.MOVEMATRIX = LIBS.mul(innerLeftArm.MOVEMATRIX, temp);
+
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -c3poPos[2]);
+    leftShoulder.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, temp);
+    leftHand.MOVEMATRIX = LIBS.mul(leftHand.MOVEMATRIX, temp);
+    leftArm.MOVEMATRIX = LIBS.mul(leftArm.MOVEMATRIX, temp);
+    innerLeftArm.MOVEMATRIX = LIBS.mul(innerLeftArm.MOVEMATRIX, temp);
+
+    if (rotateBackHand1 == true) {
+      c3poHand1RotatePos -= c3poRotateSpeed;
+      if (c3poHand1RotatePos <= -1.5) {
+        rotateBackHand1 = false;
+      }
+    }
+    else {
+      c3poHand1RotatePos += c3poRotateSpeed;
+      if (c3poHand1RotatePos >= 1.5) {
+        rotateBackHand1 = true;
+      }
+    }
+
+    if (walkFront == false) {
+      LIBS.rotateY(leftShoulder.MOVEMATRIX, Math.PI*2);
+      LIBS.rotateY(leftHand.MOVEMATRIX, Math.PI*2);
+      LIBS.rotateY(leftArm.MOVEMATRIX, Math.PI*2);
+      LIBS.rotateY(innerLeftArm.MOVEMATRIX, Math.PI*2);
+    }
+
+    // temp = LIBS.get_I4();
+    // LIBS.rotateX(temp, );
+    LIBS.rotateX(leftShoulder.MOVEMATRIX, (c3poHand1RotatePos) * 0.005);
+    LIBS.rotateX(leftHand.MOVEMATRIX, c3poHand1RotatePos);
+    LIBS.rotateX(leftArm.MOVEMATRIX, c3poHand1RotatePos);
+    leftArm.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, leftHand.MOVEMATRIX)
+    LIBS.rotateX(innerLeftArm.MOVEMATRIX, c3poHand1RotatePos);
+    
+    temp = LIBS.get_I4();
+    LIBS.translateX(temp, -0.05);
+    leftShoulder.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, temp);
+    leftHand.MOVEMATRIX = LIBS.mul(leftHand.MOVEMATRIX, temp);
+    leftArm.MOVEMATRIX = LIBS.mul(leftArm.MOVEMATRIX, temp);
+    innerLeftArm.MOVEMATRIX = LIBS.mul(innerLeftArm.MOVEMATRIX, temp);
+    
+    temp = LIBS.get_I4();
+    LIBS.translateY(temp, -0.95);
+    leftShoulder.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, temp);
+    leftHand.MOVEMATRIX = LIBS.mul(leftHand.MOVEMATRIX, temp);
+    leftArm.MOVEMATRIX = LIBS.mul(leftArm.MOVEMATRIX, temp);
+    innerLeftArm.MOVEMATRIX = LIBS.mul(innerLeftArm.MOVEMATRIX, temp);
+    
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, c3poPos[2]);
+    leftShoulder.MOVEMATRIX = LIBS.mul(leftShoulder.MOVEMATRIX, temp);
+    leftHand.MOVEMATRIX = LIBS.mul(leftHand.MOVEMATRIX, temp);
+    leftArm.MOVEMATRIX = LIBS.mul(leftArm.MOVEMATRIX, temp);
+    innerLeftArm.MOVEMATRIX = LIBS.mul(innerLeftArm.MOVEMATRIX, temp);
+
+
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -c3poPos[2]);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+
+    // if (rotateBack2 == true) {
+    //   c3poFeet2RotatePos -= c3poRotateSpeed;
+    //   if (c3poFeet2RotatePos <= -0.35) {
+    //     rotateBack2 = false;
+    //   }
+    // }
+    // else {
+    //   c3poFeet2RotatePos += c3poRotateSpeed;
+    //   if (c3poFeet2RotatePos >= 0.35) {
+    //     rotateBack2 = true;
+    //   }
+    // }
+
+    // if (walkFront == false) {
+    //   LIBS.rotateY(rightLeg.MOVEMATRIX, Math.PI);
+    // }
+
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, c3poFeet2RotatePos);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, c3poPos[2]);
+    rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
+
     body.draw();
-    neck.draw();
-    head.draw();
-    rightHand.draw();
-    leftHand.draw();
-    rightArm.draw();
-    leftArm.draw();
-    neckDeco.draw();
-    rightEye.draw();
-    mouth.draw();
+    // legDeco.drawSpline(leg_deco1);
 
     //robo r2d2
     robotBody.draw();
