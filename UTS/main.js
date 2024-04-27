@@ -2105,67 +2105,67 @@ function degrees_to_radians_Lego(degrees) {
 var bodyVertex_Lego = [
   // tubuh bawah
   // depan permukaan kubus
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255,
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
   // kiri permukaan kubus
-  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
   // kanan permukaan kubus
-  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
   // bawah permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
   // atas permukaan kubus
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
   // belakang permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255,
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255,
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
 
   // tubuh atas
   // depan permukaan kubus
-  -1.2, 0, 0.5, 210/255, 180/255, 140/255,
-  1.1, 0, 0.5, 210/255, 180/255, 140/255,
-  0.9, 2, 0.5, 210/255, 180/255, 140/255,
-  -1, 2, 0.5, 210/255, 180/255, 140/255,
+  -1.2, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.1, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
   // kiri permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255,
-  -1, 2, -0.5, 210/255, 180/255, 140/255, 
-  -1, 2, 0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255,
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
   // kanan permukaan kubus
-  1.075, 0, -0.5, 210/255, 180/255, 140/255,
-  0.9, 2, -0.5, 210/255, 180/255, 140/255,
-  0.9, 2, 0.5, 210/255, 180/255, 140/255,
-  1.075, 0, 0.5, 210/255, 180/255, 140/255,
+  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
   // bawah permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255, 
-  1.075, 0, 0.5, 210/255, 180/255, 140/255, 
-  1.075, 0, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
   // atas permukaan kubus
-  -1, 2, -0.5, 210/255, 180/255, 140/255, 
-  -1, 2, 0.5, 210/255, 180/255, 140/255, 
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, 
-  0.9, 2, -0.5, 210/255, 180/255, 140/255, 
+  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
   // belakang permukaan kubus
-  -1.2, 0, -0.5, 210/255, 180/255, 140/255, 
-  1.1, 0, -0.5, 210/255, 180/255, 140/255, 
-  0.9, 1, -0.5, 210/255, 180/255, 140/255, 
-  -1, 1, -0.5, 210/255, 180/255, 140/255 
+  -1.2, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.1, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  0.9, 1, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 1, -0.5, 210/255, 180/255, 140/255 // Warna coklat muda terang untuk tubuh atas
 ];
 
 
@@ -3380,6 +3380,10 @@ var triangle_robot_faces = [
   var robot_arm_upper = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
   var robot_arm_upper2 = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
   var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [1/255, 1/255, 200/255])
+  var robot_eye = generateSphereFull(0 , 0, -0.25, 0.1, 100)
+
+  
+  
   
 
   //Mace Windu
@@ -3501,6 +3505,21 @@ var triangle_robot_faces = [
   
   var triangleRobot2 = new MyObject(triangle_robot_vertex , triangle_robot_faces, shader_fragment_source , shader_vertex_source)
 
+  var robotEye = new MyObject(robot_eye.vertices , robot_eye.faces, shader_fragment_source , shader_vertex_source);
+
+  robotBody.addChild(bottomRobot);
+  robotBody.addChild(robotHead);
+  robotBody.addChild(triangleRobot);
+  robotBody.addChild(triangleRobot2);
+
+  footRobot.addChild(armUpper);
+  footRobot.addChild(armRobot);
+  footRobot.addChild(armExtension);
+
+  footRobot2.addChild(armUpper2);
+  footRobot2.addChild(armRobot2);
+  footRobot2.addChild(armExtension2);
+
   var PROJMATRIX = LIBS.get_projection(
     40,
     CANVAS.width / CANVAS.height,
@@ -3592,11 +3611,11 @@ var triangle_robot_faces = [
   glMatrix.mat4.translate(armExtension2.MOVEMATRIX, armExtension2.MOVEMATRIX,[4.8 , 3 , 0])
 
   armUpper.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armUpper.MOVEMATRIX, armUpper.MOVEMATRIX,[3.9 , 3 , 0])
+  glMatrix.mat4.translate(armUpper.MOVEMATRIX, armUpper.MOVEMATRIX,[7.1 , 3 , 0])
   
 
   armUpper2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armUpper2.MOVEMATRIX, armUpper2.MOVEMATRIX,[7.1 , 3 , 0])
+  glMatrix.mat4.translate(armUpper2.MOVEMATRIX, armUpper2.MOVEMATRIX,[3.9 , 3 , 0])
 
   armRobot.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(armRobot.MOVEMATRIX, armRobot.MOVEMATRIX,[7.9, 1 ,0])
@@ -3637,6 +3656,9 @@ var triangle_robot_faces = [
     triangleRobot2.MOVEMATRIX , degrees_to_radians(180))
     glMatrix.mat4.rotateZ(triangleRobot2.MOVEMATRIX,
       triangleRobot2.MOVEMATRIX , degrees_to_radians(180))
+
+      robotEye.MOVEMATRIX = glMatrix.mat4.create();
+      glMatrix.mat4.translate(robotEye.MOVEMATRIX, robotEye.MOVEMATRIX, [8, 4, 0.27])
 
 
 
@@ -3739,6 +3761,21 @@ var triangle_robot_faces = [
   var goombaPos = [0,0,0];
   var goombaMoveSpeed = 0.05;
   var walkFront = true;
+  let rotateExecuted = false;
+
+    var goombaFeet1Pos = [0,0,0];
+    var goombaFeet2Pos = [0,0,0];
+    var goombaFeet1RotatePos = 0;
+    var rotateBack1 = false;
+    var goombaFeet2RotatePos = 0;
+    var rotateBack2 = true;
+    var goombaRotateSpeed = 0.02;
+
+  //Robo R2d2 animation
+
+  var robotPos = [0,0,0];
+  var robotMoveSpeed = 0.0005;
+  var walkFrontRobot = true;
 
     var goombaFeet1Pos = [0,0,0];
     var goombaFeet2Pos = [0,0,0];
@@ -3815,7 +3852,7 @@ var triangle_robot_faces = [
     bottomRobot.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
     triangleRobot.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     triangleRobot2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-
+    robotEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
     //Mace Windu
     wraist_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -3917,7 +3954,7 @@ var triangle_robot_faces = [
       }
     }
 
-    console.log(goombaPos[2])
+    // console.log(goombaPos[2])
 
     LIBS.translateZ(body.MOVEMATRIX, goombaPos[2]);
     // LIBS.rotateX(body.MOVEMATRIX, 1.5);
@@ -3941,20 +3978,89 @@ var triangle_robot_faces = [
     // legDeco.drawSpline(leg_deco1);
 
     //robo r2d2
+
+    
+
+    if (walkFront == true) {
+      robotPos[2] += robotMoveSpeed;
+      // console.log("run")
+
+      if(!rotateExecuted){
+        LIBS.rotateX(robotBody.MOVEMATRIX , degrees_to_radians(-10))
+        // LIBS.rotateZ(robotHead.MOVEMATRIX , degrees_to_radians(-10))
+        LIBS.rotateX(bottomRobot.MOVEMATRIX , degrees_to_radians(-10))
+        LIBS.rotateX(triangleRobot.MOVEMATRIX , degrees_to_radians(-10))
+        LIBS.rotateX(triangleRobot2.MOVEMATRIX , degrees_to_radians(-10))
+        console.log("run")
+        rotateExecuted = true;
+
+        LIBS.translateZ(robotHead.MOVEMATRIX, -0.68)
+      }
+      
+      if(robotPos[2] >= 10 ) {
+        walkFront = false;
+        // rotateExecuted = false;
+      }
+    }
+    else {
+      robotPos[2] -= robotMoveSpeed;
+      if(robotPos[2] <= -10) {
+        walkFront = true;
+      }
+      if(rotateExecuted){
+         console.log("run2")
+        //  robotBody.MOVEMATRIX = glMatrix.mat4.create();
+        //  glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, 0.0, 0.0]);
+        LIBS.rotateX(robotBody.MOVEMATRIX , degrees_to_radians(10))
+        // LIBS.rotateX(robotHead.MOVEMATRIX , degrees_to_radians(10))
+        LIBS.rotateX(bottomRobot.MOVEMATRIX , degrees_to_radians(10))
+        LIBS.rotateX(triangleRobot.MOVEMATRIX , degrees_to_radians(10))
+        LIBS.rotateX(triangleRobot2.MOVEMATRIX , degrees_to_radians(10))
+        LIBS.translateZ(robotHead.MOVEMATRIX, 0.68)
+        rotateExecuted = false
+      }
+      // rotateExecuted = false;
+    }
+
+    LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(robotHead.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(bottomRobot.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(triangleRobot.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(triangleRobot2.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(armExtension.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(armExtension2.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(armRobot.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(armRobot2.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(armUpper.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(armUpper2.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(footRobot.MOVEMATRIX, robotPos[2]);
+    LIBS.translateZ(footRobot2.MOVEMATRIX, robotPos[2]);
+    
+
+    // LIBS.rotateX(body.MOVEMATRIX, 1.5);
+
+    if (walkFront == false) {
+      LIBS.rotateY(robotBody.MOVEMATRIX, Math.PI);
+    }
+
+
+
+
     robotBody.draw();
-    robotHead.draw();
-    topRobot.draw();
-    armExtension.draw();
-    armExtension2.draw();
-    armUpper.draw();
-    armUpper2.draw();
-    armRobot.draw();
-    armRobot2.draw();
+    // robotHead.draw();
+    // topRobot.draw();
+    // armExtension.draw();
+    // armExtension2.draw();
+    // armUpper.draw();
+    // armUpper2.draw();
+    // armRobot.draw();
+    // armRobot2.draw();
     footRobot.draw();
     footRobot2.draw();
-    bottomRobot.draw();
-    triangleRobot.draw();
-    triangleRobot2.draw();
+    // bottomRobot.draw();
+    // triangleRobot.draw();
+    // triangleRobot2.draw();
+    robotEye.draw();
 
     //Mace Windu
     wraist_Lego.draw();
