@@ -1,79 +1,5 @@
 var GL;
 
-function normalizeScreen(x, y, width, height) {
-  var nx = (2 * x) / width - 1;
-  var ny = (-2 * y) / height + 1;
-
-  return [nx, ny];
-}
-
-function generateBSpline(controlPoint, m, degree) {
-  var curves = [];
-  var knotVector = [];
-
-  var n = controlPoint.length / 2;
-
-  // Calculate the knot values based on the degree and number of control points
-  for (var i = 0; i < n + degree + 1; i++) {
-    if (i < degree + 1) {
-      knotVector.push(0);
-    } else if (i >= n) {
-      knotVector.push(n - degree);
-    } else {
-      knotVector.push(i - degree);
-    }
-  }
-
-  var basisFunc = function (i, j, t) {
-    if (j == 0) {
-      if (knotVector[i] <= t && t < knotVector[i + 1]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    }
-
-    var den1 = knotVector[i + j] - knotVector[i];
-    var den2 = knotVector[i + j + 1] - knotVector[i + 1];
-
-    var term1 = 0;
-    var term2 = 0;
-
-    if (den1 != 0 && !isNaN(den1)) {
-      term1 = ((t - knotVector[i]) / den1) * basisFunc(i, j - 1, t);
-    }
-
-    if (den2 != 0 && !isNaN(den2)) {
-      term2 = ((knotVector[i + j + 1] - t) / den2) * basisFunc(i + 1, j - 1, t);
-    }
-
-    return term1 + term2;
-  };
-
-  for (var t = 0; t < m; t++) {
-    var x = 0;
-    var y = 0;
-
-    var u =
-      (t / m) * (knotVector[controlPoint.length / 2] - knotVector[degree]) +
-      knotVector[degree];
-
-    //C(t)
-    for (var key = 0; key < n; key++) {
-      var C = basisFunc(key, degree, u);
-      // console.log(C);
-      x += controlPoint[key * 2] * C;
-      y += controlPoint[key * 2 + 1] * C;
-      // console.log(t + " " + degree + " " + x + " " + y + " " + C);
-    }
-    curves.push(x);
-    curves.push(y);
-    curves.push(0.03125);
-  }
-  // console.log(curves);
-  return curves;
-}
-
 class MyObject {
   object_vertex = [];
   OBJECT_VERTEX = GL.createBuffer();
@@ -107,7 +33,6 @@ class MyObject {
   _Mmatrix;
   _color;
   _position;
-  uniform_color;
 
   MOVEMATRIX; // WORLD SPACE
 
@@ -142,7 +67,6 @@ class MyObject {
 
     this._color = GL.getAttribLocation(this.SHADER_PROGRAM, "color");
     this._position = GL.getAttribLocation(this.SHADER_PROGRAM, "position");
-    this.uniform_color = GL.getUniformLocation(this.SHADER_PROGRAM, "outColor");
 
     GL.enableVertexAttribArray(this._color);
     GL.enableVertexAttribArray(this._position);
@@ -189,23 +113,6 @@ class MyObject {
         this.child[i].draw();
       }
     }  
-  }
-
-  drawSpline() {
-      GL.useProgram(this.SHADER_PROGRAM);
-      
-      var bspline = generateBSpline(this.object_vertex, 100, 2);
-
-      GL.vertexAttribPointer(this._position, 3, GL.FLOAT, false, 4 * (3 + 3), 0);
-      
-      var bspline_vbo = GL.createBuffer();
-      GL.bindBuffer(GL.ARRAY_BUFFER, bspline_vbo);
-      GL.bufferData(GL.ARRAY_BUFFER, new Float32Array(bspline), GL.STATIC_DRAW);
-
-      GL.uniform3f(this.uniform_color, 1, 1, 1);
-
-      GL.bindBuffer(GL.ARRAY_BUFFER, bspline_vbo);
-      GL.drawArrays(GL.LINE_STRIP, 0, bspline.length / 3);
   }
 
   setRotateMove(PHI, THETA, r) {
@@ -1619,17 +1526,93 @@ function generateSphere2(x, y, z, radius, segments) {
   return { vertices: vertices, faces: faces };
 }
 
+function normalizeScreen(x, y, width, height) {
+  var nx = (2 * x) / width - 1;
+  var ny = (-2 * y) / height + 1;
+
+  return [nx, ny];
+}
+
+function generateBSpline(controlPoint, m, degree) {
+  var curves = [];
+  var knotVector = [];
+
+  var n = controlPoint.length / 2;
+
+  // Calculate the knot values based on the degree and number of control points
+  for (var i = 0; i < n + degree + 1; i++) {
+    if (i < degree + 1) {
+      knotVector.push(0);
+    } else if (i >= n) {
+      knotVector.push(n - degree);
+    } else {
+      knotVector.push(i - degree);
+    }
+  }
+
+  var basisFunc = function (i, j, t) {
+    if (j == 0) {
+      if (knotVector[i] <= t && t < knotVector[i + 1]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
+    var den1 = knotVector[i + j] - knotVector[i];
+    var den2 = knotVector[i + j + 1] - knotVector[i + 1];
+
+    var term1 = 0;
+    var term2 = 0;
+
+    if (den1 != 0 && !isNaN(den1)) {
+      term1 = ((t - knotVector[i]) / den1) * basisFunc(i, j - 1, t);
+    }
+
+    if (den2 != 0 && !isNaN(den2)) {
+      term2 = ((knotVector[i + j + 1] - t) / den2) * basisFunc(i + 1, j - 1, t);
+    }
+
+    return term1 + term2;
+  };
+
+  for (var t = 0; t < m; t++) {
+    var x = 0;
+    var y = 0;
+
+    var u =
+      (t / m) * (knotVector[controlPoint.length / 2] - knotVector[degree]) +
+      knotVector[degree];
+
+    //C(t)
+    for (var key = 0; key < n; key++) {
+      var C = basisFunc(key, degree, u);
+      console.log(C);
+      x += controlPoint[key * 2] * C;
+      y += controlPoint[key * 2 + 1] * C;
+      console.log(t + " " + degree + " " + x + " " + y + " " + C);
+    }
+    curves.push(x);
+    curves.push(y);
+  }
+  console.log(curves);
+  return curves;
+}
+
 function main() {
   var CANVAS = document.getElementById("mycanvas");
 
   CANVAS.width = window.innerWidth;
   CANVAS.height = window.innerHeight;
+
+  var AMORTIZATION = 0.95;
   var THETA = 0,
     PHI = 0;
   var drag = false;
   var x_prev, y_prev;
   var dX = 0,
     dY = 0;
+  var scrollX = 0, scrollY = 0;
 
   
 // test
@@ -1661,14 +1644,6 @@ function main() {
     drag = false;
   };
 
-  var AMORTIZATION = 0.95;
-  var THETA = 0,
-    PHI = 0;
-  var drag = false;
-  var x_prev, y_prev;
-  var dX = 0,
-    dY = 0;
-
   var mouseDown = function (e) {
     drag = true;
     (x_prev = e.pageX), (y_prev = e.pageY);
@@ -1687,23 +1662,25 @@ function main() {
     THETA += dX;
     PHI += dY;
     (x_prev = e.pageX), (y_prev = e.pageY);
-<<<<<<< Updated upstream
-=======
     e.preventDefault();
   };
 
   function zoom(e) {
->>>>>>> Stashed changes
     e.preventDefault();
-  };
+  
+    scale += e.deltaY * -0.01;
+  
+    // Restrict scale
+    scale = Math.min(Math.max(0.125, scale), 4);
+  
+    // Apply scale transform
+    el.style.transform = `scale(${scale})`;
+  }
 
   CANVAS.addEventListener("mousedown", mouseDown, false);
   CANVAS.addEventListener("mouseup", mouseUp, false);
   CANVAS.addEventListener("mouseout", mouseUp, false);
   CANVAS.addEventListener("mousemove", mouseMove, false);
-
-  // window.addEventListener("keydown", keyDown);
-  // window.addEventListener("keyup", keyUp);
 
   try {
     GL = CANVAS.getContext("webgl", { antialias: false });
@@ -1736,14 +1713,6 @@ function main() {
   void main(void){
       gl_FragColor = vec4(vColor,1.0);
   }
-  `;
-
-  var shader_fragment_source2 = `
-        precision mediump float;
-        uniform vec3 outColor;
-        void main(void){
-            gl_FragColor = vec4(outColor,1.);
-        }
   `;
 
   // Mace Windu
@@ -2112,67 +2081,67 @@ function degrees_to_radians_Lego(degrees) {
 var bodyVertex_Lego = [
   // tubuh bawah
   // depan permukaan kubus
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255,
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
   // kiri permukaan kubus
-  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, 
   // kanan permukaan kubus
-  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, 
   // bawah permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
   // atas permukaan kubus
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, 
+  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, 
   // belakang permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh bawah
+  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
+  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255,
+  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255,
 
   // tubuh atas
   // depan permukaan kubus
-  -1.2, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.1, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.2, 0, 0.5, 210/255, 180/255, 140/255,
+  1.1, 0, 0.5, 210/255, 180/255, 140/255,
+  0.9, 2, 0.5, 210/255, 180/255, 140/255,
+  -1, 2, 0.5, 210/255, 180/255, 140/255,
   // kiri permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255,
+  -1, 2, -0.5, 210/255, 180/255, 140/255, 
+  -1, 2, 0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255,
   // kanan permukaan kubus
-  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  1.075, 0, -0.5, 210/255, 180/255, 140/255,
+  0.9, 2, -0.5, 210/255, 180/255, 140/255,
+  0.9, 2, 0.5, 210/255, 180/255, 140/255,
+  1.075, 0, 0.5, 210/255, 180/255, 140/255,
   // bawah permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.075, 0, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.075, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1.175, 0, -0.5, 210/255, 180/255, 140/255, 
+  -1.175, 0, 0.5, 210/255, 180/255, 140/255, 
+  1.075, 0, 0.5, 210/255, 180/255, 140/255, 
+  1.075, 0, -0.5, 210/255, 180/255, 140/255, 
   // atas permukaan kubus
-  -1, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 2, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
+  -1, 2, -0.5, 210/255, 180/255, 140/255, 
+  -1, 2, 0.5, 210/255, 180/255, 140/255, 
+  0.9, 2, 0.5, 210/255, 180/255, 140/255, 
+  0.9, 2, -0.5, 210/255, 180/255, 140/255, 
   // belakang permukaan kubus
-  -1.2, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  1.1, 0, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  0.9, 1, -0.5, 210/255, 180/255, 140/255, // Warna coklat muda terang untuk tubuh atas
-  -1, 1, -0.5, 210/255, 180/255, 140/255 // Warna coklat muda terang untuk tubuh atas
+  -1.2, 0, -0.5, 210/255, 180/255, 140/255, 
+  1.1, 0, -0.5, 210/255, 180/255, 140/255, 
+  0.9, 1, -0.5, 210/255, 180/255, 140/255, 
+  -1, 1, -0.5, 210/255, 180/255, 140/255 
 ];
 
 
@@ -2548,7 +2517,7 @@ var legVertex = [
   -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
 ];
 
-var leg_faces = [
+var triangle_faces = [
   0, 1, 2,
   0, 2, 3,
 
@@ -3300,83 +3269,6 @@ var triangle_robot_faces = [
   var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
-  var leg_deco1 = [0.5, -0.5, 0.6, -0.6];
-
-  // var mouseDown = function (e) {
-  //   leg_deco1.push(
-  //     normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[0]
-  //   );
-  //   leg_deco1.push(
-  //     normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[1]
-  //   );
-  //   console.log(normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[0]);
-  //   console.log(normalizeScreen(e.pageX, e.pageY, CANVAS.width, CANVAS.height)[1]);
-  // };
-
-  CANVAS.addEventListener("mousedown", mouseDown, false);
-
-  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
-    
-  var wraist = new MyObject(wraist_array.vertices, wraist_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightLeg = new MyObject(legVertex, leg_faces, shader_fragment_source, shader_vertex_source);
-  
-  var leftLeg = new MyObject(legVertex, leg_faces, shader_fragment_source, shader_vertex_source);
-
-  var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
-  
-  var neck = new MyObject(neck_array.vertices, neck_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var leftHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var leftShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source)
-
-  var leftArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var innerRightArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
-  
-  var innerLeftArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var neckDeco = new MyObject(neck_deco_array.vertices,neck_deco_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var rightEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var leftEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var innerRightEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var innerLeftEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
-
-  var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
-
-  // var legDeco = new MyObject(leg_deco1,leg_deco1, shader_fragment_source, shader_vertex_source);
-
-  body.addChild(rightArm);
-  body.addChild(leftArm);
-  body.addChild(wraist);
-  body.addChild(rightLeg);
-  body.addChild(leftLeg);
-  rightArm.addChild(innerRightArm);
-  leftArm.addChild(innerLeftArm);
-  body.addChild(rightShoulder);
-  body.addChild(leftShoulder);
-  rightShoulder.addChild(rightHand);
-  leftShoulder.addChild(leftHand);
-  body.addChild(neck);
-  neck.addChild(neckDeco);
-  body.addChild(head)
-  head.addChild(rightEye);
-  head.addChild(leftEye);
-  head.addChild(mouth);
-  rightEye.addChild(innerRightEye);
-  leftEye.addChild(innerLeftEye);
-
   //robot r2d2 array
 
   var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
@@ -3387,10 +3279,6 @@ var triangle_robot_faces = [
   var robot_arm_upper = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
   var robot_arm_upper2 = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
   var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [1/255, 1/255, 200/255])
-  var robot_eye = generateSphereFull(0 , 0, -0.25, 0.1, 100)
-
-  
-  
   
 
   //Mace Windu
@@ -3427,6 +3315,50 @@ var triangle_robot_faces = [
    var hand_array_Lego = generateCylinderVerti_Lego(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
    var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
    var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
+//  =======
+   
+
+
+  
+  var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source);
+    
+  var wraist = new MyObject(wraist_array.vertices, wraist_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightLeg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
+  
+  var leftLeg = new MyObject(legVertex, triangle_faces, shader_fragment_source, shader_vertex_source);
+
+  var body = new MyObject(bodyVertex, body_faces, shader_fragment_source, shader_vertex_source);
+  
+  var neck = new MyObject(neck_array.vertices, neck_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftHand = new MyObject(hand_array.vertices,hand_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftShoulder = new MyObject(shoulder_array.vertices, shoulder_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source)
+
+  var leftArm = new MyObject(arm_array.vertices,arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+  
+  var innerLeftArm = new MyObject(inner_arm_array.vertices,inner_arm_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var neckDeco = new MyObject(neck_deco_array.vertices,neck_deco_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var rightEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var leftEye = new MyObject(eye_array.vertices,eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerRightEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var innerLeftEye = new MyObject(inner_eye_array.vertices,inner_eye_array.faces, shader_fragment_source, shader_vertex_source);
+
+  var mouth = new MyObject(mouthVertex,mouth_faces, shader_fragment_source, shader_vertex_source);
 
   //Mace Windu
   var mulut = new MyObject(mulut_array.vertices, mulut_array.faces, shader_fragment_source, shader_vertex_source);
@@ -3531,21 +3463,6 @@ var triangle_robot_faces = [
   
   var triangleRobot2 = new MyObject(triangle_robot_vertex , triangle_robot_faces, shader_fragment_source , shader_vertex_source)
 
-  var robotEye = new MyObject(robot_eye.vertices , robot_eye.faces, shader_fragment_source , shader_vertex_source);
-
-  robotBody.addChild(bottomRobot);
-  robotBody.addChild(robotHead);
-  robotBody.addChild(triangleRobot);
-  robotBody.addChild(triangleRobot2);
-
-  footRobot.addChild(armUpper);
-  footRobot.addChild(armRobot);
-  footRobot.addChild(armExtension);
-
-  footRobot2.addChild(armUpper2);
-  footRobot2.addChild(armRobot2);
-  footRobot2.addChild(armExtension2);
-
   var PROJMATRIX = LIBS.get_projection(
     40,
     CANVAS.width / CANVAS.height,
@@ -3558,53 +3475,48 @@ var triangle_robot_faces = [
   glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, 0.0]);
   
   rightLeg.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
+  // glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, 0.0]);
   
-<<<<<<< Updated upstream
-  LIBS.translateZ(VIEWMATRIX, -15);
-=======
   
->>>>>>> Stashed changes
   
   leftLeg.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
+  // glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, 0.0]);
 
   body.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(body.MOVEMATRIX, body.MOVEMATRIX, [0.05, 0.95, 0.0]);
+
+  rightHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,0]);
+    glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
+
+    rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25]);
+
+    leftHand.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,0]);
+    glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
+    glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
+
+    leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25]);
+    glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
+
+    rightArm.MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3;])
+
+    leftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
+
+    innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
+    // glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
+
+    innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
 
   neck.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neck.MOVEMATRIX, neck.MOVEMATRIX, [0, 1.5, 0.0]);
 
   head.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.5,-0.25]);
-
-  rightHand.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,0]);
-  glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
-
-  rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25]);
-
-  leftHand.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,0]);
-  glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
-  glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
-
-  leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25]);
-  glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
-
-  rightArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3]);
-
-  leftArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
-
-  innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
-
-  innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
 
   neckDeco.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neckDeco.MOVEMATRIX, neckDeco.MOVEMATRIX, [-0.65, 3.4, 0.0]);
@@ -3641,11 +3553,11 @@ var triangle_robot_faces = [
   glMatrix.mat4.translate(armExtension2.MOVEMATRIX, armExtension2.MOVEMATRIX,[4.8 , 3 , 0])
 
   armUpper.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armUpper.MOVEMATRIX, armUpper.MOVEMATRIX,[7.1 , 3 , 0])
+  glMatrix.mat4.translate(armUpper.MOVEMATRIX, armUpper.MOVEMATRIX,[3.9 , 3 , 0])
   
 
   armUpper2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armUpper2.MOVEMATRIX, armUpper2.MOVEMATRIX,[3.9 , 3 , 0])
+  glMatrix.mat4.translate(armUpper2.MOVEMATRIX, armUpper2.MOVEMATRIX,[7.1 , 3 , 0])
 
   armRobot.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(armRobot.MOVEMATRIX, armRobot.MOVEMATRIX,[7.9, 1 ,0])
@@ -3687,9 +3599,6 @@ var triangle_robot_faces = [
     glMatrix.mat4.rotateZ(triangleRobot2.MOVEMATRIX,
       triangleRobot2.MOVEMATRIX , degrees_to_radians(180))
 
-      robotEye.MOVEMATRIX = glMatrix.mat4.create();
-      glMatrix.mat4.translate(robotEye.MOVEMATRIX, robotEye.MOVEMATRIX, [8, 4, 0.27])
-
 
 
   
@@ -3712,6 +3621,8 @@ var triangle_robot_faces = [
   
   rightLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(rightLeg_Lego.MOVEMATRIX, rightLeg_Lego.MOVEMATRIX, [-6.21, -1, 0.0]);
+  
+  // LIBS.translateZ(VIEWMATRIX, -20);
   
   leftLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(leftLeg_Lego.MOVEMATRIX, leftLeg_Lego.MOVEMATRIX, [-4.89, -1, 0.0]);
@@ -3788,52 +3699,23 @@ var triangle_robot_faces = [
   var time_prev = 0;
 
   // C-3P0
-  var goombaPos = [0,0,0];
-  var goombaMoveSpeed = 0.05;
+  var c3poPos = [0,0,0];
+  var c3poMovSpeed = 0.05;
   var walkFront = true;
-  let rotateExecuted = false;
 
-    var goombaFeet1Pos = [0,0,0];
-    var goombaFeet2Pos = [0,0,0];
-    var goombaFeet1RotatePos = 0;
-    var rotateBack1 = false;
-    var goombaFeet2RotatePos = 0;
-    var rotateBack2 = true;
-    var goombaRotateSpeed = 0.02;
-
-  //Robo R2d2 animation
-
-  var robotPos = [0,0,0];
-  var robotMoveSpeed = 0.0005;
-  var walkFrontRobot = true;
-
-    var goombaFeet1Pos = [0,0,0];
-    var goombaFeet2Pos = [0,0,0];
-    var goombaFeet1RotatePos = 0;
-    var rotateBack1 = false;
-    var goombaFeet2RotatePos = 0;
-    var rotateBack2 = true;
-    var goombaRotateSpeed = 0.02;
+  var c3poFeet1RotatePos = 0;
+  var rotateBackLeg1 = false;
+  var c3poFeet2RotatePos = 0;
+  var rotateBackLeg2 = true;
+  var c3poRotateSpeed = 0.05;
+  var rotateBackHand1 = false;
+  var c3poHand1RotatePos = 0;
 
   var animate = function (time) {
-    var AMORTIZATION = 0.95;
-    
+    var dt = time - time_prev;
     if (time > 0) {
       // mencegah kalau time = null
       var dt = time - time_prev;
-<<<<<<< Updated upstream
-      var dt = time - time_prev;
-    if (!drag) {
-      (dX *= AMORTIZATION), (dY *= AMORTIZATION);
-      (THETA += dX), (PHI += dY);
-    }
-      // else {
-        VIEWMATRIX = LIBS.get_I4();
-        LIBS.translateZ(VIEWMATRIX, -20);
-        LIBS.rotateY(VIEWMATRIX, THETA);
-        LIBS.rotateX(VIEWMATRIX, PHI);
-      // }
-=======
       if (!drag) {
         dX *= AMORTIZATION;
         dY *= AMORTIZATION;
@@ -3846,13 +3728,14 @@ var triangle_robot_faces = [
       LIBS.rotateY(VIEWMATRIX, THETA);
       
       time_prev = time;
->>>>>>> Stashed changes
       // LIBS.rotateX(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateY(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateZ(MOVEMATRIX, dt*0.0004);
       // console.log(dt);
       // time_prev = time;
-      // glMatrix.mat4.rotateY(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateY(VIEWMATRIX, VIEWMATRIX, THETA*0.1);
+      // glMatrix.mat4.rotateX(VIEWMATRIX, VIEWMATRIX, PHI*0.1);
+      // // glMatrix.mat4.rotateY(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, THETA*0.1);
       // glMatrix.mat4.rotateX(shoulder.MOVEMATRIX, shoulder.MOVEMATRIX, -PHI*0.1);
       // glMatrix.mat4.rotateY(hand.MOVEMATRIX, hand.MOVEMATRIX, THETA*0.1);
       // glMatrix.mat4.rotateX(hand.MOVEMATRIX, hand.MOVEMATRIX, PHI*0.1);
@@ -3897,7 +3780,7 @@ var triangle_robot_faces = [
     bottomRobot.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
     triangleRobot.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     triangleRobot2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    robotEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+
 
     //Mace Windu
     wraist_Lego.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -3985,32 +3868,34 @@ var triangle_robot_faces = [
     //   glMatrix.mat4.translate(leg.child[0].MOVEMATRIX, leg.child[0].MOVEMATRIX, [-1.0, 0.0, 0.0]);
     // }
 
+    // C-3PO
     //posisi awal
     if (walkFront == true) {
-      goombaPos[2] += goombaMoveSpeed;
-      if(goombaPos[2] >= 5) {
+      c3poPos[2] += c3poMovSpeed;
+      if(c3poPos[2] >= 15) {
         walkFront = false;
       }
     }
     else {
-      goombaPos[2] -= goombaMoveSpeed;
-      if(goombaPos[2] <= -5) {
+      c3poPos[2] -= c3poMovSpeed;
+      if(c3poPos[2] <= -15) {
         walkFront = true;
       }
     }
 
-    // console.log(goombaPos[2])
-
-    LIBS.translateZ(body.MOVEMATRIX, goombaPos[2]);
+    // inisialisasi part move matrix & static animation
+    body.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(body.MOVEMATRIX, body.MOVEMATRIX, [0.05, 0.95, c3poPos[2]]);
     // LIBS.rotateX(body.MOVEMATRIX, 1.5);
 
+    wraist.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, c3poPos[2]]);
+
     if (walkFront == false) {
-      LIBS.rotateY(body.MOVEMATRIX, Math.PI);
+      LIBS.rotateY(body.MOVEMATRIX, Math.PI*2);
+      LIBS.rotateY(wraist.MOVEMATRIX, Math.PI*2);
     }
 
-<<<<<<< Updated upstream
-    // wraist.draw();
-=======
     leftLeg.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(leftLeg.MOVEMATRIX, leftLeg.MOVEMATRIX, [0.65, -1, c3poPos[2]]);
 
@@ -4018,40 +3903,71 @@ var triangle_robot_faces = [
     glMatrix.mat4.translate(rightLeg.MOVEMATRIX, rightLeg.MOVEMATRIX, [-0.65, -1, c3poPos[2]]);
 
     rightHand.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.53, 1,c3poPos[2]]);
+    glMatrix.mat4.translate(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, [-1.55, 2, 0.095+c3poPos[2]]);
     glMatrix.mat4.rotateZ(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(-8));
+    glMatrix.mat4.rotateX(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, degrees_to_radians(90));
 
     rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.42, 1.3,-0.25+c3poPos[2]]);
+    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.62, 2,1+c3poPos[2]]);
+    glMatrix.mat4.rotateX(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, degrees_to_radians(-100));
 
     leftHand.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.53, 1,c3poPos[2]]);
+    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.55, 2, 1.2+c3poPos[2]]);
     glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(180));
     glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(-8));
+    glMatrix.mat4.rotateX(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, degrees_to_radians(90));
 
     leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.42, 1.3,0.25+ c3poPos[2]]);
+    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.62, 2.5,0.9+c3poPos[2]]);
+    // 
     glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(180));
+    glMatrix.mat4.rotateX(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, degrees_to_radians(100));
 
     rightArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 0.75,-0.3])
+    glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.5, 2.25,1.7])
     LIBS.translateZ(rightArm.MOVEMATRIX, c3poPos[2])
+    LIBS.rotateX(rightArm.MOVEMATRIX, degrees_to_radians(90))
+
 
     leftArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 0.75,-0.3]);
+    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.5, 2.25,1.7]);
     LIBS.translateZ(leftArm.MOVEMATRIX, c3poPos[2])
-
+    LIBS.rotateX(leftArm.MOVEMATRIX, degrees_to_radians(90))
 
     innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 0.645,-0.305]);
+    glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.5, 2.259,1.85]);
     LIBS.translateZ(innerRightArm.MOVEMATRIX, c3poPos[2])
+    LIBS.rotateX(innerRightArm.MOVEMATRIX, degrees_to_radians(90))
 
 
     innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 0.645,-0.305]);
+    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.5, 2.259,1.85]);
     LIBS.translateZ(innerLeftArm.MOVEMATRIX, c3poPos[2])
+    LIBS.rotateX(innerLeftArm.MOVEMATRIX, degrees_to_radians(90))
 
+    neck.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(neck.MOVEMATRIX, neck.MOVEMATRIX, [0, 1.5, c3poPos[2]]);
 
+    head.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(head.MOVEMATRIX, head.MOVEMATRIX, [-0.5, 3.5,-0.25+c3poPos[2]]);
+
+    neckDeco.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(neckDeco.MOVEMATRIX, neckDeco.MOVEMATRIX, [-0.65, 3.4, c3poPos[2]]);
+
+    rightEye.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightEye.MOVEMATRIX, rightEye.MOVEMATRIX, [-0.25, 4.15, 0.065+c3poPos[2]]);
+
+    leftEye.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftEye.MOVEMATRIX, leftEye.MOVEMATRIX, [0.25, 4.15, 0.065+c3poPos[2]]);
+
+    innerRightEye.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerRightEye.MOVEMATRIX, innerRightEye.MOVEMATRIX, [-0.25, 4.15, 0.0675+c3poPos[2]]);
+
+    innerLeftEye.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerLeftEye.MOVEMATRIX, innerLeftEye.MOVEMATRIX, [0.25, 4.15, 0.0675+c3poPos[2]]);
+
+    mouth.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(mouth.MOVEMATRIX, mouth.MOVEMATRIX, [0, 3.65, 0.05+c3poPos[2]]);
 
     // leg animation
     temp = LIBS.get_I4();
@@ -4111,104 +4027,57 @@ var triangle_robot_faces = [
     LIBS.translateZ(temp, c3poPos[2]);
     rightLeg.MOVEMATRIX = LIBS.mul(rightLeg.MOVEMATRIX, temp);
 
->>>>>>> Stashed changes
+
+    if (walkFront == false) {
+      LIBS.rotateY(rightEye.MOVEMATRIX, -Math.PI);
+      LIBS.translateZ(rightEye.MOVEMATRIX, -0.1);
+      LIBS.rotateY(mouth.MOVEMATRIX, Math.PI);
+      LIBS.translateZ(mouth.MOVEMATRIX, -0.1);
+      LIBS.rotateY(leftEye.MOVEMATRIX, Math.PI);
+      LIBS.translateZ(leftEye.MOVEMATRIX, -0.1);
+      LIBS.rotateY(innerLeftEye.MOVEMATRIX, Math.PI);
+      LIBS.translateZ(innerLeftEye.MOVEMATRIX, -0.165);
+      LIBS.rotateY(innerRightEye.MOVEMATRIX, Math.PI);
+      LIBS.translateZ(innerRightEye.MOVEMATRIX, -0.165);
+      LIBS.rotateY(leftShoulder.MOVEMATRIX, degrees_to_radians(190))
+      LIBS.translateZ(leftShoulder.MOVEMATRIX, -1.65)
+      LIBS.translateX(leftShoulder.MOVEMATRIX, -1.1)
+      LIBS.translateZ(leftHand.MOVEMATRIX, -1.3)
+      LIBS.translateZ(leftArm.MOVEMATRIX, -2.1)
+      LIBS.translateZ(innerLeftArm.MOVEMATRIX, -3.675)
+      LIBS.translateZ(leftArm.MOVEMATRIX, -1.3)
+      LIBS.rotateY(rightShoulder.MOVEMATRIX, degrees_to_radians(-190))
+      LIBS.translateZ(rightShoulder.MOVEMATRIX, -1.8)
+      LIBS.translateX(rightShoulder.MOVEMATRIX, 1.1)
+      LIBS.translateZ(rightHand.MOVEMATRIX, -1.4)
+      LIBS.translateX(rightHand.MOVEMATRIX, -0.1)
+      LIBS.translateX(leftHand.MOVEMATRIX, 0.1)
+      LIBS.translateX(rightArm.MOVEMATRIX, -0.1)
+      LIBS.translateX(innerRightArm.MOVEMATRIX, -0.1)
+      LIBS.translateX(leftArm.MOVEMATRIX, 0.1)
+      LIBS.translateX(innerLeftArm.MOVEMATRIX, 0.1)
+      LIBS.translateZ(rightArm.MOVEMATRIX, -3.395)
+      LIBS.translateZ(innerRightArm.MOVEMATRIX, -3.675)
+    }
+
     body.draw();
-    // neck.draw();
-    // head.draw();
-    // rightShoulder.draw();
-    // leftShoulder.draw();
-    // rightArm.draw();
-    // leftArm.draw();
-    // neckDeco.draw();
-    // rightEye.draw();
-    // leftEye.draw();
-    // mouth.draw();
     // legDeco.drawSpline(leg_deco1);
 
     //robo r2d2
-
-    
-
-    if (walkFront == true) {
-      robotPos[2] += robotMoveSpeed;
-      // console.log("run")
-
-      if(!rotateExecuted){
-        LIBS.rotateX(robotBody.MOVEMATRIX , degrees_to_radians(-10))
-        // LIBS.rotateZ(robotHead.MOVEMATRIX , degrees_to_radians(-10))
-        LIBS.rotateX(bottomRobot.MOVEMATRIX , degrees_to_radians(-10))
-        LIBS.rotateX(triangleRobot.MOVEMATRIX , degrees_to_radians(-10))
-        LIBS.rotateX(triangleRobot2.MOVEMATRIX , degrees_to_radians(-10))
-        console.log("run")
-        rotateExecuted = true;
-
-        LIBS.translateZ(robotHead.MOVEMATRIX, -0.68)
-      }
-      
-      if(robotPos[2] >= 10 ) {
-        walkFront = false;
-        // rotateExecuted = false;
-      }
-    }
-    else {
-      robotPos[2] -= robotMoveSpeed;
-      if(robotPos[2] <= -10) {
-        walkFront = true;
-      }
-      if(rotateExecuted){
-         console.log("run2")
-        //  robotBody.MOVEMATRIX = glMatrix.mat4.create();
-        //  glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, 0.0, 0.0]);
-        LIBS.rotateX(robotBody.MOVEMATRIX , degrees_to_radians(10))
-        // LIBS.rotateX(robotHead.MOVEMATRIX , degrees_to_radians(10))
-        LIBS.rotateX(bottomRobot.MOVEMATRIX , degrees_to_radians(10))
-        LIBS.rotateX(triangleRobot.MOVEMATRIX , degrees_to_radians(10))
-        LIBS.rotateX(triangleRobot2.MOVEMATRIX , degrees_to_radians(10))
-        LIBS.translateZ(robotHead.MOVEMATRIX, 0.68)
-        rotateExecuted = false
-      }
-      // rotateExecuted = false;
-    }
-
-    LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(robotHead.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(bottomRobot.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(triangleRobot.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(triangleRobot2.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(armExtension.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(armExtension2.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(armRobot.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(armRobot2.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(armUpper.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(armUpper2.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(footRobot.MOVEMATRIX, robotPos[2]);
-    LIBS.translateZ(footRobot2.MOVEMATRIX, robotPos[2]);
-    
-
-    // LIBS.rotateX(body.MOVEMATRIX, 1.5);
-
-    if (walkFront == false) {
-      LIBS.rotateY(robotBody.MOVEMATRIX, Math.PI);
-    }
-
-
-
-
     robotBody.draw();
-    // robotHead.draw();
-    // topRobot.draw();
-    // armExtension.draw();
-    // armExtension2.draw();
-    // armUpper.draw();
-    // armUpper2.draw();
-    // armRobot.draw();
-    // armRobot2.draw();
+    robotHead.draw();
+    topRobot.draw();
+    armExtension.draw();
+    armExtension2.draw();
+    armUpper.draw();
+    armUpper2.draw();
+    armRobot.draw();
+    armRobot2.draw();
     footRobot.draw();
     footRobot2.draw();
-    // bottomRobot.draw();
-    // triangleRobot.draw();
-    // triangleRobot2.draw();
-    robotEye.draw();
+    bottomRobot.draw();
+    triangleRobot.draw();
+    triangleRobot2.draw();
 
     //Mace Windu
     wraist_Lego.draw();
@@ -4242,6 +4111,6 @@ var triangle_robot_faces = [
     window.requestAnimationFrame(animate);
   };
 
-  animate(0);
+  animate();
 }
 window.addEventListener("load", main);
