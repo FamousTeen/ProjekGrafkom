@@ -113,7 +113,7 @@ class MyObject {
     GL.bindBuffer(GL.ARRAY_BUFFER, this.OBJECT_VERTEX);
 
     GL.vertexAttribPointer(this._position, 3, GL.FLOAT, false, 4 * (3 + 3), 0);
-    GL.vertexAttribPointer(this._color, 3, GL.FLOAT, false, 4 * (3 + 3), 3 * 4  );
+    GL.vertexAttribPointer(this._color, 3, GL.FLOAT, false, 4 * (3 + 3), 3 * 4 );
 
     GL.bindBuffer(GL.ELEMENT_ARRAY_BUFFER, this.OBJECT_FACES);
     GL.drawElements(GL.TRIANGLES, this.object_faces.length, GL.UNSIGNED_SHORT, 0);
@@ -1986,9 +1986,9 @@ function main() {
   cylinderVertex.push(0);
   cylinderVertex.push(0);
   cylinderVertex.push(0);
-  cylinderVertex.push(210/255);
-  cylinderVertex.push(180/255);
-  cylinderVertex.push(140/255);
+  cylinderVertex.push(139/255);
+  cylinderVertex.push(69/255);
+  cylinderVertex.push(19/255);
 
   for (var i = 0; i <= 720; i++) {
     if (i <= 360) {
@@ -1999,17 +1999,17 @@ function main() {
       cylinderVertex.push(x);
       cylinderVertex.push(z1);
       cylinderVertex.push(y);
-      cylinderVertex.push(210/255);
-      cylinderVertex.push(180/255);
-      cylinderVertex.push(140/255);
+      cylinderVertex.push(139/255);
+  cylinderVertex.push(69/255);
+  cylinderVertex.push(19/255);
     }
     if (i == 360) {
       cylinderVertex.push(0);
       cylinderVertex.push(1);
       cylinderVertex.push(0);
-      cylinderVertex.push(210/255);
-      cylinderVertex.push(180/255);
-      cylinderVertex.push(140/255);
+      cylinderVertex.push(139/255);
+  cylinderVertex.push(69/255);
+  cylinderVertex.push(19/255);
     }
     if (i >= 360) {
       var x =
@@ -2021,9 +2021,9 @@ function main() {
       cylinderVertex.push(x);
       cylinderVertex.push(z2);
       cylinderVertex.push(y);
-      cylinderVertex.push(210/255);
-      cylinderVertex.push(180/255);
-      cylinderVertex.push(140/255);
+      cylinderVertex.push(139/255);
+  cylinderVertex.push(69/255);
+  cylinderVertex.push(19/255);
     }
     if (i == 720) {
       var x =
@@ -2034,9 +2034,9 @@ function main() {
         cylinderVertex.push(x);
       cylinderVertex.push(1);
       cylinderVertex.push(y);
-      cylinderVertex.push(210/255);
-      cylinderVertex.push(180/255);
-      cylinderVertex.push(140/255);
+      cylinderVertex.push(139/255);
+  cylinderVertex.push(69/255);
+  cylinderVertex.push(19/255);
     }
   }
 
@@ -2161,68 +2161,68 @@ function degrees_to_radians_Lego(degrees) {
   // body
 var bodyVertex_Lego = [
   // tubuh bawah
-  // depan permukaan kubus
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255,
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  // kiri permukaan kubus
-  -1.175, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  -1.175, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  // kanan permukaan kubus
-  1.075, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  1.075, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  1.075, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  1.075, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  // bawah permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  -1.2, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  1.1, -0.5, 0.5, 210/255, 180/255, 140/255, 
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  // atas permukaan kubus
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, 0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255, 
-  // belakang permukaan kubus
-  -1.2, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  1.1, -0.5, -0.5, 210/255, 180/255, 140/255, 
-  1.1, 0.0625, -0.5, 210/255, 180/255, 140/255,
-  -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255,
+    // depan permukaan kubus
+    -1.2, -0.5, 0.5, 210/255, 180/255, 140/255,
+    1.1, -0.5, 0.5, 210/255, 180/255, 140/255,
+    1.1, 0.0625, 0.5, 210/255, 180/255, 140/255,
+    -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255,
+    // kiri permukaan kubus
+    -1.175, -0.5, -0.5, 210/255, 180/255, 140/255,
+    -1.175, 0.0625, -0.5, 210/255, 180/255, 140/255,
+    -1.175, 0.0625, 0.5, 210/255, 180/255, 140/255,
+    -1.175, -0.5, 0.5, 210/255, 180/255, 140/255,
+      // kanan permukaan kubus
+      1.075, -0.5, -0.5, 210/255, 180/255, 140/255,
+      1.075, 0.0625, -0.5, 210/255, 180/255, 140/255,
+      1.075, 0.0625, 0.5, 210/255, 180/255, 140/255,
+      1.075, -0.5, 0.5, 210/255, 180/255, 140/255,
+      // bawah permukaan kubus
+      -1.2, -0.5, -0.5, 210/255, 180/255, 140/255,
+      -1.2, -0.5, 0.5, 210/255, 180/255, 140/255,
+      1.1, -0.5, 0.5, 210/255, 180/255, 140/255,
+      1.1, -0.5, -0.5, 210/255, 180/255, 140/255,
+      // atas permukaan kubus
+    -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255,
+    -1.2, 0.0625, 0.5, 210/255, 180/255, 140/255,
+    1.1, 0.0625, 0.5, 210/255, 180/255, 140/255,
+    1.1, 0.0625, -0.5, 210/255, 180/255, 140/255,
+    // belakang permukaan kubus
+    -1.2, -0.5, -0.5, 210/255, 180/255, 140/255,
+    1.1, -0.5, -0.5, 210/255, 180/255, 140/255,
+    1.1, 0.0625, -0.5, 210/255, 180/255, 140/255,
+    -1.2, 0.0625, -0.5, 210/255, 180/255, 140/255,
 
-  // tubuh atas
-  // depan permukaan kubus
-  -1.2, 0, 0.5, 210/255, 180/255, 140/255,
-  1.1, 0, 0.5, 210/255, 180/255, 140/255,
-  0.9, 2, 0.5, 210/255, 180/255, 140/255,
-  -1, 2, 0.5, 210/255, 180/255, 140/255,
-  // kiri permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255,
-  -1, 2, -0.5, 210/255, 180/255, 140/255, 
-  -1, 2, 0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255,
-  // kanan permukaan kubus
-  1.075, 0, -0.5, 210/255, 180/255, 140/255,
-  0.9, 2, -0.5, 210/255, 180/255, 140/255,
-  0.9, 2, 0.5, 210/255, 180/255, 140/255,
-  1.075, 0, 0.5, 210/255, 180/255, 140/255,
-  // bawah permukaan kubus
-  -1.175, 0, -0.5, 210/255, 180/255, 140/255, 
-  -1.175, 0, 0.5, 210/255, 180/255, 140/255, 
-  1.075, 0, 0.5, 210/255, 180/255, 140/255, 
-  1.075, 0, -0.5, 210/255, 180/255, 140/255, 
-  // atas permukaan kubus
-  -1, 2, -0.5, 210/255, 180/255, 140/255, 
-  -1, 2, 0.5, 210/255, 180/255, 140/255, 
-  0.9, 2, 0.5, 210/255, 180/255, 140/255, 
-  0.9, 2, -0.5, 210/255, 180/255, 140/255, 
-  // belakang permukaan kubus
-  -1.2, 0, -0.5, 210/255, 180/255, 140/255, 
-  1.1, 0, -0.5, 210/255, 180/255, 140/255, 
-  0.9, 1, -0.5, 210/255, 180/255, 140/255, 
-  -1, 1, -0.5, 210/255, 180/255, 140/255 
+    // tubuh atas
+    // kiri permukaan kubus
+    -1.175, 0, -0.5, 210/255, 180/255, 140/255,
+    -1, 2, -0.5, 210/255, 180/255, 140/255,
+    -1, 2, 0.5, 210/255, 180/255, 140/255,
+    -1.175, 0, 0.5, 210/255, 180/255, 140/255,
+      // kanan permukaan kubus
+      1.075, 0, -0.5, 210/255, 180/255, 140/255,
+      0.9, 2, -0.5, 210/255, 180/255, 140/255,
+      0.9, 2, 0.5, 210/255, 180/255, 140/255,
+      1.075, 0, 0.5, 210/255, 180/255, 140/255,
+      // bawah permukaan kubus
+      -1.175, 0, -0.5, 210/255, 180/255, 140/255,
+      -1.175, 0, 0.5, 210/255, 180/255, 140/255,
+      1.075, 0, 0.5, 210/255, 180/255, 140/255,
+      1.075, 0, -0.5, 210/255, 180/255, 140/255,
+      // atas permukaan kubus
+    -1, 2, -0.5, 210/255, 180/255, 140/255,
+    -1, 2, 0.5, 210/255, 180/255, 140/255,
+    0.9, 2, 0.5, 210/255, 180/255, 140/255,
+    0.9, 2, -0.5, 210/255, 180/255, 140/255,
+
+    -1.2, 0, 0.5,210/255, 180/255, 140/255,
+    1.1, 0, 0.5,210/255, 180/255, 140/255,
+    0.9, 2, 0.5, 210/255, 180/255, 140/255,
+    -1, 2, 0.5, 210/255, 180/255, 140/255,
+
+    -1.2, 0, -0.5,210/255, 180/255, 140/255,
+    1.1, 0, -0.5,  210/255, 180/255, 140/255,
+    0.9, 2, -0.5,  210/255, 180/255, 140/255,
+    -1, 2, -0.5,    210/255, 180/255, 140/255
 ];
 
 
@@ -3401,11 +3401,11 @@ var triangle_robot_faces = [
    var head_array_Lego = generateCylinder_Lego(0, 0, -0.25, 0.5, 100);
    var shoulder_array_Lego = generateSphere2_Lego(0, 0, -0.25, 0.5, 100);
  
-   var neck_array_Lego = generateCylinderVerti_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
+   var neck_array_Lego = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2), [139/255, 69/255, 19/255]);
    var neck_deco_array_Lego = generateCylinderHorizon_Lego(1, 0.3, (CANVAS.width / 7), (CANVAS.height / 7));
  
    var wraist_array_Lego = generateCylinderHorizon_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
-   var hand_array_Lego = generateCylinderVerti_Lego(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3));
+   var hand_array_Lego = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [210/255, 180/255, 140/255]);
    var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
    var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
 //  =======
@@ -4274,6 +4274,16 @@ var triangle_robot_faces = [
       LIBS.translateX(frontBodyWTexture.MOVEMATRIX, -0.1)
     }
 
+    // C-3PO
+    body.draw();
+    legDeco.drawSpline(0.533);
+    legDeco2.drawSpline(0.533);
+    legDeco3.drawSpline(0.533);
+    legDeco4.drawSpline(0.533);
+    backBodyWTexture.drawWTexture();
+    frontBodyWTexture.drawWTexture();
+    // legDeco.drawSpline(leg_deco1);
+
     //robo r2d2
 
     
@@ -4556,16 +4566,6 @@ var triangle_robot_faces = [
     // triangleRobot2.draw();
     robotEye.draw();
     robotSocketEye.draw();
-
-    // C-3PO
-    body.draw();
-    legDeco.drawSpline(0.533);
-    legDeco2.drawSpline(0.533);
-    legDeco3.drawSpline(0.533);
-    legDeco4.drawSpline(0.533);
-    backBodyWTexture.drawWTexture();
-    frontBodyWTexture.drawWTexture();
-    // legDeco.drawSpline(leg_deco1);
 
     //Mace Windu buat animasi gerak
     
