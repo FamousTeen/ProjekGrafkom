@@ -144,9 +144,9 @@ class MyObject {
     }  
   }
 
-  drawSpline() {
+  drawSpline(z) {
       GL.useProgram(this.SHADER_PROGRAM);
-      var bspline = generateBSpline(this.object_vertex, 100, 2);
+      var bspline = generateBSpline(this.object_vertex, 100, 2, z);
 
       var bspline_vbo = GL.createBuffer();
       GL.bindBuffer(GL.ARRAY_BUFFER, bspline_vbo);
@@ -1577,7 +1577,7 @@ function normalizeScreen(x, y, width, height) {
   return [nx, ny];
 }
 
-function generateBSpline(controlPoint, m, degree) {
+function generateBSpline(controlPoint, m, degree, z) {
   var curves = [];
   var knotVector = [];
 
@@ -1638,7 +1638,7 @@ function generateBSpline(controlPoint, m, degree) {
     }
     curves.push(x);
     curves.push(y);
-    curves.push(0.533)
+    curves.push(z)
   }
   // console.log(curves);
   return curves;
@@ -4559,10 +4559,10 @@ var triangle_robot_faces = [
 
     // C-3PO
     body.draw();
-    legDeco.drawSpline();
-    legDeco2.drawSpline();
-    legDeco3.drawSpline();
-    legDeco4.drawSpline();
+    legDeco.drawSpline(0.533);
+    legDeco2.drawSpline(0.533);
+    legDeco3.drawSpline(0.533);
+    legDeco4.drawSpline(0.533);
     backBodyWTexture.drawWTexture();
     frontBodyWTexture.drawWTexture();
     // legDeco.drawSpline(leg_deco1);
