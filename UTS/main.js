@@ -4516,7 +4516,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
       robotSocketEye.MOVEMATRIX = glMatrix.mat4.create();
       glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,3.35 , 0.3 ])
-      glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , degrees_to_radians(90))
+      glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
    
     LIBS.translateZ(topRobot.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
@@ -4551,12 +4551,12 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
         // console.log("run2")
        //  robotBody.MOVEMATRIX = glMatrix.mat4.create();
        //  glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, 0.0, 0.0]);
-       LIBS.rotateX(robotBody.MOVEMATRIX , degrees_to_radians(10))
+       LIBS.rotateX(robotBody.MOVEMATRIX , LIBS.degToRad(10))
        LIBS.translateZ(topRobot.MOVEMATRIX,0.68)
-       // LIBS.rotateX(robotHead.MOVEMATRIX , degrees_to_radians(10))
-       LIBS.rotateX(bottomRobot.MOVEMATRIX , degrees_to_radians(10))
-       LIBS.rotateX(triangleRobot.MOVEMATRIX , degrees_to_radians(10))
-       LIBS.rotateX(triangleRobot2.MOVEMATRIX , degrees_to_radians(10))
+       // LIBS.rotateX(robotHead.MOVEMATRIX , LIBS.degToRad(10))
+       LIBS.rotateX(bottomRobot.MOVEMATRIX , LIBS.degToRad(10))
+       LIBS.rotateX(triangleRobot.MOVEMATRIX , LIBS.degToRad(10))
+       LIBS.rotateX(triangleRobot2.MOVEMATRIX , LIBS.degToRad(10))
        LIBS.translateZ(robotHead.MOVEMATRIX, 0.68)
        LIBS.translateZ(robotEye.MOVEMATRIX, 0.68)
        LIBS.translateZ(robotSocketEye.MOVEMATRIX, 0.68)
