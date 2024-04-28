@@ -1,12 +1,40 @@
 var LIBS = {
-
+  loadTexture: function(image_URL){
+    var texture = GL.createTexture();
+  
+    var image = new Image();
+    image.src = image_URL;
+    image.onload = function(e) {
+      GL.bindTexture(GL.TEXTURE_2D, texture);
+      GL.pixelStorei(GL.UNPACK_FLIP_Y_WEBGL, true);
+      GL.texImage2D(GL.TEXTURE_2D, 0, GL.RGBA, GL.RGBA, GL.UNSIGNED_BYTE, image);
+      // GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.LINEAR);
+      // GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.LINEAR);
+      // GL.generateMipmap(GL.TEXTURE_2D);
+  
+  
+  
+      GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.CLAMP_TO_EDGE);
+      GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.CLAMP_TO_EDGE);
+      // GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_S, GL.REPEAT);
+      // GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_WRAP_T, GL.MIRRORED_REPEAT);
+      GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
+      GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST); 
+      
+      // GL.generateMipmap(GL.TEXTURE_2D);
+        
+  
+      GL.bindTexture(GL.TEXTURE_2D, null);
+    };
+  
+    return texture;
+    },
+  
   degToRad: function(angle){
 
     return(angle*Math.PI/180);
 
   },
-
-
 
   get_projection: function(angle, a, zMin, zMax) {
 
