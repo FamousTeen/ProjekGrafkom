@@ -180,6 +180,62 @@ class MyObject {
   }
 }
 
+//Environment
+
+//Environment 
+
+var cube_vertex = [
+  -30, -30, -30,     1, 1, 0,
+  30, -30, -30,     1, 1, 0,
+  30,  30, -30,     1, 1, 0,
+  -30,  30, -30,     1, 1, 0,
+
+  // -1, -1, 1,     0, 0, 1,
+  // 1, -1, 1,     0, 0, 1,
+  // 1,  1, 1,     0, 0, 1,
+  // -1,  1, 1,     0, 0, 1,
+
+  -30, -30, -30,     0, 1, 1,
+  -30,  30, -30,     0, 1, 1,
+  -30,  30,  30,     0, 1, 1,
+  -30, -30,  30,     0, 1, 1,
+
+  30, -30, -30,     1, 0, 0,
+  30,  30, -30,     1, 0, 0,
+  30,  30,  30,     1, 0, 0,
+  30, -30,  30,     1, 0, 0,
+
+  -30, -30, -30,     1, 0, 1,
+  -30, -30,  30,     1, 0, 1,
+  30, -30,  30,     1, 0, 1,
+  30, -30, -30,     1, 0, 1,
+
+  -30, 30, -30,     0, 1, 0,
+  -30, 30,  30,     0, 1, 0,
+  30, 30,  30,     0, 1, 0,
+  30, 30, -30,     0, 1, 0 
+];
+
+var cube_faces = [
+  0, 1, 2,
+  0, 2, 3,
+
+  4, 5, 6,
+  4, 6, 7,
+
+  8, 9, 10,
+  8, 10, 11,
+
+  12, 13, 14,
+  12, 14, 15,
+
+  16, 17, 18,
+  16, 18, 19,
+
+  20, 21, 22,
+  20, 22, 23
+];
+
 //Mace Windu
 function generateMulut_Lego (x, y, radius, segments){
   var segments = 50;
@@ -3412,6 +3468,11 @@ var triangle_robot_faces = [
    
 
 
+//environment
+var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
+
+
+//=======
   
   var head = new MyObject(head_array.vertices, head_array.faces, shader_fragment_source, shader_vertex_source, "");
     
@@ -3604,6 +3665,12 @@ var triangle_robot_faces = [
   footRobot2.addChild(armUpper2);
   footRobot2.addChild(armRobot2);
   footRobot2.addChild(armExtension2);
+
+  //Environment
+
+  var hangar = new MyObject(cube_vertex , cube_faces , shader_fragment_source , shader_vertex_source, "");
+  var planet1 = new MyObject(planet1_array.vertices , planet1_array.faces , shader_fragment_source , shader_vertex_source , "")
+
 
   var PROJMATRIX = LIBS.get_projection(
     40,
@@ -3846,6 +3913,14 @@ var triangle_robot_faces = [
   neckDeco_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neckDeco_Lego.MOVEMATRIX, neckDeco_Lego.MOVEMATRIX, [-6.0, 3.4, 0.0]);
 
+  //Environment
+
+  hangar.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(hangar.MOVEMATRIX , hangar.MOVEMATRIX , [10 , 28.4 , 0])
+
+  planet1.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(planet1.MOVEMATRIX , planet1.MOVEMATRIX , [8 , 25 ,80])
+
   
   // Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -4002,6 +4077,11 @@ var triangle_robot_faces = [
     mata2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     mulut.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
+
+    //Environment
+    
+    hangar.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    planet1.setuniformmatrix4(PROJMATRIX , VIEWMATRIX);
 
 
     // wraist.setIdentityMove();
@@ -4345,81 +4425,79 @@ var triangle_robot_faces = [
       // rotateExecuted = false;
     }
 
-    
-  robotBody.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, 0.0, 0.0]);
+    robotBody.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, -1.05, 0.0]);
 
   robotHead.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(robotHead.MOVEMATRIX, robotHead.MOVEMATRIX, [6, 4, 0.27])
+  glMatrix.mat4.translate(robotHead.MOVEMATRIX, robotHead.MOVEMATRIX, [6, 2.95, 0.27])
 
   // glMatrix.mat4.rotateX(robotHead.MOVEMATRIX,
-  // robotHead.MOVEMATRIX , LIBS.degToRad(180 ))
+  // robotHead.MOVEMATRIX , degrees_to_radians(180 ))
 
   topRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(topRobot.MOVEMATRIX, topRobot.MOVEMATRIX, [6, 4.2, 0])
+  glMatrix.mat4.translate(topRobot.MOVEMATRIX, topRobot.MOVEMATRIX, [6, 3.15, 0])
 
   armExtension.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armExtension.MOVEMATRIX, armExtension.MOVEMATRIX,[6.2 , 3 , 0])
+  glMatrix.mat4.translate(armExtension.MOVEMATRIX, armExtension.MOVEMATRIX,[6.2 , 1.95 , 0])
 
   armExtension2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armExtension2.MOVEMATRIX, armExtension2.MOVEMATRIX,[4.8 , 3 , 0])
+  glMatrix.mat4.translate(armExtension2.MOVEMATRIX, armExtension2.MOVEMATRIX,[4.8 , 1.95 , 0])
 
   armUpper.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armUpper.MOVEMATRIX, armUpper.MOVEMATRIX,[7.1 , 3 , 0])
+  glMatrix.mat4.translate(armUpper.MOVEMATRIX, armUpper.MOVEMATRIX,[7.1 , 1.95 , 0])
   
 
   armUpper2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armUpper2.MOVEMATRIX, armUpper2.MOVEMATRIX,[3.9 , 3 , 0])
+  glMatrix.mat4.translate(armUpper2.MOVEMATRIX, armUpper2.MOVEMATRIX,[3.9 , 1.95 , 0])
 
   armRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armRobot.MOVEMATRIX, armRobot.MOVEMATRIX,[7.9, 1 ,0])
+  glMatrix.mat4.translate(armRobot.MOVEMATRIX, armRobot.MOVEMATRIX,[7.9, -0.05 ,0])
   glMatrix.mat4.rotateY(armRobot.MOVEMATRIX,
     armRobot.MOVEMATRIX, LIBS.degToRad(90));
 
   armRobot2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(armRobot2.MOVEMATRIX, armRobot2.MOVEMATRIX,[4.7, 1 ,0])
+  glMatrix.mat4.translate(armRobot2.MOVEMATRIX, armRobot2.MOVEMATRIX,[4.7, -0.05 ,0])
   glMatrix.mat4.rotateY(armRobot2.MOVEMATRIX,
     armRobot2.MOVEMATRIX, LIBS.degToRad(90));
   
 
   footRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(footRobot.MOVEMATRIX, footRobot.MOVEMATRIX,[7.8, 0 ,0])
+  glMatrix.mat4.translate(footRobot.MOVEMATRIX, footRobot.MOVEMATRIX,[7.8, -1.05 ,0])
   glMatrix.mat4.rotateY(footRobot.MOVEMATRIX,
   footRobot.MOVEMATRIX, LIBS.degToRad(90));
   // glMatrix.mat4.rotateY(footRobot.MOVEMATRIX,
   // footRobot.MOVEMATRIX , LIBS.degToRad(180))
 
   footRobot2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(footRobot2.MOVEMATRIX, footRobot2.MOVEMATRIX,[4.3, 0 ,0])
+  glMatrix.mat4.translate(footRobot2.MOVEMATRIX, footRobot2.MOVEMATRIX,[4.3, -1.05 ,0])
   glMatrix.mat4.rotateY(footRobot2.MOVEMATRIX,
   footRobot2.MOVEMATRIX, LIBS.degToRad(90));
   glMatrix.mat4.rotateY(footRobot2.MOVEMATRIX,
     footRobot2.MOVEMATRIX , LIBS.degToRad(180))
 
   bottomRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(bottomRobot.MOVEMATRIX, bottomRobot.MOVEMATRIX,[6 , -0.46 , 0])
+  glMatrix.mat4.translate(bottomRobot.MOVEMATRIX, bottomRobot.MOVEMATRIX,[6 , -1.51 , 0])
 
   triangleRobot.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(triangleRobot.MOVEMATRIX , triangleRobot.MOVEMATRIX , [6.8 ,-0.5 ,0 ])
+  glMatrix.mat4.translate(triangleRobot.MOVEMATRIX , triangleRobot.MOVEMATRIX , [6.8 ,-1.55 ,0 ])
   glMatrix.mat4.rotateX(triangleRobot.MOVEMATRIX,
     triangleRobot.MOVEMATRIX , LIBS.degToRad(180))
 
     triangleRobot2.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(triangleRobot2.MOVEMATRIX , triangleRobot.MOVEMATRIX , [-1.6   ,-0.01 ,0 ])
+  glMatrix.mat4.translate(triangleRobot2.MOVEMATRIX , triangleRobot.MOVEMATRIX , [-1.6   ,0.01 ,0 ])
   glMatrix.mat4.rotateX(triangleRobot2.MOVEMATRIX,
     triangleRobot2.MOVEMATRIX , LIBS.degToRad(180))
     glMatrix.mat4.rotateZ(triangleRobot2.MOVEMATRIX,
       triangleRobot2.MOVEMATRIX , LIBS.degToRad(180))
 
       robotEye.MOVEMATRIX = glMatrix.mat4.create();
-      glMatrix.mat4.translate(robotEye.MOVEMATRIX, robotEye.MOVEMATRIX, [6, 4.4, 0.4])
+      glMatrix.mat4.translate(robotEye.MOVEMATRIX, robotEye.MOVEMATRIX, [6, 3.35, 0.4])
       glMatrix.mat4.rotateX(robotEye.MOVEMATRIX , robotEye.MOVEMATRIX , LIBS.degToRad(90))
      
 
       robotSocketEye.MOVEMATRIX = glMatrix.mat4.create();
-      glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,4.4 , 0.3 ])
+      glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,3.35 , 0.3 ])
       glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
-   
 
     LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotHead.MOVEMATRIX, robotPos[2]);
@@ -4443,10 +4521,10 @@ var triangle_robot_faces = [
 
     if (walkFront == false) {
       LIBS.rotateY(robotBody.MOVEMATRIX, Math.PI);
+      
       LIBS.rotateY(robotEye.MOVEMATRIX, Math.PI);
       LIBS.translateZ(robotEye.MOVEMATRIX , -0.75);
       LIBS.rotateY(robotSocketEye.MOVEMATRIX, Math.PI);
-
       LIBS.translateZ(robotSocketEye.MOVEMATRIX , -0.5);
       // LIBS.translateZ()
       // if(rotateExecuted){
@@ -4885,6 +4963,12 @@ var triangle_robot_faces = [
     saber4.draw();
     saber5.draw();
     saber6.draw();
+
+
+     //Environment
+
+     hangar.draw();
+     planet1.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
