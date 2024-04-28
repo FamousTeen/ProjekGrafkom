@@ -1657,7 +1657,7 @@ function main() {
   var x_prev, y_prev;
   var dX = 0,
     dY = 0;
-  var scrollX = 0, scrollY = 0;
+  var scale = -20;
 
   
 // test
@@ -1695,11 +1695,6 @@ function main() {
     e.preventDefault();
     return false;
   };
-
-  var legDecoVertices = [0.366666666, 0.45, 0.066666666, 0.125, 1.15, -0.5];
-  var legDecoVertices2 = [0.566666666, 0.45, 0.166666666, 0.225, 1.15, -0.2];
-  var legDecoVertices3 = [0.5-0.65, -0.725, 0.2-0.65, -0.25, -0.5-0.65, -0.25];
-  var legDecoVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
   
   // var mouseDown = function (e) {
   //   legDecoVertices.push(
@@ -1728,19 +1723,14 @@ function main() {
   function zoom(e) {
     e.preventDefault();
   
-    scale += e.deltaY * -0.01;
-  
-    // Restrict scale
-    scale = Math.min(Math.max(0.125, scale), 4);
-  
-    // Apply scale transform
-    el.style.transform = `scale(${scale})`;
+    scale -= e.deltaY*0.005;
   }
 
   CANVAS.addEventListener("mousedown", mouseDown, false);
   CANVAS.addEventListener("mouseup", mouseUp, false);
   CANVAS.addEventListener("mouseout", mouseUp, false);
   CANVAS.addEventListener("mousemove", mouseMove, false);
+  CANVAS.addEventListener("wheel", zoom, false);
 
   try {
     GL = CANVAS.getContext("webgl", { antialias: false });
@@ -3365,6 +3355,11 @@ var triangle_robot_faces = [
   var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
+  var legDecoVertices = [0.366666666, 0.45, 0.066666666, 0.125, 1.15, -0.5];
+  var legDecoVertices2 = [0.566666666, 0.45, 0.166666666, 0.225, 1.15, -0.2];
+  var legDecoVertices3 = [0.5-0.65, -0.725, 0.2-0.65, -0.25, -0.5-0.65, -0.25];
+  var legDecoVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
+
   //robot r2d2 array
 
   var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
@@ -3912,10 +3907,10 @@ var triangle_robot_faces = [
         PHI += dY;
       }
       VIEWMATRIX = LIBS.get_I4();
-      LIBS.translateZ(VIEWMATRIX, -20);
+      LIBS.translateZ(VIEWMATRIX, scale);
+      console.log(scale)
       LIBS.rotateX(VIEWMATRIX, PHI);
       LIBS.rotateY(VIEWMATRIX, THETA);
-      
       time_prev = time;
       // LIBS.rotateX(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateY(MOVEMATRIX, dt*0.0004);
