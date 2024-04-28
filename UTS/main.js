@@ -2599,6 +2599,61 @@ var bodyVertex_Lego = [
 
     return { vertices: cylinderVertex, faces: cylinder_faces };
   }
+  //Environment 
+
+var cube_vertex = [
+  -30, -30, -30,     1, 1, 0,
+  30, -30, -30,     1, 1, 0,
+  30,  30, -30,     1, 1, 0,
+  -30,  30, -30,     1, 1, 0,
+
+  // -1, -1, 1,     0, 0, 1,
+  // 1, -1, 1,     0, 0, 1,
+  // 1,  1, 1,     0, 0, 1,
+  // -1,  1, 1,     0, 0, 1,
+
+  -30, -30, -30,     0, 1, 1,
+  -30,  30, -30,     0, 1, 1,
+  -30,  30,  30,     0, 1, 1,
+  -30, -30,  30,     0, 1, 1,
+
+  30, -30, -30,     1, 0, 0,
+  30,  30, -30,     1, 0, 0,
+  30,  30,  30,     1, 0, 0,
+  30, -30,  30,     1, 0, 0,
+
+  -30, -30, -30,     1, 0, 1,
+  -30, -30,  30,     1, 0, 1,
+  30, -30,  30,     1, 0, 1,
+  30, -30, -30,     1, 0, 1,
+
+  -30, 30, -30,     0, 1, 0,
+  -30, 30,  30,     0, 1, 0,
+  30, 30,  30,     0, 1, 0,
+  30, 30, -30,     0, 1, 0 
+];
+
+var cube_faces = [
+  0, 1, 2,
+  0, 2, 3,
+
+  4, 5, 6,
+  4, 6, 7,
+
+  8, 9, 10,
+  8, 10, 11,
+
+  12, 13, 14,
+  12, 14, 15,
+
+  16, 17, 18,
+  16, 18, 19,
+
+  20, 21, 22,
+  20, 22, 23
+];
+
+
 
   // C3P0
 
@@ -3466,6 +3521,8 @@ var triangle_robot_faces = [
    var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
 //  =======
    
+// Environment
+var envi = new MyObject(cube_vertex, cube_faces, shader_fragment_source, shader_vertex_source, "");
 
 
 //environment
@@ -3679,6 +3736,11 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     100
   );
   var VIEWMATRIX = LIBS.get_I4();
+
+// Environment
+   envi.MOVEMATRIX = glMatrix.mat4.create();
+
+  // C-3PO
 
   wraist.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, 0.0]);
@@ -4000,7 +4062,8 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       // glMatrix.mat4.rotateX(hand.MOVEMATRIX, hand.MOVEMATRIX, PHI*0.1);
     }
 
-
+// Environment
+envi.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
     // C-3PO
     wraist.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -4963,12 +5026,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     saber4.draw();
     saber5.draw();
     saber6.draw();
-
-
-     //Environment
-
-     hangar.draw();
-     planet1.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
