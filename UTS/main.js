@@ -3401,7 +3401,7 @@ var triangle_robot_faces = [
    var head_array_Lego = generateCylinder_Lego(0, 0, -0.25, 0.5, 100);
    var shoulder_array_Lego = generateSphere2_Lego(0, 0, -0.25, 0.5, 100);
  
-   var neck_array_Lego = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2), [139/255, 69/255, 19/255]);
+   var neck_array_Lego = generateCylinderVerti(0, 2.3, (CANVAS.width / 2.1), (CANVAS.height / 2.1), [139/255, 69/255, 19/255]);
    var neck_deco_array_Lego = generateCylinderHorizon_Lego(1, 0.3, (CANVAS.width / 7), (CANVAS.height / 7));
  
    var wraist_array_Lego = generateCylinderHorizon_Lego(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
