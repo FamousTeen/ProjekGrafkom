@@ -2281,6 +2281,22 @@ var bodyVertex_Lego = [
     -1, 2, -0.5,    210/255, 180/255, 140/255
 ];
 
+var MaceWindu_FrontBodyVertexWTexture = [
+  // depan permukaan kubus
+ -1.2, 0, 0.5,       0, 0,
+ 1.1, 0, 0.5,        1, 0,
+ 0.9, 2, 0.5,        1, 1,
+ -1, 2, 0.5,         0, 1,
+]
+
+var MaceWindu_BackBodyVertexWTexture = [
+ // belakang permukaan kubus
+ -1.2, 0, -0.5,      0, 0,
+ 1.1, 0, -0.5,       1, 0,
+ 0.9, 2, -0.5,       1, 1,
+ -1, 2, -0.5,        0, 1
+]
+
 
   var body_faces_Lego = [
     // tubuh bagian bawah
@@ -2319,6 +2335,11 @@ var bodyVertex_Lego = [
 
     20+24, 21+24, 22+24,
     20+24, 22+24, 23+24
+  ];
+
+  var MaceWindu_faces_Texture = [
+    0, 1, 2,
+    0, 2, 3
   ];
 
 
@@ -2599,61 +2620,6 @@ var bodyVertex_Lego = [
 
     return { vertices: cylinderVertex, faces: cylinder_faces };
   }
-  //Environment 
-
-var cube_vertex = [
-  -30, -30, -30,     1, 1, 0,
-  30, -30, -30,     1, 1, 0,
-  30,  30, -30,     1, 1, 0,
-  -30,  30, -30,     1, 1, 0,
-
-  // -1, -1, 1,     0, 0, 1,
-  // 1, -1, 1,     0, 0, 1,
-  // 1,  1, 1,     0, 0, 1,
-  // -1,  1, 1,     0, 0, 1,
-
-  -30, -30, -30,     0, 1, 1,
-  -30,  30, -30,     0, 1, 1,
-  -30,  30,  30,     0, 1, 1,
-  -30, -30,  30,     0, 1, 1,
-
-  30, -30, -30,     1, 0, 0,
-  30,  30, -30,     1, 0, 0,
-  30,  30,  30,     1, 0, 0,
-  30, -30,  30,     1, 0, 0,
-
-  -30, -30, -30,     1, 0, 1,
-  -30, -30,  30,     1, 0, 1,
-  30, -30,  30,     1, 0, 1,
-  30, -30, -30,     1, 0, 1,
-
-  -30, 30, -30,     0, 1, 0,
-  -30, 30,  30,     0, 1, 0,
-  30, 30,  30,     0, 1, 0,
-  30, 30, -30,     0, 1, 0 
-];
-
-var cube_faces = [
-  0, 1, 2,
-  0, 2, 3,
-
-  4, 5, 6,
-  4, 6, 7,
-
-  8, 9, 10,
-  8, 10, 11,
-
-  12, 13, 14,
-  12, 14, 15,
-
-  16, 17, 18,
-  16, 18, 19,
-
-  20, 21, 22,
-  20, 22, 23
-];
-
-
 
   // C3P0
 
@@ -3519,10 +3485,14 @@ var triangle_robot_faces = [
    var hand_array_Lego = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [210/255, 180/255, 140/255]);
    var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
    var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
+
+   // buat spline
+   var legMaceWinduVertices = [0.366666666, 0.45, 0.066666666, 0.125, 1.15, -0.5];
+   var legMaceWinduVertices2 = [0.566666666, 0.45, 0.166666666, 0.225, 1.15, -0.2];
+   var legMaceWinduVertices3 = [0.5-0.65, -0.725, 0.2-0.65, -0.25, -0.5-0.65, -0.25];
+   var legMaceWinduVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
 //  =======
    
-// Environment
-var envi = new MyObject(cube_vertex, cube_faces, shader_fragment_source, shader_vertex_source, "");
 
 
 //environment
@@ -3635,6 +3605,10 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   var leftLeg_Lego = new MyObject(legVertex_Lego, triangle_faces_Lego, shader_fragment_source, shader_vertex_source, "");
 
   var body_Lego = new MyObject(bodyVertex_Lego, body_faces_Lego, shader_fragment_source, shader_vertex_source, "");
+
+  var MaceWindufrontBodyWTexture = new MyObject(MaceWindu_FrontBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, "windu_depan.png"); // manggil gambar
+
+  var MaceWindubackBodyWTexture = new MyObject(MaceWindu_BackBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, ""); // manggil gambar
   
   var neck_Lego = new MyObject(neck_array_Lego.vertices, neck_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
 
@@ -3655,6 +3629,14 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   var innerLeftArm_Lego = new MyObject(inner_arm_array_Lego.vertices,inner_arm_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
 
   var neckDeco_Lego = new MyObject(neck_deco_array_Lego.vertices,neck_deco_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
+
+  var legMaceWindu1 = new MyObject(legMaceWinduVertices,legMaceWinduVertices, shader_fragment_source2, shader_vertex_source, "")
+
+  var legMaceWindu2 = new MyObject(legMaceWinduVertices2,legMaceWinduVertices2, shader_fragment_source2, shader_vertex_source, "")
+
+  var legMaceWindu3 = new MyObject(legMaceWinduVertices3,legMaceWinduVertices3, shader_fragment_source2, shader_vertex_source, "")
+
+  var legMaceWindu4 = new MyObject(legMaceWinduVertices4,legMaceWinduVertices4, shader_fragment_source2, shader_vertex_source, "")
 
   body_Lego.addChild(rightArm_Lego);
   body_Lego.addChild(leftArm_Lego);
@@ -3736,11 +3718,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     100
   );
   var VIEWMATRIX = LIBS.get_I4();
-
-// Environment
-   envi.MOVEMATRIX = glMatrix.mat4.create();
-
-  // C-3PO
 
   wraist.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, 0.0]);
@@ -4062,8 +4039,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       // glMatrix.mat4.rotateX(hand.MOVEMATRIX, hand.MOVEMATRIX, PHI*0.1);
     }
 
-// Environment
-envi.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+
 
     // C-3PO
     wraist.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
@@ -5026,6 +5002,15 @@ envi.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     saber4.draw();
     saber5.draw();
     saber6.draw();
+
+    MaceWindubackBodyWTexture.drawWTexture();
+    MaceWindufrontBodyWTexture.drawWTexture();
+
+
+     //Environment
+
+     hangar.draw();
+     planet1.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
