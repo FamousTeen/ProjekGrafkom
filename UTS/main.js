@@ -4780,7 +4780,7 @@ var triangle_robot_faces = [
     rightLeg_Lego.MOVEMATRIX = LIBS.mul(rightLeg_Lego.MOVEMATRIX, temp);
 
 
-    if (walkFront == false) {
+    if (MaceWinduwalkFront == false) {
       LIBS.rotateY(mata2.MOVEMATRIX, -Math.PI);
       LIBS.translateZ(mata2.MOVEMATRIX, -1.1);
       LIBS.rotateY(mulut.MOVEMATRIX, Math.PI);
