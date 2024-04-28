@@ -1492,10 +1492,10 @@ function generateSphereFull(x, y, z, radius, segments) {
       var vertexY = y + radius * yCoord;
       var vertexZ = z + radius * zCoord;
 
-      vertices.push(vertexX, vertexY, vertexZ);
+      vertices.push(vertexX, vertexY, vertexZ , 128/255 , 128/255 , 128/255);
 
       var colorIndex = j % sphereColors.length;
-      colors = colors.concat(sphereColors[colorIndex]);
+      // colors = colors.concat(sphereColors[colorIndex]);
     }
   }
   
@@ -2848,13 +2848,13 @@ var triangle_faces = [
     -1, 2, 0.5,         0, 1,
   ]
 
-  var c3poBackBodyVertexWTexture = [
-    // belakang permukaan kubus
-    -1.2, 0, -0.5,      0, 0,
-    1.1, 0, -0.5,       1, 0,
-    0.9, 2, -0.5,       1, 1,
-    -1, 2, -0.5,        0, 1
- ]
+    var c3poBackBodyVertexWTexture = [
+      // belakang permukaan kubus
+      -1.2, 0, -0.5,      0, 0,
+      1.1, 0, -0.5,       1, 0,
+      0.9, 2, -0.5,       1, 1,
+      -1, 2, -0.5,        0, 1
+  ]
   
 
   var body_faces = [
@@ -2959,6 +2959,97 @@ var triangle_faces = [
 
   //Vertex , face robot r2d2
 
+  function generateCylinderHorizonRobot(z1, z2, radius, radius2) {
+    var cylinderVertex = [];
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(0);
+    cylinderVertex.push(255/255);
+    cylinderVertex.push(255/255);
+    cylinderVertex.push(255/255);
+  
+  for (var i = 0; i <= 720; i++) {
+    if (i <= 360) {
+      var x =
+        (radius * Math.cos(LIBS.degToRad(i))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(LIBS.degToRad(i))) / CANVAS.height;
+      cylinderVertex.push(z1);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+    }
+    if (i == 360) {
+      cylinderVertex.push(1);
+      cylinderVertex.push(0);
+      cylinderVertex.push(0);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+    }
+    if (i >= 360) {
+      var x =
+        (radius * Math.cos(LIBS.degToRad(i % 360))) /
+        CANVAS.width;
+      var y =
+        (radius2 * Math.sin(LIBS.degToRad(i % 360))) /
+        CANVAS.height;
+      cylinderVertex.push(z2);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+    }
+    if (i == 720) {
+      var x =
+        (radius * Math.cos(LIBS.degToRad(360))) / CANVAS.width;
+      var y =
+        (radius2 * Math.sin(LIBS.degToRad(360))) /
+        CANVAS.height;
+      cylinderVertex.push(z2);
+      cylinderVertex.push(x);
+      cylinderVertex.push(y);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+      cylinderVertex.push(255/255);
+    }
+  }
+  
+  var cylinder_faces = []
+  
+    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
+      if (i <= 360) {
+        cylinder_faces.push(0);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+      if (i > 362) {
+        cylinder_faces.push(362);
+        cylinder_faces.push(i);
+        cylinder_faces.push(i + 1);
+      }
+    }
+  
+    var bottom_circle_index = 0;
+    var top_circle_index = 363;
+  
+    for (var i = 0; i <= 360; i++) {
+      cylinder_faces.push(bottom_circle_index);
+      cylinder_faces.push(bottom_circle_index + 1);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index);
+      cylinder_faces.push(top_circle_index + 1);
+      cylinder_faces.push(bottom_circle_index + 1);
+      bottom_circle_index++;
+      top_circle_index++;
+    }
+
+    return { vertices: cylinderVertex, faces: cylinder_faces };
+  }
+
   
 
   var arm_Vertex = [
@@ -2991,25 +3082,25 @@ var triangle_faces = [
   
      // kaki
   // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.5, 0/255, 0/255, 0/255,
-  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
   // depan permukaan balok
-  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
   // kanan permukaan balok
-  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
   // kiri permukaan balok
-  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
+  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255
   ];
 
 
@@ -3072,25 +3163,25 @@ var arm2_Vertex = [
 
    // kaki
   // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.5, 0/255, 0/255, 0/255,
-  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
   // depan permukaan balok
-  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
   // kanan permukaan balok
-  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
   // kiri permukaan balok
-  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
+  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255
   ];
 
 
@@ -3232,67 +3323,67 @@ var arm2_faces = [
   var foot_vertex = [
   // tubuh bawah
   // depan permukaan kubus
-  -1.2, -0.5, 0.5, 221/255, 112/255, 24/255,
-  1.1, -0.5, 0.5, 221/255, 112/255, 24/255,
-  1.1, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  -1.2, 0.0002, 0.5, 221/255, 112/255, 24/255,
+  -1.2, -0.5, 0.5, 255/255, 255/255, 255/255,
+  1.1, -0.5, 0.5, 255/255, 255/255, 255/255,
+  1.1, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  -1.2, 0.0002, 0.5, 255/255, 255/255, 255/255,
   // kiri permukaan kubus
-  -1.175, -0.5, -0.5, 221/255, 112/255, 24/255,
-  -1.175, 0.0002, -0.5, 221/255, 112/255, 24/255,
-  -1.175, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  -1.175, -0.5, 0.5, 221/255, 112/255, 24/255,
+  -1.175, -0.5, -0.5, 255/255, 255/255, 255/255,
+  -1.175, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -1.175, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  -1.175, -0.5, 0.5, 255/255, 255/255, 255/255,
     // kanan permukaan kubus
-    1.075, -0.5, -0.5, 221/255, 112/255, 24/255,
-    1.075, 0.0002, -0.5, 221/255, 112/255, 24/255,
-    1.075, 0.0002, 0.5, 221/255, 112/255, 24/255,
-    1.075, -0.5, 0.5, 221/255, 112/255, 24/255,
+    1.075, -0.5, -0.5, 255/255, 255/255, 255/255,
+    1.075, 0.0002, -0.5, 255/255, 255/255, 255/255,
+    1.075, 0.0002, 0.5, 255/255, 255/255, 255/255,
+    1.075, -0.5, 0.5, 255/255, 255/255, 255/255,
     // bawah permukaan kubus
-    -1.2, -0.5, -0.5, 221/255, 112/255, 24/255,
-    -1.2, -0.5, 0.5, 221/255, 112/255, 24/255,
-    1.1, -0.5, 0.5, 221/255, 112/255, 24/255,
-    1.1, -0.5, -0.5, 221/255, 112/255, 24/255,
+    -1.2, -0.5, -0.5, 255/255, 255/255, 255/255,
+    -1.2, -0.5, 0.5, 255/255, 255/255, 255/255,
+    1.1, -0.5, 0.5, 255/255, 255/255, 255/255,
+    1.1, -0.5, -0.5, 255/255, 255/255, 255/255,
     // atas permukaan kubus
-  -1.2, 0.0002, -0.5, 221/255, 112/255, 24/255,
-  -1.2, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  1.1, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  1.1, 0.0002, -0.5, 221/255, 112/255, 24/255,
+  -1.2, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -1.2, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  1.1, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  1.1, 0.0002, -0.5, 255/255, 255/255, 255/255,
   // belakang permukaan kubus
-  -1.2, -0.5, -0.5, 221/255, 112/255, 24/255,
-  1.1, -0.5, -0.5, 221/255, 112/255, 24/255,
-  1.1, 0.0002, -0.5, 221/255, 112/255, 24/255,
-  -1.2, 0.0002, -0.5, 221/255, 112/255, 24/255,
+  -1.2, -0.5, -0.5, 255/255, 255/255, 255/255,
+  1.1, -0.5, -0.5, 255/255, 255/255, 255/255,
+  1.1, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -1.2, 0.0002, -0.5, 255/255, 255/255, 255/255,
 
   // tubuh atas
   // depan permukaan kubus
-  1.08, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  -1.175, 0.0002, 0.5, 221/255, 112/255, 24/255,
-  -0.35, 1, 0.25, 221/255, 112/255, 24/255,
-  0.35, 1, 0.25, 221/255, 112/255, 24/255,
+  1.08, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  -1.175, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  -0.35, 1, 0.25, 255/255, 255/255, 255/255,
+  0.35, 1, 0.25, 255/255, 255/255, 255/255,
   // kiri permukaan kubus
-  -1.175, 0.0002, -0.5, 221/255, 112/255, 24/255,
-  -0.35, 1, -0.5, 221/255, 112/255, 24/255,
-  -0.35, 1, 0.25, 221/255, 112/255, 24/255,
-  -1.175, 0.0002, 0.5, 221/255, 112/255, 24/255,
+  -1.175, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -0.35, 1, -0.5, 255/255, 255/255, 255/255,
+  -0.35, 1, 0.25, 255/255, 255/255, 255/255,
+  -1.175, 0.0002, 0.5, 255/255, 255/255, 255/255,
     // kanan permukaan kubus
-    1.08, 0.0002, -0.5, 221/255, 112/255, 24/255,
-    0.35, 1, -0.5, 221/255, 112/255, 24/255,
-    0.35, 1, 0.25, 221/255, 112/255, 24/255,
-    1.08, 0.0002, 0.5, 221/255, 112/255, 24/255,
+    1.08, 0.0002, -0.5, 255/255, 255/255, 255/255,
+    0.35, 1, -0.5, 255/255, 255/255, 255/255,
+    0.35, 1, 0.25, 255/255, 255/255, 255/255,
+    1.08, 0.0002, 0.5, 255/255, 255/255, 255/255,
     // bawah permukaan kubus
-    -1.175, 0, -0.5, 221/255, 112/255, 24/255,
-    -1.175, 0, 0.5, 221/255, 112/255, 24/255,
-    1.075, 0, 0.5, 221/255, 112/255, 24/255,
-    1.075, 0, -0.5, 221/255, 112/255, 24/255,
+    -1.175, 0, -0.5, 255/255, 255/255, 255/255,
+    -1.175, 0, 0.5, 255/255, 255/255, 255/255,
+    1.075, 0, 0.5, 255/255, 255/255, 255/255,
+    1.075, 0, -0.5, 255/255, 255/255, 255/255,
     // atas permukaan kubus
-  -0.35, 1, -0.5, 221/255, 112/255, 24/255,
-  -0.35, 1, 0.25, 221/255, 112/255, 24/255,
-  0.35, 1, 0.25, 221/255, 112/255, 24/255,
-  0.35, 1, -0.5, 221/255, 112/255, 24/255,
+  -0.35, 1, -0.5, 255/255, 255/255, 255/255,
+  -0.35, 1, 0.25, 255/255, 255/255, 255/255,
+  0.35, 1, 0.25, 255/255, 255/255, 255/255,
+  0.35, 1, -0.5, 255/255, 255/255, 255/255,
   // belakang permukaan kubus
-  1.08, 0.0002, -0.5, 221/255, 112/255, 24/255,
-  -1.175, 0.0002, -0.5, 221/255, 112/255, 24/255,
-  -0.35, 1, -0.5, 221/255, 112/255, 24/255,
-  0.35, 1, -0.5, 221/255, 112/255, 24/255,
+  1.08, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -1.175, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -0.35, 1, -0.5, 255/255, 255/255, 255/255,
+  0.35, 1, -0.5, 255/255, 255/255, 255/255,
 ];
 
 var foot_faces = [
@@ -3337,40 +3428,40 @@ var foot_faces = [
 var triangle_robot_vertex = [
   // telapak kaki
   // bawah permukaan kubus
-  -0.5, -0.5, -0.25, 221/255, 112/255, 24/255,
-  -0.5, -0.5, 0.25, 221/255, 112/255, 24/255,
-  0.25, -0.5, 0.25, 221/255, 112/255, 24/255,
-  0.25, -0.5, -0.25, 221/255, 112/255, 24/255,
+  -0.5, -0.5, -0.25, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.25, 255/255, 255/255, 255/255,
+  0.25, -0.5, 0.25, 255/255, 255/255, 255/255,
+  0.25, -0.5, -0.25, 255/255, 255/255, 255/255,
     // atas permukaan kubus
-    -0.5, 0.0001, 0.25, 100/255, 42/255, 24/255,
-    -0.5, 0.0001, -0.25, 100/255, 42/255, 24/255,
-  0.25, -0.5, -0.25, 221/255, 42/255, 24/255,
-  0.25, -0.5, 0.25, 221/255, 42/255, 24/255,
+    -0.5, 0.0001, 0.25, 255/255, 255/255, 255/255,
+    -0.5, 0.0001, -0.25, 255/255, 255/255, 255/255,
+  0.25, -0.5, -0.25, 255/255, 255/255, 255/255,
+  0.25, -0.5, 0.25, 255/255, 255/255, 255/255,
   // kiri permukaan kubus
-  -0.5, -0.5, -0.25,100/255, 42/255, 24/255,
-  -0.5, 0.0001, -0.25, 100/255, 42/255, 24/255,
-  -0.5, 0.0001, 0.25, 100/255, 42/255, 24/255,
-  -0.5, -0.5, 0.25, 100/255, 42/255, 24/255,
+  -0.5, -0.5, -0.25,255/255, 255/255, 255/255,
+  -0.5, 0.0001, -0.25, 255/255, 255/255, 255/255,
+  -0.5, 0.0001, 0.25, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.25, 255/255, 255/255, 255/255,
   // depan permukaan kubus
-  -0.5, -0.5, 0.25, 221/255, 42/255, 24/255,
-  0.25, -0.5, 0.25, 221/255, 42/255, 24/255,
-  // 0.5, -0.5, 0.25, 221/255, 23/255, 24/255,
-  -0.5, 0.001, 0.25, 221/255, 42/255, 24/255,
+  -0.5, -0.5, 0.25, 255/255, 255/255, 255/255,
+  0.25, -0.5, 0.25, 255/255, 255/255, 255/255,
+  // 0.5, -0.5, 0.25, 255/255, 23/255, 255/255,
+  -0.5, 0.001, 0.25, 255/255, 255/255, 255/255,
   //   // kanan permukaan kanan
-  //   0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  //   0.5, 0.25, -0.5, 221/255, 112/255, 24/255,
-  //   0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
-  //   0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
+  //   0.5, -0.5, -0.5, 255/255, 255/255, 24/255,
+  //   0.5, 0.25, -0.5, 255/255, 255/255, 24/255,
+  //   0.5, 0.25, 0.5, 255/255, 255/255, 24/255,
+  //   0.5, -0.5, 0.5, 255/255, 255/255, 24/255,
 
   // // kaki
   // // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.25, 221/255, 42/255, 24/255,
-  0.25, -0.5, -0.25, 221/255, 42/255, 24/255,
-  // 0.5, -0.5, 0.25, 221/255, 23/255, 24/255,
-  -0.5, 0.0010, -0.25, 221/255, 42/255, 24/255,
+  -0.5, -0.5, -0.25, 255/255, 255/255, 255/255,
+  0.25, -0.5, -0.25, 255/255, 255/255, 255/255,
+  // 0.5, -0.5, 0.25, 255/255, 23/255, 255/255,
+  -0.5, 0.0010, -0.25, 255/255, 255/255, 255/255,
   // // depan permukaan balok
-  // -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  // 0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  // -0.5, -0.5, 0.03125, 221/255, 255/255, 24/255,
+  // 0.5, -0.5, 0.03125, 221/255, 255/255, 24/255,
   // 0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
   // -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
   // // kanan permukaan balok
@@ -3417,6 +3508,22 @@ var triangle_robot_faces = [
   // 32, 34, 35
 ];
 
+var robotFrontBodyVertexWTexture = [
+  6, 0, 0.5, 0, 0,
+  8.3, 0, 0.5, 1, 0,
+  8.1, 2, 0.5, 1, 1,
+  6.1, 2, 0.5, 0, 1,
+  7.1, 0, 0.5, 0, 0, // Titik tengah atas (center of the top face)
+  7.1, 2, 0.5, 0, 1  // Titik tengah bawah (center of the bottom face)
+];
+
+
+
+
+var robotTextureFaces = [
+  0, 1, 2, 0, 2, 3, // Front face
+  0, 1, 5, 1, 5, 6, 1, 2, 6, 2, 6, 7, 2, 3, 7, 3, 7, 4, 3, 0, 4, 0, 4, 5 ]// Top and bottom faces
+
 
   var head_array = generateSphere(0, 0, -0.25, 0.5, 100);
   var eye_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 5), (CANVAS.height / 3.5), [221/255, 112/255, 24/255])
@@ -3439,16 +3546,21 @@ var triangle_robot_faces = [
 
   //robot r2d2 array
 
-  var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
+  var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [255/255, 255/255, 255/255])
   var head_robot_array = generateSphereFull(0 , 0, -0.25, 1, 100)
-  var top_robot_head = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [128/255, 128/255, 128/255])
-  var robot_arm_extension = generateCylinderHorizon(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255])
-  var robot_arm_extension2 = generateCylinderHorizon(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255])
-  var robot_arm_upper = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
-  var robot_arm_upper2 = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
-  var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [1/255, 1/255, 200/255])
+  var top_robot_head = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [255/255, 255/255, 255/255])
+  var robot_arm_extension = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [255/255, 255/255, 255/255])
+  var robot_arm_extension2 = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [255/255, 255/255, 255  /255])
+  var robot_arm_upper = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [255/255, 255/255, 255/255])
+  var robot_arm_upper2 = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [255/255, 255/255, 255/255])
+  var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [255/255, 255/255, 255/255])
   var robot_eye = generateCylinderVerti(0, 1 , (CANVAS.width/7) , (CANVAS.height/7) , [0, 0, 0])
   var robot_eye_socket = generateCylinderVerti(0, 1, (CANVAS.width/6), (CANVAS.height/6), [1/255, 1/255, 200/255])
+
+  var robotDecoVertices = [4, 2.5, 4.55, 4, 4.8, 2.5];
+  var robotDecoVertices2 = [7.3, 2.5, 7.55, 4, 8, 2.5];
+  var robotDecoVertices3 = [0.5-0.65, -0.725, 0.2-0.65, -0.25, -0.5-0.65, -0.25];
+  var robotDecoVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
   
 
   //Mace Windu
@@ -3695,6 +3807,21 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
   var robotSocketEye = new MyObject(robot_eye_socket.vertices , robot_eye_socket.faces , shader_fragment_source , shader_vertex_source, "");
 
+  var robotLegDeco = new MyObject(robotDecoVertices , robotDecoVertices , shader_fragment_source , shader_vertex_source)
+
+  var robotLegDeco2 = new MyObject(robotDecoVertices2 , robotDecoVertices2 , shader_fragment_source , shader_vertex_source)
+
+  var robotLegDeco3 = new MyObject(robotDecoVertices3 , robotDecoVertices3 , shader_fragment_source , shader_vertex_source)
+
+  var robotLegDeco4 = new MyObject(robotDecoVertices4 , robotDecoVertices4 , shader_fragment_source , shader_vertex_source)
+
+  var robotFrontBodyWTexture = new MyObject(robotFrontBodyVertexWTexture, robotTextureFaces, shader_fragment_source3, shader_vertex_source3, "resized_robot.jpg");
+
+
+
+
+
+  robotBody.addChild(topRobot);
   robotBody.addChild(bottomRobot);
   robotBody.addChild(robotHead);
   robotBody.addChild(triangleRobot);
@@ -3867,6 +3994,13 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       robotSocketEye.MOVEMATRIX = glMatrix.mat4.create();
       glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,4.4 , 0.3 ])
       glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
+
+      robotLegDeco.MOVEMATRIX = glMatrix.mat4.create();
+      robotLegDeco2.MOVEMATRIX = glMatrix.mat4.create();
+      robotLegDeco3.MOVEMATRIX = glMatrix.mat4.create();
+      robotLegDeco4.MOVEMATRIX = glMatrix.mat4.create();
+
+      robotFrontBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
 
   
 
@@ -4100,6 +4234,12 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     triangleRobot2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     robotEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     robotSocketEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    robotLegDeco.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    robotLegDeco2.setuniformmatrix4(PROJMATRIX , VIEWMATRIX);
+    robotLegDeco3.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    robotLegDeco4.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    robotFrontBodyWTexture.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
+    
 
 
     //Mace Windu
@@ -4430,7 +4570,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     if (walkFront == true) {
       robotPos[2] += robotMoveSpeed;
       // console.log("run")
-      // LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(-0.2))
+      LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(-0.2))
       // LIBS.rotateZ(robotHead.MOVEMATRIX , LIBS.degToRad(-0.2))
       // LIBS.rotateZ(topRobot.MOVEMATRIX , LIBS.degToRad(-0.2))
       // LIBS.rotateZ(armExtension.MOVEMATRIX , LIBS.degToRad(-0.2))
@@ -4457,12 +4597,12 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       // LIBS.rotateZ(armRobot.MOVEMATRIX , LIBS.degToRad(2))
       // LIBS.rotateZ(armRobot2.MOVEMATRIX , LIBS.degToRad(2))
       // LIBS.rotateZ(footRobot.MOVEMATRIX , LIBS.degToRad(2))
-      // LIBS.rotateZ(footRobot2.MOVEMATRIX , LIBS.degToRad(2))
-      // LIBS.rotateZ(bottomRobot.MOVEMATRIX , LIBS.degToRad(2))
-      // LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(2))
-      // LIBS.rotateZ(triangleRobot.MOVEMATRIX , LIBS.degToRad(2))
-      // LIBS.rotateZ(triangleRobot2 .MOVEMATRIX , LIBS.degToRad(2))
-      // LIBS.rotateZ(robotEye.MOVEMATRIX , LIBS.degToRad(2))
+      LIBS.rotateZ(footRobot2.MOVEMATRIX , LIBS.degToRad(2))
+      LIBS.rotateZ(bottomRobot.MOVEMATRIX , LIBS.degToRad(2))
+      LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(2))
+      LIBS.rotateZ(triangleRobot.MOVEMATRIX , LIBS.degToRad(2))
+      LIBS.rotateZ(triangleRobot2 .MOVEMATRIX , LIBS.degToRad(2))
+      LIBS.rotateZ(robotEye.MOVEMATRIX , LIBS.degToRad(2))
 
       
       
@@ -4483,6 +4623,8 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       
       // rotateExecuted = false;
     }
+
+
 
     robotBody.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, -1.05, 0.0]);
@@ -4558,6 +4700,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,3.35 , 0.3 ])
       glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
 
+    LIBS.translateZ(topRobot.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotHead.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(bottomRobot.MOVEMATRIX, robotPos[2]);
@@ -4573,6 +4716,10 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     LIBS.translateZ(footRobot2.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotEye.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotSocketEye.MOVEMATRIX,robotPos[2]);
+    LIBS.translateZ(robotLegDeco.MOVEMATRIX , robotPos[2]);
+    LIBS.translateZ(robotLegDeco2.MOVEMATRIX , robotPos[2]);
+    LIBS.translateZ(robotLegDeco3.MOVEMATRIX , robotPos[2]);
+    LIBS.translateZ(robotLegDeco4.MOVEMATRIX , robotPos[2]);
  
     // LIBS.rotateX(body.MOVEMATRIX, 1.5);
 
@@ -4598,6 +4745,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
        LIBS.translateZ(robotHead.MOVEMATRIX, 0.68)
        LIBS.translateZ(robotEye.MOVEMATRIX, 0.68)
        LIBS.translateZ(robotSocketEye.MOVEMATRIX, 0.68)
+       LIBS.translateZ(topRobot.MOVEMATRIX, 0.68)
        rotateExecuted = false
     //  }
      if(eyeRotateDec){
@@ -4684,6 +4832,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
         LIBS.translateZ(robotHead.MOVEMATRIX, -0.68)
         LIBS.translateZ(robotEye.MOVEMATRIX, - 0.68)
         LIBS.translateZ(robotSocketEye.MOVEMATRIX, -0.68)
+        LIBS.translateZ(topRobot.MOVEMATRIX,-0.68)
       // }
     }
 
@@ -4703,6 +4852,11 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     // triangleRobot2.draw();
     robotEye.draw();
     robotSocketEye.draw();
+    robotLegDeco.drawSpline(0.68);
+    robotLegDeco2.drawSpline(0.68);
+    // robotFrontBodyWTexture.drawWTexture();
+    // robotLegDeco3.drawSpline(0.8);
+    // robotLegDeco4.drawSpline(0.8);
 
     //Mace Windu buat animasi gerak
     
