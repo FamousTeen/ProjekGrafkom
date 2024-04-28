@@ -2164,6 +2164,10 @@ var triangle_faces_Lego = [
   32, 34, 35
 ];
 
+function degrees_to_radians_Lego(degrees) {
+  var pi = Math.PI;
+  return degrees * (pi / 180);
+}
   // body
 var bodyVertex_Lego = [
   // tubuh bawah
@@ -3466,6 +3470,26 @@ var triangle_robot_faces = [
 
   var legDeco4 = new MyObject(legDecoVertices4,legDecoVertices4, shader_fragment_source2, shader_vertex_source, "")
 
+  body.addChild(rightArm);
+  body.addChild(leftArm);
+  body.addChild(wraist);
+  body.addChild(rightLeg);
+  body.addChild(leftLeg);
+  rightArm.addChild(innerRightArm);
+  leftArm.addChild(innerLeftArm);
+  body.addChild(rightShoulder);
+  body.addChild(leftShoulder);
+  rightShoulder.addChild(rightHand);
+  leftShoulder.addChild(leftHand);
+  body.addChild(neck);
+  neck.addChild(neckDeco);
+  body.addChild(head)
+  head.addChild(rightEye);
+  head.addChild(leftEye);
+  head.addChild(mouth);
+  rightEye.addChild(innerRightEye);
+  leftEye.addChild(innerLeftEye);
+
   //Mace Windu
   var mulut = new MyObject(mulut_array.vertices, mulut_array.faces, shader_fragment_source, shader_vertex_source, "");
 
@@ -3519,25 +3543,25 @@ var triangle_robot_faces = [
 
   var neckDeco_Lego = new MyObject(neck_deco_array_Lego.vertices,neck_deco_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
 
-  body.addChild(rightArm);
-  body.addChild(leftArm);
-  body.addChild(wraist);
-  body.addChild(rightLeg);
-  body.addChild(leftLeg);
-  rightArm.addChild(innerRightArm);
-  leftArm.addChild(innerLeftArm);
-  body.addChild(rightShoulder);
-  body.addChild(leftShoulder);
-  rightShoulder.addChild(rightHand);
-  leftShoulder.addChild(leftHand);
-  body.addChild(neck);
-  neck.addChild(neckDeco);
-  body.addChild(head)
-  head.addChild(rightEye);
-  head.addChild(leftEye);
-  head.addChild(mouth);
-  rightEye.addChild(innerRightEye);
-  leftEye.addChild(innerLeftEye);
+  body_Lego.addChild(rightArm_Lego);
+  body_Lego.addChild(leftArm_Lego);
+  body_Lego.addChild(wraist_Lego);
+  body_Lego.addChild(rightLeg_Lego);
+  body_Lego.addChild(leftLeg_Lego);
+  rightArm_Lego.addChild(innerRightArm_Lego);
+  leftArm_Lego.addChild(innerLeftArm_Lego);
+  body_Lego.addChild(rightShoulder_Lego);
+  body_Lego.addChild(leftShoulder_Lego);
+  rightShoulder_Lego.addChild(rightHand_Lego);
+  leftShoulder_Lego.addChild(leftHand_Lego);
+  body_Lego.addChild(neck_Lego);
+  neck_Lego.addChild(neckDeco_Lego);
+  body_Lego.addChild(head_Lego)
+  head_Lego.addChild(mata2);
+  head_Lego.addChild(mata);
+  head_Lego.addChild(mulut);
+
+  
 
   //Robot r2d2
 
@@ -3861,6 +3885,20 @@ var triangle_robot_faces = [
 
   var eyeRotate2 = 0;
   var eyeRotateDec2 = true;
+
+  //Mace Windu buat animasi gerak
+  var MaceWinduPos = [0,0,0];
+  var MaceWinduMovSpeed = 0.05;
+  var MaceWinduwalkFront = true;
+
+  // kaki
+  var MaceWinduFeet1RotatePos = 0;
+  var MaceWindurotateBackLeg1 = false;
+
+  var MaceWinduFeet2RotatePos = 0;
+  var MaceWindurotateBackLeg2 = true;
+  
+  var MaceWinduRotateSpeed = 0.05; // buat leg
 
   var animate = function (time) {
     var dt = time - time_prev;
@@ -4534,16 +4572,317 @@ var triangle_robot_faces = [
     frontBodyWTexture.drawWTexture();
     // legDeco.drawSpline(leg_deco1);
 
-    //Mace Windu
-    wraist_Lego.draw();
+    //Mace Windu buat animasi gerak
+    
+    if (MaceWinduwalkFront == true) {
+      MaceWinduPos[2] += MaceWinduMovSpeed;
+      if(MaceWinduPos[2] >= 15) {
+        MaceWinduwalkFront = false;
+      }
+    }
+    else {
+      MaceWinduPos[2] -= MaceWinduMovSpeed;
+      if(MaceWinduPos[2] <= -15) {
+        MaceWinduwalkFront = true;
+      }
+    }
+
+    // inisialisasi part move matrix & static animation
+    body_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(body_Lego.MOVEMATRIX, body_Lego.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
+    // LIBS.rotateX(body_Lego.MOVEMATRIX, 1.5);
+
+    wraist_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(wraist_Lego.MOVEMATRIX, wraist_Lego.MOVEMATRIX, [-6.75, 0.0, MaceWinduPos[2]]);
+
+    if (MaceWinduwalkFront == false) {
+      LIBS.rotateY(body_Lego.MOVEMATRIX, Math.PI*2);
+      LIBS.rotateY(wraist_Lego.MOVEMATRIX, Math.PI*2);
+    }
+
+    leftLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftLeg_Lego.MOVEMATRIX, leftLeg_Lego.MOVEMATRIX, [-4.95, -1, MaceWinduPos[2]]);
+
+    rightLeg_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightLeg_Lego.MOVEMATRIX, rightLeg_Lego.MOVEMATRIX, [-6.25, -1, MaceWinduPos[2]]);
+
+    rightHand_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, [-7.15, 0.82, -0.0+MaceWinduPos[2]]);
+    glMatrix.mat4.rotateZ(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8));
+    // glMatrix.mat4.rotateX(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90));
+
+    rightShoulder_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightShoulder_Lego.MOVEMATRIX, rightShoulder_Lego.MOVEMATRIX, [-7.055, 1.1,-0.25+MaceWinduPos[2]]);
+    // glMatrix.mat4.rotateX(rightShoulder_Lego.MOVEMATRIX, rightShoulder_Lego.MOVEMATRIX, degrees_to_radians(-100));
+
+    leftHand_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, [-4.18, 2, 1.2+MaceWinduPos[2]]);
+    glMatrix.mat4.rotateY(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(180));
+    glMatrix.mat4.rotateZ(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8));
+    glMatrix.mat4.rotateX(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90));
+
+    leftShoulder_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, [-4.10, 2.5,0.9+MaceWinduPos[2]]);
+    // 
+    glMatrix.mat4.rotateY(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(180));
+    glMatrix.mat4.rotateX(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(100));
+
+    rightArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(rightArm_Lego.MOVEMATRIX, rightArm_Lego.MOVEMATRIX, [-7.20, 0.41,-0.3])
+    LIBS.translateZ(rightArm_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(rightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+
+    leftArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(leftArm_Lego.MOVEMATRIX, leftArm_Lego.MOVEMATRIX, [-4.18, 2.25,1.63]);
+    LIBS.translateZ(leftArm_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(leftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+    
+
+    innerRightArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerRightArm_Lego.MOVEMATRIX, innerRightArm_Lego.MOVEMATRIX, [-7.20, 0.30,-0.305]);
+    LIBS.translateZ(innerRightArm_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(innerRightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+
+    innerLeftArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(innerLeftArm_Lego.MOVEMATRIX, innerLeftArm_Lego.MOVEMATRIX, [-4.18, 2.259,1.75]);
+    LIBS.translateZ(innerLeftArm_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(innerLeftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    sayap.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(sayap.MOVEMATRIX, sayap.MOVEMATRIX, [-5.55, -0.91, -1.532]);
+    LIBS.translateZ(sayap.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(sayap.MOVEMATRIX, degrees_to_radians_Lego(0.1))
+
+    neck_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(neck_Lego.MOVEMATRIX, neck_Lego.MOVEMATRIX, [-5.55, 1.5, 0.0]);
+    LIBS.translateZ(neck_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(neck_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    head_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(head_Lego.MOVEMATRIX, head_Lego.MOVEMATRIX, [-5.55, 3.6,-0.04]);
+    LIBS.translateZ(head_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(head_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    headKecil.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(headKecil.MOVEMATRIX, headKecil.MOVEMATRIX, [-5.55, 4.2, -0.004]);
+    LIBS.translateZ(headKecil.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(headKecil.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    neckDeco_Lego.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(neckDeco_Lego.MOVEMATRIX, neckDeco_Lego.MOVEMATRIX, [-6.0, 3.4, 0.0]);
+    LIBS.translateZ(neckDeco_Lego.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(neckDeco_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    mata.MOVEMATRIX = glMatrix.mat4.create(); // mata kiri
+    glMatrix.mat4.translate(mata.MOVEMATRIX, mata.MOVEMATRIX, [-5.20, 3.80, 0.500]);
+    LIBS.translateZ(mata.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(mata.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    mata2.MOVEMATRIX = glMatrix.mat4.create(); // mata kanan
+    glMatrix.mat4.translate(mata2.MOVEMATRIX, mata2.MOVEMATRIX, [-5.90, 3.80, 0.500]);
+    LIBS.translateZ(mata2.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(mata2.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    mulut.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(mulut.MOVEMATRIX, mulut.MOVEMATRIX, [-5.55, 3.35, 0.196]);
+    LIBS.translateZ(mulut.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(mulut.MOVEMATRIX, degrees_to_radians_Lego(0))
+
+    saber6.MOVEMATRIX = glMatrix.mat4.create(); // pegangan buat tangannya
+    glMatrix.mat4.translate(saber6.MOVEMATRIX, saber6.MOVEMATRIX, [-4.18, 1.855, 1.800]);
+    LIBS.translateZ(saber6.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber6.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    saber5.MOVEMATRIX = glMatrix.mat4.create(); //atas pegangan atas lagi bentuk medium
+    glMatrix.mat4.translate(saber5.MOVEMATRIX, saber5.MOVEMATRIX, [-4.18, 2.700, 1.700]);
+    LIBS.translateZ(saber5.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber5.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    saber4.MOVEMATRIX = glMatrix.mat4.create(); // bawah pegangan bawah lagi bentuk kecil
+    glMatrix.mat4.translate(saber4.MOVEMATRIX, saber4.MOVEMATRIX, [-4.18, 1.300, 1.700]);
+    LIBS.translateZ(saber4.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber4.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    saber3.MOVEMATRIX = glMatrix.mat4.create(); // bawah pegangan
+    glMatrix.mat4.translate(saber3.MOVEMATRIX, saber3.MOVEMATRIX, [-4.18, 1.500, 1.700]);
+    LIBS.translateZ(saber3.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber3.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    saber2.MOVEMATRIX = glMatrix.mat4.create(); // atas pegangan
+    glMatrix.mat4.translate(saber2.MOVEMATRIX, saber2.MOVEMATRIX, [-4.18, 2.390, 1.700]);
+    LIBS.translateZ(saber2.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber2.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    saber1.MOVEMATRIX = glMatrix.mat4.create(); //lampu / pedang lightsaber
+    glMatrix.mat4.translate(saber1.MOVEMATRIX, saber1.MOVEMATRIX, [-4.18, 4.850, 1.750]);
+    LIBS.translateZ(saber1.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber1.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    // leg animation Mace Windu
+    // Kaki kiri
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -MaceWinduPos[2]);
+    leftLeg_Lego.MOVEMATRIX = LIBS.mul(leftLeg_Lego.MOVEMATRIX, temp);
+
+    if (MaceWindurotateBackLeg1 == true) {
+      MaceWinduFeet1RotatePos -= MaceWinduRotateSpeed;
+      if (MaceWinduFeet1RotatePos <= -0.35) {
+        MaceWindurotateBackLeg1 = false;
+      }
+    }
+    else {
+      MaceWinduFeet1RotatePos += MaceWinduRotateSpeed;
+      if (MaceWinduFeet1RotatePos >= 0.35) {
+        MaceWindurotateBackLeg1 = true;
+      }
+    }
+
+    if (MaceWinduwalkFront == false) {
+      LIBS.rotateY(leftLeg_Lego.MOVEMATRIX, Math.PI);
+    }
+    
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, MaceWinduFeet1RotatePos);
+    leftLeg_Lego.MOVEMATRIX = LIBS.mul(leftLeg_Lego.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, MaceWinduPos[2]);
+    leftLeg_Lego.MOVEMATRIX = LIBS.mul(leftLeg_Lego.MOVEMATRIX, temp);
+
+    //Kaki kanan
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, -MaceWinduPos[2]);
+    rightLeg_Lego.MOVEMATRIX = LIBS.mul(rightLeg_Lego.MOVEMATRIX, temp);
+
+    if (MaceWindurotateBackLeg2 == true) {
+      MaceWinduFeet2RotatePos -= MaceWinduRotateSpeed;
+      if (MaceWinduFeet2RotatePos <= -0.35) {
+        MaceWindurotateBackLeg2 = false;
+      }
+    }
+    else {
+      MaceWinduFeet2RotatePos += MaceWinduRotateSpeed;
+      if (MaceWinduFeet2RotatePos >= 0.35) {
+        MaceWindurotateBackLeg2 = true;
+      }
+    }
+
+    if (MaceWinduwalkFront == false) {
+      LIBS.rotateY(rightLeg_Lego.MOVEMATRIX, Math.PI);
+    }
+    
+    temp = LIBS.get_I4();
+    LIBS.rotateX(temp, MaceWinduFeet2RotatePos);
+    rightLeg_Lego.MOVEMATRIX = LIBS.mul(rightLeg_Lego.MOVEMATRIX, temp);
+    temp = LIBS.get_I4();
+    LIBS.translateZ(temp, MaceWinduPos[2]);
+    rightLeg_Lego.MOVEMATRIX = LIBS.mul(rightLeg_Lego.MOVEMATRIX, temp);
+
+
+    if (walkFront == false) {
+      LIBS.rotateY(mata2.MOVEMATRIX, -Math.PI);
+      LIBS.translateZ(mata2.MOVEMATRIX, -1.1);
+      LIBS.rotateY(mulut.MOVEMATRIX, Math.PI);
+      LIBS.translateZ(mulut.MOVEMATRIX, -0.47);
+      LIBS.rotateY(mata.MOVEMATRIX, Math.PI);
+      LIBS.translateZ(mata.MOVEMATRIX, -1.1);
+
+      //bahu kiri
+      LIBS.rotateY(leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(-35))
+      LIBS.rotateZ(leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(5))
+      LIBS.rotateX(leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(100))
+      LIBS.translateZ(leftShoulder_Lego.MOVEMATRIX, -0.70)
+      LIBS.translateX(leftShoulder_Lego.MOVEMATRIX, -0.54)
+      LIBS.translateY(leftShoulder_Lego.MOVEMATRIX, -1.5)
+      
+      // bahu kanan
+      LIBS.rotateZ(rightShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(40))
+      LIBS.rotateX(rightShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.translateZ(rightShoulder_Lego.MOVEMATRIX, -0.90) // depan belakang
+      LIBS.translateX(rightShoulder_Lego.MOVEMATRIX, 0.5) //kanan kiri
+      LIBS.translateY(rightShoulder_Lego.MOVEMATRIX, 1.28) // atas bawah
+      
+      // tangan kanan
+      LIBS.rotateX(rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.rotateY(rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8))
+      LIBS.translateZ(rightHand_Lego.MOVEMATRIX, -1.40)
+      LIBS.translateX(rightHand_Lego.MOVEMATRIX, 0.12)
+      LIBS.translateY(rightHand_Lego.MOVEMATRIX, 1.28)
+
+      // tangan kiri
+      LIBS.rotateX(leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.rotateZ(leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(8))
+      LIBS.translateX(leftHand_Lego.MOVEMATRIX, 0.15)
+      LIBS.translateY(leftHand_Lego.MOVEMATRIX, -1.30)
+      LIBS.translateZ(leftHand_Lego.MOVEMATRIX, -1.15)
+
+      // kanan
+      LIBS.rotateX(rightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.translateX(rightArm_Lego.MOVEMATRIX, 0.15)
+      LIBS.translateZ(rightArm_Lego.MOVEMATRIX, -1.50)
+      LIBS.translateY(rightArm_Lego.MOVEMATRIX, 2.00)
+
+      // kanan
+      LIBS.rotateX(innerRightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.translateX(innerRightArm_Lego.MOVEMATRIX, 0.15)
+      LIBS.translateZ(innerRightArm_Lego.MOVEMATRIX, -1.62)
+      LIBS.translateY(innerRightArm_Lego.MOVEMATRIX, 2.115)
+
+      // kiri
+      LIBS.rotateX(leftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(-90))
+      LIBS.translateX(leftArm_Lego.MOVEMATRIX, 0.18)
+      LIBS.translateZ(leftArm_Lego.MOVEMATRIX, -2)
+      LIBS.translateY(leftArm_Lego.MOVEMATRIX, -1.93)
+
+      // kiri
+      LIBS.rotateX(innerLeftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(-90))
+      LIBS.translateX(innerLeftArm_Lego.MOVEMATRIX, 0.180)
+      LIBS.translateZ(innerLeftArm_Lego.MOVEMATRIX, -2.1250)
+      LIBS.translateY(innerLeftArm_Lego.MOVEMATRIX, -2.06)
+
+      
+      // sayap
+      LIBS.rotateX(sayap.MOVEMATRIX, degrees_to_radians_Lego(-30))
+      LIBS.translateZ(sayap.MOVEMATRIX, 3.07)
+      LIBS.translateX(sayap.MOVEMATRIX, -0.05)
+      LIBS.translateY(sayap.MOVEMATRIX, 0.050)
+
+      // LightSaber
+      // Saber 1
+      LIBS.translateX(saber1.MOVEMATRIX, -2.88) //kanan kiri
+      LIBS.translateZ(saber1.MOVEMATRIX, -3.60) // depan belakang
+      LIBS.translateY(saber1.MOVEMATRIX, 0.70) // atas bawah
+
+      // Saber 2
+      LIBS.translateX(saber2.MOVEMATRIX, -2.88) //kanan kiri
+      LIBS.translateZ(saber2.MOVEMATRIX, -3.53) // depan belakang
+      LIBS.translateY(saber2.MOVEMATRIX, 0.17) // atas bawah
+
+
+      // Saber 3
+      LIBS.translateX(saber3.MOVEMATRIX, -2.88) //kanan kiri
+      LIBS.translateZ(saber3.MOVEMATRIX, -3.53) // depan belakang
+      LIBS.translateY(saber3.MOVEMATRIX, 0.17) // atas bawah
+
+      // saber 4
+      LIBS.translateX(saber4.MOVEMATRIX, -2.88) //kanan kiri                     3.0
+      LIBS.translateZ(saber4.MOVEMATRIX, -3.53) // depan belakang
+      LIBS.translateY(saber4.MOVEMATRIX, 0.18) // atas bawah
+
+      // saber 5
+      LIBS.translateX(saber5.MOVEMATRIX, -2.88) //kanan kiri
+      LIBS.translateZ(saber5.MOVEMATRIX, -3.53) // depan belakang
+      LIBS.translateY(saber5.MOVEMATRIX, 0.15) // atas bawah
+
+      // saber 6 (pegangan)
+      LIBS.translateX(saber6.MOVEMATRIX, -2.88) //kanan kiri
+      LIBS.translateZ(saber6.MOVEMATRIX, -3.7780) // depan belakang
+      LIBS.translateY(saber6.MOVEMATRIX, 0.30) // atas bawah
+    }
+
     body_Lego.draw();
-    neck_Lego.draw();
-    head_Lego.draw();
-    rightHand_Lego.draw();
-    leftHand_Lego.draw();
-    rightArm_Lego.draw();
-    leftArm_Lego.draw();
-    neckDeco_Lego.draw();
+    sayap.draw();
     headKecil.draw();
     saber1.draw();
     saber2.draw();
@@ -4551,16 +4890,6 @@ var triangle_robot_faces = [
     saber4.draw();
     saber5.draw();
     saber6.draw();
-    sayap.draw();
-    mata.draw();
-    mata2.draw();
-    mulut.draw();
-    leftLeg_Lego.draw();
-    rightLeg_Lego.draw();
-    leftShoulder_Lego.draw();
-    rightShoulder_Lego.draw();
-    innerRightArm_Lego.draw();
-    innerLeftArm_Lego.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
