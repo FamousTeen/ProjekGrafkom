@@ -3608,7 +3608,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
   var MaceWindufrontBodyWTexture = new MyObject(MaceWindu_FrontBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, "windu_depan.png"); // manggil gambar
 
-  var MaceWindubackBodyWTexture = new MyObject(MaceWindu_BackBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, ""); // manggil gambar
+  var MaceWindubackBodyWTexture = new MyObject(MaceWindu_BackBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, "windu_belakang.png"); // manggil gambar
   
   var neck_Lego = new MyObject(neck_array_Lego.vertices, neck_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
 
