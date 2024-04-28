@@ -3952,6 +3952,17 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   neckDeco_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neckDeco_Lego.MOVEMATRIX, neckDeco_Lego.MOVEMATRIX, [-6.0, 3.4, 0.0]);
 
+  legMaceWindu1.MOVEMATRIX = glMatrix.mat4.create();
+  legMaceWindu2.MOVEMATRIX = glMatrix.mat4.create();
+  legMaceWindu3.MOVEMATRIX = glMatrix.mat4.create();
+  legMaceWindu4.MOVEMATRIX = glMatrix.mat4.create();
+
+  MaceWindufrontBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(MaceWindufrontBodyWTexture.MOVEMATRIX, MaceWindufrontBodyWTexture.MOVEMATRIX, [-5.50, 0.95, 0.0]);
+
+  MaceWindubackBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(MaceWindubackBodyWTexture.MOVEMATRIX, MaceWindubackBodyWTexture.MOVEMATRIX, [-5.50, 0.95, 0.0]);
+
   //Environment
 
   hangar.MOVEMATRIX = glMatrix.mat4.create();
@@ -4115,6 +4126,12 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     mata.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     mata2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     mulut.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    legMaceWindu1.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    legMaceWindu2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    legMaceWindu3.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    legMaceWindu4.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    MaceWindufrontBodyWTexture.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    MaceWindubackBodyWTexture.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
 
     //Environment
@@ -4704,6 +4721,11 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     glMatrix.mat4.translate(body_Lego.MOVEMATRIX, body_Lego.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
     // LIBS.rotateX(body_Lego.MOVEMATRIX, 1.5);
 
+    MaceWindufrontBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(MaceWindufrontBodyWTexture.MOVEMATRIX, MaceWindufrontBodyWTexture.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
+    MaceWindubackBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(MaceWindubackBodyWTexture.MOVEMATRIX, MaceWindubackBodyWTexture.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
+
     wraist_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(wraist_Lego.MOVEMATRIX, wraist_Lego.MOVEMATRIX, [-6.75, 0.0, MaceWinduPos[2]]);
 
@@ -4831,6 +4853,18 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     glMatrix.mat4.translate(saber1.MOVEMATRIX, saber1.MOVEMATRIX, [-4.18, 4.850, 1.750]);
     LIBS.translateZ(saber1.MOVEMATRIX, MaceWinduPos[2])
     LIBS.rotateX(saber1.MOVEMATRIX, degrees_to_radians_Lego(90))
+
+    legMaceWindu1.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(legMaceWindu1.MOVEMATRIX, legMaceWindu1.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+
+    legMaceWindu2.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(legMaceWindu2.MOVEMATRIX, legMaceWindu2.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+
+    legMaceWindu3.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(legMaceWindu3.MOVEMATRIX, legMaceWindu3.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+
+    legMaceWindu4.MOVEMATRIX = glMatrix.mat4.create();
+    glMatrix.mat4.translate(legMaceWindu4.MOVEMATRIX, legMaceWindu4.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
 
     // leg animation Mace Windu
     // Kaki kiri
@@ -4991,6 +5025,14 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       LIBS.translateX(saber6.MOVEMATRIX, -2.88) //kanan kiri
       LIBS.translateZ(saber6.MOVEMATRIX, -3.7780) // depan belakang
       LIBS.translateY(saber6.MOVEMATRIX, 0.30) // atas bawah
+
+      // texture
+      LIBS.rotateY(MaceWindufrontBodyWTexture.MOVEMATRIX, Math.PI)
+      LIBS.translateZ(MaceWindubackBodyWTexture.MOVEMATRIX, 1.01)
+      LIBS.translateX(MaceWindubackBodyWTexture.MOVEMATRIX, -0.02)
+
+      LIBS.translateZ(MaceWindufrontBodyWTexture.MOVEMATRIX, -0.025)
+      LIBS.translateX(MaceWindufrontBodyWTexture.MOVEMATRIX, -0.10)
     }
 
     body_Lego.draw();
@@ -5002,6 +5044,11 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     saber4.draw();
     saber5.draw();
     saber6.draw();
+
+    legMaceWindu1.drawSpline(0.533);
+    legMaceWindu2.drawSpline(0.533);
+    legMaceWindu3.drawSpline(0.533);
+    legMaceWindu4.drawSpline(0.533);
 
     MaceWindubackBodyWTexture.drawWTexture();
     MaceWindufrontBodyWTexture.drawWTexture();
