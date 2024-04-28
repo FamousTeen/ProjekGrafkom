@@ -4855,16 +4855,20 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     LIBS.rotateX(saber1.MOVEMATRIX, degrees_to_radians_Lego(90))
 
     legMaceWindu1.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu1.MOVEMATRIX, legMaceWindu1.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+    glMatrix.mat4.translate(legMaceWindu1.MOVEMATRIX, legMaceWindu1.MOVEMATRIX, [-5.50, 0, 0]); //buat kanan
+    LIBS.translateZ(legMaceWindu1.MOVEMATRIX, MaceWinduPos[2])
 
     legMaceWindu2.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu2.MOVEMATRIX, legMaceWindu2.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+    glMatrix.mat4.translate(legMaceWindu2.MOVEMATRIX, legMaceWindu2.MOVEMATRIX, [-5.10, 0, 0]); //buat kanan
+    LIBS.translateZ(legMaceWindu2.MOVEMATRIX, MaceWinduPos[2])
 
     legMaceWindu3.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu3.MOVEMATRIX, legMaceWindu3.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+    glMatrix.mat4.translate(legMaceWindu3.MOVEMATRIX, legMaceWindu3.MOVEMATRIX, [-4.95, 0.50, 0.05]); //buat kiri
+    LIBS.translateZ(legMaceWindu3.MOVEMATRIX, MaceWinduPos[2])
 
     legMaceWindu4.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu4.MOVEMATRIX, legMaceWindu4.MOVEMATRIX, [0, 0, MaceWinduPos[2]]);
+    glMatrix.mat4.translate(legMaceWindu4.MOVEMATRIX, legMaceWindu4.MOVEMATRIX, [-5.30, 0, 0]); //buat kiri
+    LIBS.translateZ(legMaceWindu4.MOVEMATRIX, MaceWinduPos[2])
 
     // leg animation Mace Windu
     // Kaki kiri
