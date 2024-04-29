@@ -4736,6 +4736,8 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       LIBS.translateZ(robotEye.MOVEMATRIX , -0.75);
       LIBS.rotateY(robotSocketEye.MOVEMATRIX, Math.PI);
       LIBS.translateZ(robotSocketEye.MOVEMATRIX , -0.5);
+      LIBS.rotateY(robotLegDeco.MOVEMATRIX, Math.PI);
+      LIBS.rotateY(robotLegDeco2.MOVEMATRIX, Math.PI);
       // LIBS.translateZ()
       // if(rotateExecuted){
         // console.log("run2")
