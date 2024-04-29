@@ -3557,8 +3557,8 @@ var robotTextureFaces = [
   var robot_eye = generateCylinderVerti(0, 1 , (CANVAS.width/7) , (CANVAS.height/7) , [0, 0, 0])
   var robot_eye_socket = generateCylinderVerti(0, 1, (CANVAS.width/6), (CANVAS.height/6), [1/255, 1/255, 200/255])
 
-  var robotDecoVertices = [4, 2.5, 4.55, 4, 4.8, 2.5];
-  var robotDecoVertices2 = [7.3, 2.5, 7.55, 4, 8, 2.5];
+  var robotDecoVertices = [4, 1.5, 4.55, 3, 4.8, 1.5];
+  var robotDecoVertices2 = [7.3, 1.5, 7.55, 3, 8, 1.5];
   var robotDecoVertices3 = [0.5-0.65, -0.725, 0.2-0.65, -0.25, -0.5-0.65, -0.25];
   var robotDecoVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
   
@@ -4700,6 +4700,10 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,3.35 , 0.3 ])
       glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
 
+      robotLegDeco.MOVEMATRIX = glMatrix.mat4.create();
+      
+      robotLegDeco2.MOVEMATRIX = glMatrix.mat4.create();
+
     LIBS.translateZ(topRobot.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotHead.MOVEMATRIX, robotPos[2]);
@@ -4718,8 +4722,8 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     LIBS.translateZ(robotSocketEye.MOVEMATRIX,robotPos[2]);
     LIBS.translateZ(robotLegDeco.MOVEMATRIX , robotPos[2]);
     LIBS.translateZ(robotLegDeco2.MOVEMATRIX , robotPos[2]);
-    LIBS.translateZ(robotLegDeco3.MOVEMATRIX , robotPos[2]);
-    LIBS.translateZ(robotLegDeco4.MOVEMATRIX , robotPos[2]);
+      // LIBS.translateZ(robotLegDeco3.MOVEMATRIX , robotPos[2]);
+      // LIBS.translateZ(robotLegDeco4.MOVEMATRIX , robotPos[2]);
  
     // LIBS.rotateX(body.MOVEMATRIX, 1.5);
 
