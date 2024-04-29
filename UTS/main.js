@@ -236,6 +236,96 @@ var cube_faces = [
   20, 22, 23
 ];
 
+var planeWingVertex = [
+  // belakang permukaan balok (diperpanjang)
+-0.5, -0.5, -0.5, 200/255, 200/255, 200/255,
+0.5, -0.5, -0.5, 200/255, 200/255, 200/255,
+0.5, 3.5, -0.5, 200/255, 200/255, 200/255,
+-0.5, 3.5, -0.5, 200/255, 200/255, 200/255,
+// depan permukaan balok
+-0.5, -0.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, -0.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, 3.5, 0.03125, 200/255, 200/255, 200/255,
+-0.5, 3.5, 0.03125, 200/255, 200/255, 200/255,
+// kanan permukaan balok
+0.5, -0.5, -0.5, 200/255, 200/255, 200/255,
+0.5, 3.5, -0.5, 200/255, 200/255, 200/255,
+0.5, 3.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, -0.5, 0.03125, 200/255, 200/255, 200/255,
+// kiri permukaan balok
+-0.5, -0.5, -0.5, 200/255, 200/255, 200/255,
+-0.5, 3.5, -0.5, 200/255, 200/255, 200/255,
+-0.5, 3.5, 0.03125, 200/255, 200/255, 200/255,
+-0.5, -0.5, 0.03125, 200/255, 200/255, 200/255,
+// bawah permukaan kubus
+-0.5, -0.5, -0.5, 200/255, 200/255, 200/255,
+-0.5, -0.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, -0.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, -0.5, -0.5, 200/255, 200/255, 200/255,
+// atas permukaan kubus
+-0.5, 3.5, -0.5, 200/255, 200/255, 200/255,
+-0.5, 3.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, 3.5, 0.03125, 200/255, 200/255, 200/255,
+0.5, 3.5, -0.5, 200/255, 200/255, 200/255
+];
+
+var planeWingHandVertex = [
+  // belakang permukaan balok (diperpanjang)
+  0.5, 1.3, -0.5, 200/255, 200/255, 200/255,
+  2, 1.3, -0.5, 200/255, 200/255, 200/255,
+  2, 2, -0.5, 200/255, 200/255, 200/255,
+  0.5, 2, -0.5, 200/255, 200/255, 200/255,
+// depan permukaan balok
+0.5, 1.3, 0.03125, 200/255, 200/255, 200/255,
+2, 1.3, 0.03125, 200/255, 200/255, 200/255,
+2, 2, 0.03125, 200/255, 200/255, 200/255,
+0.5, 2, 0.03125, 200/255, 200/255, 200/255,
+
+// bawah permukaan kubus
+0.5, 1.3, -0.5, 200/255, 200/255, 200/255,
+0.5, 1.3, 0.03125, 200/255, 200/255, 200/255,
+2, 1.3, 0.03125, 200/255, 200/255, 200/255,
+2, 1.3, -0.5, 200/255, 200/255, 200/255,
+// atas permukaan kubus
+0.5, 2, -0.5, 200/255, 200/255, 200/255,
+0.5, 2, 0.03125, 200/255, 200/255, 200/255,
+2, 2, 0.03125, 200/255, 200/255, 200/255,
+2, 2, -0.5, 200/255, 200/255, 200/255
+];
+
+var planeWingFaces = [
+  0, 1, 2,
+  0, 2, 3,
+
+  4, 5, 6,
+  4, 6, 7,
+
+  8, 9, 10,
+  8, 10, 11,
+
+  12, 13, 14,
+  12, 14, 15,
+
+  16, 17, 18,
+  16, 18, 19,
+
+  20, 21, 22,
+  20, 22, 23
+];
+
+var planeWingHandFaces = [
+  0, 1, 2,
+  0, 2, 3,
+
+  4, 5, 6,
+  4, 6, 7,
+
+  8, 9, 10,
+  8, 10, 11,
+
+  12, 13, 14,
+  12, 14, 15,
+];
 //Mace Windu
 function generateMulut_Lego (x, y, radius, segments){
   var segments = 50;
@@ -1463,15 +1553,8 @@ function generateSphere2_Lego(x, y, z, radius, segments) {
 //--------------------------------------------------------------------------------------------------
 
 
-function generateSphereFull(x, y, z, radius, segments) {
+function generateSphereFull(x, y, z, radius, segments, array_color) {
   var vertices = [];
-  var colors = [];
-
-  var sphereColors = [];
-
-  for (var i = 0; i < 5; i++) {
-    sphereColors.push([Math.random(), Math.random(), Math.random()])
-  }
 
   console.log(segments);
   for (var i = 0; i <= segments; i++) {
@@ -1492,10 +1575,7 @@ function generateSphereFull(x, y, z, radius, segments) {
       var vertexY = y + radius * yCoord;
       var vertexZ = z + radius * zCoord;
 
-      vertices.push(vertexX, vertexY, vertexZ , 128/255 , 128/255 , 128/255);
-
-      var colorIndex = j % sphereColors.length;
-      // colors = colors.concat(sphereColors[colorIndex]);
+      vertices.push(vertexX, vertexY, vertexZ, array_color[0], array_color[1], array_color[2]);
     }
   }
   
@@ -1511,10 +1591,10 @@ function generateSphereFull(x, y, z, radius, segments) {
     }
   }
 
-  return { vertices: vertices, colors: colors, faces: faces };
+  return { vertices: vertices, faces: faces };
 }
 
-function generateSphere(x, y, z, radius, segments) {
+function generateSphere(x, y, z, radius, segments, array_color) {
   var vertices = [];
   // var colors = [];
 
@@ -1550,7 +1630,7 @@ function generateSphere(x, y, z, radius, segments) {
       }
 
       // var colorIndex = j % sphereColors.length;
-      vertices.push(vertexX, vertexY, vertexZ, 221/255, 112/255, 24/255);
+      vertices.push(vertexX, vertexY, vertexZ, array_color[0], array_color[1], array_color[2]);
     }
   }
   
@@ -1570,7 +1650,7 @@ function generateSphere(x, y, z, radius, segments) {
   return { vertices: vertices, faces: faces };
 }
 
-function generateSphere2(x, y, z, radius, segments) {
+function generateSphere2(x, y, z, radius, segments, array_color) {
   var vertices = [];
   // var colors = [];
 
@@ -1606,7 +1686,7 @@ function generateSphere2(x, y, z, radius, segments) {
       }
 
       var colorIndex = j % sphereColors.length;
-      vertices.push(vertexX, vertexY, vertexZ, 221/255, 112/255, 24/255);
+      vertices.push(vertexX, vertexY, vertexZ, array_color[0], array_color[1], array_color[2]);
     }
   }
   
@@ -1713,38 +1793,9 @@ function main() {
   var x_prev, y_prev;
   var dX = 0,
     dY = 0;
-  var scale = -20;
-
-  
-// test
-  // var keyDown = function (e) {
-  //   switch (e.key) {
-  //     case "a":
-  //       rotationY -= 0.01;
-  //       drag = true;
-  //       break;
-
-  //     case "d":
-  //       rotationY += 0.01;
-  //       drag = true;
-  //       break;
-
-  //     case "w":
-  //       rotationX -= 0.01;
-  //       drag = true;
-  //       break;
-
-  //     case "s":
-  //       rotationX += 0.01;
-  //       drag = true;
-  //       break;
-  //   }
-  // };
-
-  var keyUp = function (e) {
-    drag = false;
-  };
-
+  var scaleZ = -20;
+  var scaleX = 0;
+  var scaleY = 0;
   var mouseDown = function (e) {
     drag = true;
     (x_prev = e.pageX), (y_prev = e.pageY);
@@ -1776,17 +1827,10 @@ function main() {
     e.preventDefault();
   };
 
-  function zoom(e) {
-    e.preventDefault();
-  
-    scale -= e.deltaY*0.005;
-  }
-
   CANVAS.addEventListener("mousedown", mouseDown, false);
   CANVAS.addEventListener("mouseup", mouseUp, false);
   CANVAS.addEventListener("mouseout", mouseUp, false);
   CANVAS.addEventListener("mousemove", mouseMove, false);
-  CANVAS.addEventListener("wheel", zoom, false);
 
   try {
     GL = CANVAS.getContext("webgl", { antialias: false });
@@ -2210,10 +2254,6 @@ var triangle_faces_Lego = [
   32, 34, 35
 ];
 
-function degrees_to_radians_Lego(degrees) {
-  var pi = Math.PI;
-  return degrees * (pi / 180);
-}
   // body
 var bodyVertex_Lego = [
   // tubuh bawah
@@ -2281,22 +2321,6 @@ var bodyVertex_Lego = [
     -1, 2, -0.5,    210/255, 180/255, 140/255
 ];
 
-var MaceWindu_FrontBodyVertexWTexture = [
-  // depan permukaan kubus
- -1.2, 0, 0.5,       0, 0,
- 1.1, 0, 0.5,        1, 0,
- 0.9, 2, 0.5,        1, 1,
- -1, 2, 0.5,         0, 1,
-]
-
-var MaceWindu_BackBodyVertexWTexture = [
- // belakang permukaan kubus
- -1.2, 0, -0.5,      0, 0,
- 1.1, 0, -0.5,       1, 0,
- 0.9, 2, -0.5,       1, 1,
- -1, 2, -0.5,        0, 1
-]
-
 
   var body_faces_Lego = [
     // tubuh bagian bawah
@@ -2337,22 +2361,18 @@ var MaceWindu_BackBodyVertexWTexture = [
     20+24, 22+24, 23+24
   ];
 
-  var MaceWindu_faces_Texture = [
-    0, 1, 2,
-    0, 2, 3
-  ];
-
 
   //----------------------------------------------------------------------------------
 
-  function generateCylinderHorizon(z1, z2, radius, radius2) {
+  function generateCylinderHorizon(z1, z2, radius, radius2, array_color) {
     var cylinderVertex = [];
     cylinderVertex.push(0);
     cylinderVertex.push(0);
     cylinderVertex.push(0);
-    cylinderVertex.push(221/255);
-    cylinderVertex.push(112/255);
-    cylinderVertex.push(24/255);
+
+    cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
   
   for (var i = 0; i <= 720; i++) {
     if (i <= 360) {
@@ -2363,17 +2383,17 @@ var MaceWindu_BackBodyVertexWTexture = [
       cylinderVertex.push(z1);
       cylinderVertex.push(x);
       cylinderVertex.push(y);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
     }
     if (i == 360) {
       cylinderVertex.push(1);
       cylinderVertex.push(0);
       cylinderVertex.push(0);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
     }
     if (i >= 360) {
       var x =
@@ -2385,9 +2405,9 @@ var MaceWindu_BackBodyVertexWTexture = [
       cylinderVertex.push(z2);
       cylinderVertex.push(x);
       cylinderVertex.push(y);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
     }
     if (i == 720) {
       var x =
@@ -2398,9 +2418,9 @@ var MaceWindu_BackBodyVertexWTexture = [
       cylinderVertex.push(z2);
       cylinderVertex.push(x);
       cylinderVertex.push(y);
-      cylinderVertex.push(221/255);
-      cylinderVertex.push(112/255);
-      cylinderVertex.push(24/255);
+      cylinderVertex.push(array_color[0]);
+    cylinderVertex.push(array_color[1]);
+    cylinderVertex.push(array_color[2]);
     }
   }
   
@@ -2627,52 +2647,52 @@ var MaceWindu_BackBodyVertexWTexture = [
 var legVertex = [
   // telapak kaki
   // depan permukaan kubus
-  -0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
-  0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
-  -0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.5, 163/255, 113/255, 47/255,
+  0.5, -0.5, 0.5, 163/255, 113/255, 47/255,
+  0.5, 0.25, 0.5, 163/255, 113/255, 47/255,
+  -0.5, 0.25, 0.5, 163/255, 113/255, 47/255,
   // kiri permukaan kubus
-  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 0.25, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
-  -0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
+  -0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+  -0.5, 0.25, -0.5, 163/255, 113/255, 47/255,
+  -0.5, 0.25, 0.5, 163/255, 113/255, 47/255,
+  -0.5, -0.5, 0.5, 163/255, 113/255, 47/255,
     // kanan permukaan kanan
-    0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-    0.5, 0.25, -0.5, 221/255, 112/255, 24/255,
-    0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
-    0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
+    0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+    0.5, 0.25, -0.5, 163/255, 113/255, 47/255,
+    0.5, 0.25, 0.5, 163/255, 113/255, 47/255,
+    0.5, -0.5, 0.5, 163/255, 113/255, 47/255,
     // bawah permukaan kubus
-    -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-    -0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
-    0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
-    0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+    -0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+    -0.5, -0.5, 0.5, 163/255, 113/255, 47/255,
+    0.5, -0.5, 0.5, 163/255, 113/255, 47/255,
+    0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
     // atas permukaan kubus
-  -0.5, 0.25, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
-  0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
-  0.5, 0.25, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 0.25, -0.5, 163/255, 113/255, 47/255,
+  -0.5, 0.25, 0.5, 163/255, 113/255, 47/255,
+  0.5, 0.25, 0.5, 163/255, 113/255, 47/255,
+  0.5, 0.25, -0.5, 163/255, 113/255, 47/255,
 
   // kaki
   // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+  0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+  0.5, 1.5, -0.5, 163/255, 113/255, 47/255,
+  -0.5, 1.5, -0.5, 163/255, 113/255, 47/255,
   // depan permukaan balok
-  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.03125, 163/255, 113/255, 47/255,
+  0.5, -0.5, 0.03125, 163/255, 113/255, 47/255,
+  0.5, 1.5, 0.03125, 163/255, 113/255, 47/255,
+  -0.5, 1.5, 0.03125, 163/255, 113/255, 47/255,
   // kanan permukaan balok
-  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+  0.5, 1.5, -0.5, 163/255, 113/255, 47/255,
+  0.5, 1.5, 0.03125, 163/255, 113/255, 47/255,
+  0.5, -0.5, 0.03125, 163/255, 113/255, 47/255,
   // kiri permukaan balok
-  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
-  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
-  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
+  -0.5, -0.5, -0.5, 163/255, 113/255, 47/255,
+  -0.5, 1.5, -0.5, 163/255, 113/255, 47/255,
+  -0.5, 1.5, 0.03125, 163/255, 113/255, 47/255,
+  -0.5, -0.5, 0.03125, 163/255, 113/255, 47/255
 ];
 
 var triangle_faces = [
@@ -2787,57 +2807,57 @@ var triangle_faces = [
   var bodyVertex = [
     // tubuh bawah
     // depan permukaan kubus
-    -1.2, -0.5, 0.5, 221/255, 112/255, 24/255,
-    1.1, -0.5, 0.5, 221/255, 112/255, 24/255,
-    1.1, 0.0625, 0.5, 221/255, 112/255, 24/255,
-    -1.2, 0.0625, 0.5, 221/255, 112/255, 24/255,
+    -1.2, -0.5, 0.5, 163/255, 113/255, 47/255,
+    1.1, -0.5, 0.5, 163/255, 113/255, 47/255,
+    1.1, 0.0625, 0.5, 163/255, 113/255, 47/255,
+    -1.2, 0.0625, 0.5, 163/255, 113/255, 47/255,
     // kiri permukaan kubus
-    -1.175, -0.5, -0.5, 221/255, 112/255, 24/255,
-    -1.175, 0.0625, -0.5, 221/255, 112/255, 24/255,
-    -1.175, 0.0625, 0.5, 221/255, 112/255, 24/255,
-    -1.175, -0.5, 0.5, 221/255, 112/255, 24/255,
+    -1.175, -0.5, -0.5, 163/255, 113/255, 47/255,
+    -1.175, 0.0625, -0.5, 163/255, 113/255, 47/255,
+    -1.175, 0.0625, 0.5, 163/255, 113/255, 47/255,
+    -1.175, -0.5, 0.5, 163/255, 113/255, 47/255,
       // kanan permukaan kubus
-      1.075, -0.5, -0.5, 221/255, 112/255, 24/255,
-      1.075, 0.0625, -0.5, 221/255, 112/255, 24/255,
-      1.075, 0.0625, 0.5, 221/255, 112/255, 24/255,
-      1.075, -0.5, 0.5, 221/255, 112/255, 24/255,
+      1.075, -0.5, -0.5, 163/255, 113/255, 47/255,
+      1.075, 0.0625, -0.5, 163/255, 113/255, 47/255,
+      1.075, 0.0625, 0.5, 163/255, 113/255, 47/255,
+      1.075, -0.5, 0.5, 163/255, 113/255, 47/255,
       // bawah permukaan kubus
-      -1.2, -0.5, -0.5, 221/255, 112/255, 24/255,
-      -1.2, -0.5, 0.5, 221/255, 112/255, 24/255,
-      1.1, -0.5, 0.5, 221/255, 112/255, 24/255,
-      1.1, -0.5, -0.5, 221/255, 112/255, 24/255,
+      -1.2, -0.5, -0.5, 163/255, 113/255, 47/255,
+      -1.2, -0.5, 0.5, 163/255, 113/255, 47/255,
+      1.1, -0.5, 0.5, 163/255, 113/255, 47/255,
+      1.1, -0.5, -0.5, 163/255, 113/255, 47/255,
       // atas permukaan kubus
-    -1.2, 0.0625, -0.5, 221/255, 112/255, 24/255,
-    -1.2, 0.0625, 0.5, 221/255, 112/255, 24/255,
-    1.1, 0.0625, 0.5, 221/255, 112/255, 24/255,
-    1.1, 0.0625, -0.5, 221/255, 112/255, 24/255,
+    -1.2, 0.0625, -0.5, 163/255, 113/255, 47/255,
+    -1.2, 0.0625, 0.5, 163/255, 113/255, 47/255,
+    1.1, 0.0625, 0.5, 163/255, 113/255, 47/255,
+    1.1, 0.0625, -0.5, 163/255, 113/255, 47/255,
     // belakang permukaan kubus
-    -1.2, -0.5, -0.5, 221/255, 112/255, 24/255,
-    1.1, -0.5, -0.5, 221/255, 112/255, 24/255,
-    1.1, 0.0625, -0.5, 221/255, 112/255, 24/255,
-    -1.2, 0.0625, -0.5, 221/255, 112/255, 24/255,
+    -1.2, -0.5, -0.5, 163/255, 113/255, 47/255,
+    1.1, -0.5, -0.5, 163/255, 113/255, 47/255,
+    1.1, 0.0625, -0.5, 163/255, 113/255, 47/255,
+    -1.2, 0.0625, -0.5, 163/255, 113/255, 47/255,
 
     // tubuh atas
     // kiri permukaan kubus
-    -1.175, 0, -0.5, 221/255, 112/255, 24/255,
-    -1, 2, -0.5, 221/255, 112/255, 24/255,
-    -1, 2, 0.5, 221/255, 112/255, 24/255,
-    -1.175, 0, 0.5, 221/255, 112/255, 24/255,
+    -1.175, 0, -0.5, 163/255, 113/255, 47/255,
+    -1, 2, -0.5, 163/255, 113/255, 47/255,
+    -1, 2, 0.5, 163/255, 113/255, 47/255,
+    -1.175, 0, 0.5, 163/255, 113/255, 47/255,
       // kanan permukaan kubus
-      1.075, 0, -0.5, 221/255, 112/255, 24/255,
-      0.9, 2, -0.5, 221/255, 112/255, 24/255,
-      0.9, 2, 0.5, 221/255, 112/255, 24/255,
-      1.075, 0, 0.5, 221/255, 112/255, 24/255,
+      1.075, 0, -0.5, 163/255, 113/255, 47/255,
+      0.9, 2, -0.5, 163/255, 113/255, 47/255,
+      0.9, 2, 0.5, 163/255, 113/255, 47/255,
+      1.075, 0, 0.5, 163/255, 113/255, 47/255,
       // bawah permukaan kubus
-      -1.175, 0, -0.5, 221/255, 112/255, 24/255,
-      -1.175, 0, 0.5, 221/255, 112/255, 24/255,
-      1.075, 0, 0.5, 221/255, 112/255, 24/255,
-      1.075, 0, -0.5, 221/255, 112/255, 24/255,
+      -1.175, 0, -0.5, 163/255, 113/255, 47/255,
+      -1.175, 0, 0.5, 163/255, 113/255, 47/255,
+      1.075, 0, 0.5, 163/255, 113/255, 47/255,
+      1.075, 0, -0.5, 163/255, 113/255, 47/255,
       // atas permukaan kubus
-    -1, 2, -0.5, 221/255, 112/255, 24/255,
-    -1, 2, 0.5, 221/255, 112/255, 24/255,
-    0.9, 2, 0.5, 221/255, 112/255, 24/255,
-    0.9, 2, -0.5, 221/255, 112/255, 24/255
+    -1, 2, -0.5, 163/255, 113/255, 47/255,
+    -1, 2, 0.5, 163/255, 113/255, 47/255,
+    0.9, 2, 0.5, 163/255, 113/255, 47/255,
+    0.9, 2, -0.5, 163/255, 113/255, 47/255
   ];
 
   var c3poFrontBodyVertexWTexture = [
@@ -2848,13 +2868,13 @@ var triangle_faces = [
     -1, 2, 0.5,         0, 1,
   ]
 
-    var c3poBackBodyVertexWTexture = [
-      // belakang permukaan kubus
-      -1.2, 0, -0.5,      0, 0,
-      1.1, 0, -0.5,       1, 0,
-      0.9, 2, -0.5,       1, 1,
-      -1, 2, -0.5,        0, 1
-  ]
+  var c3poBackBodyVertexWTexture = [
+    // belakang permukaan kubus
+    -1.2, 0, -0.5,      0, 0,
+    1.1, 0, -0.5,       1, 0,
+    0.9, 2, -0.5,       1, 1,
+    -1, 2, -0.5,        0, 1
+ ]
   
 
   var body_faces = [
@@ -2959,97 +2979,6 @@ var triangle_faces = [
 
   //Vertex , face robot r2d2
 
-  function generateCylinderHorizonRobot(z1, z2, radius, radius2) {
-    var cylinderVertex = [];
-    cylinderVertex.push(0);
-    cylinderVertex.push(0);
-    cylinderVertex.push(0);
-    cylinderVertex.push(255/255);
-    cylinderVertex.push(255/255);
-    cylinderVertex.push(255/255);
-  
-  for (var i = 0; i <= 720; i++) {
-    if (i <= 360) {
-      var x =
-        (radius * Math.cos(LIBS.degToRad(i))) / CANVAS.width;
-      var y =
-        (radius2 * Math.sin(LIBS.degToRad(i))) / CANVAS.height;
-      cylinderVertex.push(z1);
-      cylinderVertex.push(x);
-      cylinderVertex.push(y);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-    }
-    if (i == 360) {
-      cylinderVertex.push(1);
-      cylinderVertex.push(0);
-      cylinderVertex.push(0);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-    }
-    if (i >= 360) {
-      var x =
-        (radius * Math.cos(LIBS.degToRad(i % 360))) /
-        CANVAS.width;
-      var y =
-        (radius2 * Math.sin(LIBS.degToRad(i % 360))) /
-        CANVAS.height;
-      cylinderVertex.push(z2);
-      cylinderVertex.push(x);
-      cylinderVertex.push(y);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-    }
-    if (i == 720) {
-      var x =
-        (radius * Math.cos(LIBS.degToRad(360))) / CANVAS.width;
-      var y =
-        (radius2 * Math.sin(LIBS.degToRad(360))) /
-        CANVAS.height;
-      cylinderVertex.push(z2);
-      cylinderVertex.push(x);
-      cylinderVertex.push(y);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-      cylinderVertex.push(255/255);
-    }
-  }
-  
-  var cylinder_faces = []
-  
-    for (var i = 0; i < cylinderVertex.length / 6 - 1; i++) {
-      if (i <= 360) {
-        cylinder_faces.push(0);
-        cylinder_faces.push(i);
-        cylinder_faces.push(i + 1);
-      }
-      if (i > 362) {
-        cylinder_faces.push(362);
-        cylinder_faces.push(i);
-        cylinder_faces.push(i + 1);
-      }
-    }
-  
-    var bottom_circle_index = 0;
-    var top_circle_index = 363;
-  
-    for (var i = 0; i <= 360; i++) {
-      cylinder_faces.push(bottom_circle_index);
-      cylinder_faces.push(bottom_circle_index + 1);
-      cylinder_faces.push(top_circle_index);
-      cylinder_faces.push(top_circle_index);
-      cylinder_faces.push(top_circle_index + 1);
-      cylinder_faces.push(bottom_circle_index + 1);
-      bottom_circle_index++;
-      top_circle_index++;
-    }
-
-    return { vertices: cylinderVertex, faces: cylinder_faces };
-  }
-
   
 
   var arm_Vertex = [
@@ -3082,25 +3011,25 @@ var triangle_faces = [
   
      // kaki
   // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
-  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, -0.5, -0.5, 0/255, 0/255, 0/255,
+  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
   // depan permukaan balok
-  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
-  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
-  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
-  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
   // kanan permukaan balok
-  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
-  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
   // kiri permukaan balok
-  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
-  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
-  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255
+  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
   ];
 
 
@@ -3163,25 +3092,25 @@ var arm2_Vertex = [
 
    // kaki
   // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
-  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
+  -0.5, -0.5, -0.5, 0/255, 0/255, 0/255,
+  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
   // depan permukaan balok
-  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
-  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
-  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
-  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
   // kanan permukaan balok
-  0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
-  0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
-  0.5, -0.5, 0.03125, 255/255, 255/255, 255/255,
+  0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
   // kiri permukaan balok
-  -0.5, -0.5, -0.5, 255/255, 255/255, 255/255,
-  -0.5, 1.5, -0.5, 255/255, 255/255, 255/255,
-  -0.5, 1.5, 0.03125, 255/255, 255/255, 255/255,
-  -0.5, -0.5, 0.03125, 255/255, 255/255, 255/255
+  -0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 1.5, -0.5, 221/255, 112/255, 24/255,
+  -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255
   ];
 
 
@@ -3323,67 +3252,67 @@ var arm2_faces = [
   var foot_vertex = [
   // tubuh bawah
   // depan permukaan kubus
-  -1.2, -0.5, 0.5, 255/255, 255/255, 255/255,
-  1.1, -0.5, 0.5, 255/255, 255/255, 255/255,
-  1.1, 0.0002, 0.5, 255/255, 255/255, 255/255,
-  -1.2, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  -1.2, -0.5, 0.5, 163/255, 113/255, 47/255,
+  1.1, -0.5, 0.5, 163/255, 113/255, 47/255,
+  1.1, 0.0002, 0.5, 163/255, 113/255, 47/255,
+  -1.2, 0.0002, 0.5, 163/255, 113/255, 47/255,
   // kiri permukaan kubus
-  -1.175, -0.5, -0.5, 255/255, 255/255, 255/255,
-  -1.175, 0.0002, -0.5, 255/255, 255/255, 255/255,
-  -1.175, 0.0002, 0.5, 255/255, 255/255, 255/255,
-  -1.175, -0.5, 0.5, 255/255, 255/255, 255/255,
+  -1.175, -0.5, -0.5, 163/255, 113/255, 47/255,
+  -1.175, 0.0002, -0.5, 163/255, 113/255, 47/255,
+  -1.175, 0.0002, 0.5, 163/255, 113/255, 47/255,
+  -1.175, -0.5, 0.5, 163/255, 113/255, 47/255,
     // kanan permukaan kubus
-    1.075, -0.5, -0.5, 255/255, 255/255, 255/255,
-    1.075, 0.0002, -0.5, 255/255, 255/255, 255/255,
-    1.075, 0.0002, 0.5, 255/255, 255/255, 255/255,
-    1.075, -0.5, 0.5, 255/255, 255/255, 255/255,
+    1.075, -0.5, -0.5, 163/255, 113/255, 47/255,
+    1.075, 0.0002, -0.5, 163/255, 113/255, 47/255,
+    1.075, 0.0002, 0.5, 163/255, 113/255, 47/255,
+    1.075, -0.5, 0.5, 163/255, 113/255, 47/255,
     // bawah permukaan kubus
-    -1.2, -0.5, -0.5, 255/255, 255/255, 255/255,
-    -1.2, -0.5, 0.5, 255/255, 255/255, 255/255,
-    1.1, -0.5, 0.5, 255/255, 255/255, 255/255,
-    1.1, -0.5, -0.5, 255/255, 255/255, 255/255,
+    -1.2, -0.5, -0.5, 163/255, 113/255, 47/255,
+    -1.2, -0.5, 0.5, 163/255, 113/255, 47/255,
+    1.1, -0.5, 0.5, 163/255, 113/255, 47/255,
+    1.1, -0.5, -0.5, 163/255, 113/255, 47/255,
     // atas permukaan kubus
-  -1.2, 0.0002, -0.5, 255/255, 255/255, 255/255,
-  -1.2, 0.0002, 0.5, 255/255, 255/255, 255/255,
-  1.1, 0.0002, 0.5, 255/255, 255/255, 255/255,
-  1.1, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -1.2, 0.0002, -0.5, 163/255, 113/255, 47/255,
+  -1.2, 0.0002, 0.5, 163/255, 113/255, 47/255,
+  1.1, 0.0002, 0.5, 163/255, 113/255, 47/255,
+  1.1, 0.0002, -0.5, 163/255, 113/255, 47/255,
   // belakang permukaan kubus
-  -1.2, -0.5, -0.5, 255/255, 255/255, 255/255,
-  1.1, -0.5, -0.5, 255/255, 255/255, 255/255,
-  1.1, 0.0002, -0.5, 255/255, 255/255, 255/255,
-  -1.2, 0.0002, -0.5, 255/255, 255/255, 255/255,
+  -1.2, -0.5, -0.5, 163/255, 113/255, 47/255,
+  1.1, -0.5, -0.5, 163/255, 113/255, 47/255,
+  1.1, 0.0002, -0.5, 163/255, 113/255, 47/255,
+  -1.2, 0.0002, -0.5, 163/255, 113/255, 47/255,
 
   // tubuh atas
   // depan permukaan kubus
-  1.08, 0.0002, 0.5, 255/255, 255/255, 255/255,
-  -1.175, 0.0002, 0.5, 255/255, 255/255, 255/255,
-  -0.35, 1, 0.25, 255/255, 255/255, 255/255,
-  0.35, 1, 0.25, 255/255, 255/255, 255/255,
+  1.08, 0.0002, 0.5, 163/255, 113/255, 47/255,
+  -1.175, 0.0002, 0.5, 163/255, 113/255, 47/255,
+  -0.35, 1, 0.25, 163/255, 113/255, 47/255,
+  0.35, 1, 0.25, 163/255, 113/255, 47/255,
   // kiri permukaan kubus
-  -1.175, 0.0002, -0.5, 255/255, 255/255, 255/255,
-  -0.35, 1, -0.5, 255/255, 255/255, 255/255,
-  -0.35, 1, 0.25, 255/255, 255/255, 255/255,
-  -1.175, 0.0002, 0.5, 255/255, 255/255, 255/255,
+  -1.175, 0.0002, -0.5, 163/255, 113/255, 47/255,
+  -0.35, 1, -0.5, 163/255, 113/255, 47/255,
+  -0.35, 1, 0.25, 163/255, 113/255, 47/255,
+  -1.175, 0.0002, 0.5, 163/255, 113/255, 47/255,
     // kanan permukaan kubus
-    1.08, 0.0002, -0.5, 255/255, 255/255, 255/255,
-    0.35, 1, -0.5, 255/255, 255/255, 255/255,
-    0.35, 1, 0.25, 255/255, 255/255, 255/255,
-    1.08, 0.0002, 0.5, 255/255, 255/255, 255/255,
+    1.08, 0.0002, -0.5, 163/255, 113/255, 47/255,
+    0.35, 1, -0.5, 163/255, 113/255, 47/255,
+    0.35, 1, 0.25, 163/255, 113/255, 47/255,
+    1.08, 0.0002, 0.5, 163/255, 113/255, 47/255,
     // bawah permukaan kubus
-    -1.175, 0, -0.5, 255/255, 255/255, 255/255,
-    -1.175, 0, 0.5, 255/255, 255/255, 255/255,
-    1.075, 0, 0.5, 255/255, 255/255, 255/255,
-    1.075, 0, -0.5, 255/255, 255/255, 255/255,
+    -1.175, 0, -0.5, 163/255, 113/255, 47/255,
+    -1.175, 0, 0.5, 163/255, 113/255, 47/255,
+    1.075, 0, 0.5, 163/255, 113/255, 47/255,
+    1.075, 0, -0.5, 163/255, 113/255, 47/255,
     // atas permukaan kubus
-  -0.35, 1, -0.5, 255/255, 255/255, 255/255,
-  -0.35, 1, 0.25, 255/255, 255/255, 255/255,
-  0.35, 1, 0.25, 255/255, 255/255, 255/255,
-  0.35, 1, -0.5, 255/255, 255/255, 255/255,
+  -0.35, 1, -0.5, 163/255, 113/255, 47/255,
+  -0.35, 1, 0.25, 163/255, 113/255, 47/255,
+  0.35, 1, 0.25, 163/255, 113/255, 47/255,
+  0.35, 1, -0.5, 163/255, 113/255, 47/255,
   // belakang permukaan kubus
-  1.08, 0.0002, -0.5, 255/255, 255/255, 255/255,
-  -1.175, 0.0002, -0.5, 255/255, 255/255, 255/255,
-  -0.35, 1, -0.5, 255/255, 255/255, 255/255,
-  0.35, 1, -0.5, 255/255, 255/255, 255/255,
+  1.08, 0.0002, -0.5, 163/255, 113/255, 47/255,
+  -1.175, 0.0002, -0.5, 163/255, 113/255, 47/255,
+  -0.35, 1, -0.5, 163/255, 113/255, 47/255,
+  0.35, 1, -0.5, 163/255, 113/255, 47/255,
 ];
 
 var foot_faces = [
@@ -3428,40 +3357,40 @@ var foot_faces = [
 var triangle_robot_vertex = [
   // telapak kaki
   // bawah permukaan kubus
-  -0.5, -0.5, -0.25, 255/255, 255/255, 255/255,
-  -0.5, -0.5, 0.25, 255/255, 255/255, 255/255,
-  0.25, -0.5, 0.25, 255/255, 255/255, 255/255,
-  0.25, -0.5, -0.25, 255/255, 255/255, 255/255,
+  -0.5, -0.5, -0.25, 221/255, 112/255, 24/255,
+  -0.5, -0.5, 0.25, 221/255, 112/255, 24/255,
+  0.25, -0.5, 0.25, 221/255, 112/255, 24/255,
+  0.25, -0.5, -0.25, 221/255, 112/255, 24/255,
     // atas permukaan kubus
-    -0.5, 0.0001, 0.25, 255/255, 255/255, 255/255,
-    -0.5, 0.0001, -0.25, 255/255, 255/255, 255/255,
-  0.25, -0.5, -0.25, 255/255, 255/255, 255/255,
-  0.25, -0.5, 0.25, 255/255, 255/255, 255/255,
+    -0.5, 0.0001, 0.25, 100/255, 42/255, 24/255,
+    -0.5, 0.0001, -0.25, 100/255, 42/255, 24/255,
+  0.25, -0.5, -0.25, 221/255, 42/255, 24/255,
+  0.25, -0.5, 0.25, 221/255, 42/255, 24/255,
   // kiri permukaan kubus
-  -0.5, -0.5, -0.25,255/255, 255/255, 255/255,
-  -0.5, 0.0001, -0.25, 255/255, 255/255, 255/255,
-  -0.5, 0.0001, 0.25, 255/255, 255/255, 255/255,
-  -0.5, -0.5, 0.25, 255/255, 255/255, 255/255,
+  -0.5, -0.5, -0.25,100/255, 42/255, 24/255,
+  -0.5, 0.0001, -0.25, 100/255, 42/255, 24/255,
+  -0.5, 0.0001, 0.25, 100/255, 42/255, 24/255,
+  -0.5, -0.5, 0.25, 100/255, 42/255, 24/255,
   // depan permukaan kubus
-  -0.5, -0.5, 0.25, 255/255, 255/255, 255/255,
-  0.25, -0.5, 0.25, 255/255, 255/255, 255/255,
-  // 0.5, -0.5, 0.25, 255/255, 23/255, 255/255,
-  -0.5, 0.001, 0.25, 255/255, 255/255, 255/255,
+  -0.5, -0.5, 0.25, 221/255, 42/255, 24/255,
+  0.25, -0.5, 0.25, 221/255, 42/255, 24/255,
+  // 0.5, -0.5, 0.25, 221/255, 23/255, 24/255,
+  -0.5, 0.001, 0.25, 221/255, 42/255, 24/255,
   //   // kanan permukaan kanan
-  //   0.5, -0.5, -0.5, 255/255, 255/255, 24/255,
-  //   0.5, 0.25, -0.5, 255/255, 255/255, 24/255,
-  //   0.5, 0.25, 0.5, 255/255, 255/255, 24/255,
-  //   0.5, -0.5, 0.5, 255/255, 255/255, 24/255,
+  //   0.5, -0.5, -0.5, 221/255, 112/255, 24/255,
+  //   0.5, 0.25, -0.5, 221/255, 112/255, 24/255,
+  //   0.5, 0.25, 0.5, 221/255, 112/255, 24/255,
+  //   0.5, -0.5, 0.5, 221/255, 112/255, 24/255,
 
   // // kaki
   // // belakang permukaan balok (diperpanjang)
-  -0.5, -0.5, -0.25, 255/255, 255/255, 255/255,
-  0.25, -0.5, -0.25, 255/255, 255/255, 255/255,
-  // 0.5, -0.5, 0.25, 255/255, 23/255, 255/255,
-  -0.5, 0.0010, -0.25, 255/255, 255/255, 255/255,
+  -0.5, -0.5, -0.25, 221/255, 42/255, 24/255,
+  0.25, -0.5, -0.25, 221/255, 42/255, 24/255,
+  // 0.5, -0.5, 0.25, 221/255, 23/255, 24/255,
+  -0.5, 0.0010, -0.25, 221/255, 42/255, 24/255,
   // // depan permukaan balok
-  // -0.5, -0.5, 0.03125, 221/255, 255/255, 24/255,
-  // 0.5, -0.5, 0.03125, 221/255, 255/255, 24/255,
+  // -0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
+  // 0.5, -0.5, 0.03125, 221/255, 112/255, 24/255,
   // 0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
   // -0.5, 1.5, 0.03125, 221/255, 112/255, 24/255,
   // // kanan permukaan balok
@@ -3508,35 +3437,19 @@ var triangle_robot_faces = [
   // 32, 34, 35
 ];
 
-var robotFrontBodyVertexWTexture = [
-  6, 0, 0.5, 0, 0,
-  8.3, 0, 0.5, 1, 0,
-  8.1, 2, 0.5, 1, 1,
-  6.1, 2, 0.5, 0, 1,
-  7.1, 0, 0.5, 0, 0, // Titik tengah atas (center of the top face)
-  7.1, 2, 0.5, 0, 1  // Titik tengah bawah (center of the bottom face)
-];
 
-
-
-
-var robotTextureFaces = [
-  0, 1, 2, 0, 2, 3, // Front face
-  0, 1, 5, 1, 5, 6, 1, 2, 6, 2, 6, 7, 2, 3, 7, 3, 7, 4, 3, 0, 4, 0, 4, 5 ]// Top and bottom faces
-
-
-  var head_array = generateSphere(0, 0, -0.25, 0.5, 100);
-  var eye_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 5), (CANVAS.height / 3.5), [221/255, 112/255, 24/255])
+  var head_array = generateSphere(0, 0, -0.25, 0.5, 100, [163/255, 113/255, 47/255]);
+  var eye_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 5), (CANVAS.height / 3.5), [163/255, 113/255, 47/255])
   var inner_eye_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 12), (CANVAS.height / 12), [201/255, 92/255, 4/255])
 
-  var shoulder_array = generateSphere2(0, 0, -0.25, 0.5, 100);
+  var shoulder_array = generateSphere2(0, 0, -0.25, 0.5, 100, [163/255, 113/255, 47/255]);
 
-  var neck_array = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2), [221/255, 112/255, 24/255]);
-  var neck_deco_array = generateCylinderHorizon(0, 1.3, (CANVAS.width / 7), (CANVAS.height / 7));
+  var neck_array = generateCylinderVerti(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2), [163/255, 113/255, 47/255]);
+  var neck_deco_array = generateCylinderHorizon(0, 1.3, (CANVAS.width / 7), (CANVAS.height / 7), [163/255, 113/255, 47/255]);
 
-  var wraist_array = generateCylinderHorizon(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2));
-  var hand_array = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255]);
-  var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [221/255, 112/255, 24/255])
+  var wraist_array = generateCylinderHorizon(0, 2.3, (CANVAS.width / 2), (CANVAS.height / 2), [163/255, 113/255, 47/255]);
+  var hand_array = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [163/255, 113/255, 47/255]);
+  var arm_array = generateCylinderHorizonRotate(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [163/255, 113/255, 47/255])
   var inner_arm_array = generateCylinderHorizonRotate(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [128/255, 128/255, 128/255])
 
   var legDecoVertices = [0.366666666, 0.45, 0.066666666, 0.125, 1.15, -0.5];
@@ -3546,21 +3459,16 @@ var robotTextureFaces = [
 
   //robot r2d2 array
 
-  var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [255/255, 255/255, 255/255])
-  var head_robot_array = generateSphereFull(0 , 0, -0.25, 1, 100)
-  var top_robot_head = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [255/255, 255/255, 255/255])
-  var robot_arm_extension = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [255/255, 255/255, 255/255])
-  var robot_arm_extension2 = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [255/255, 255/255, 255  /255])
-  var robot_arm_upper = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [255/255, 255/255, 255/255])
-  var robot_arm_upper2 = generateCylinderHorizonRobot(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [255/255, 255/255, 255/255])
-  var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [255/255, 255/255, 255/255])
+  var body_robot_array = generateCylinderVerti(0, 4, (CANVAS.width), (CANVAS.height), [221/255, 112/255, 24/255])
+  var head_robot_array = generateSphereFull(0 , 0, -0.25, 1, 100, [1, 1, 1])
+  var top_robot_head = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [128/255, 128/255, 128/255])
+  var robot_arm_extension = generateCylinderHorizon(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255])
+  var robot_arm_extension2 = generateCylinderHorizon(0, 1, (CANVAS.width / 3), (CANVAS.height / 3), [221/255, 112/255, 24/255])
+  var robot_arm_upper = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
+  var robot_arm_upper2 = generateCylinderHorizon(0, 1, (CANVAS.width / 1.5), (CANVAS.height / 1.5), [221/255, 112/255, 24/255])
+  var robot_bottom = generateCylinderVerti(0, 1, (CANVAS.width/3), (CANVAS.height/3), [1/255, 1/255, 200/255])
   var robot_eye = generateCylinderVerti(0, 1 , (CANVAS.width/7) , (CANVAS.height/7) , [0, 0, 0])
   var robot_eye_socket = generateCylinderVerti(0, 1, (CANVAS.width/6), (CANVAS.height/6), [1/255, 1/255, 200/255])
-
-  var robotDecoVertices = [4, 1.5, 4.55, 3, 4.8, 1.5];
-  var robotDecoVertices2 = [7.3, 1.5, 7.55, 3, 8, 1.5];
-  var robotDecoVertices3 = [0.5-0.65, -0.725, 0.2-0.65, -0.25, -0.5-0.65, -0.25];
-  var robotDecoVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
   
 
   //Mace Windu
@@ -3597,22 +3505,14 @@ var robotTextureFaces = [
    var hand_array_Lego = generateCylinderVerti(0, 1.3, (CANVAS.width / 3), (CANVAS.height / 3), [210/255, 180/255, 140/255]);
    var arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.6, (CANVAS.width / 2.35), (CANVAS.height / 2.35), [139/255, 69/255, 19/255]);
    var inner_arm_array_Lego = generateCylinderHorizonRotate_Lego(0, 0.61, (CANVAS.width / 3.05), (CANVAS.height / 3.05), [0, 0, 0]);
-
-   // buat spline Mace Windu
-   //kiri
-   var legMaceWinduVertices = [0.366666666, 0.45, 0.0, 0.125, 0.3, -0.15]; // kanan kiri, tinggi ke atas, tengah kiri kanan, tengah atas bawah, bawah kiri kanan, tinggi ke bawah
-   //bawah
-   var legMaceWinduVertices2 = [-0.866666666, 0.45, 0.166666666, 0.225, 1.15, 0.400];
-   //kanan
-   var legMaceWinduVertices3 = [0.366666666, 0.45, 0.0, 0.125, 0.3, -0.15];
-  //  var legMaceWinduVertices4 = [0.2-0.65, -0.725, 0.1-0.65, -0.35, -0.5-0.65, -0.45];
 //  =======
    
 
 
 //environment
-var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
-
+var planet1_array = generateSphereFull(0 , 0, -0.25, 2, 100, [1,	135/255, 39/255])
+var planet2_array = generateSphereFull(0 , 0, -0.25, 4, 100, [100/255, 100/255, 100/255])
+  
 
 //=======
   
@@ -3720,10 +3620,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   var leftLeg_Lego = new MyObject(legVertex_Lego, triangle_faces_Lego, shader_fragment_source, shader_vertex_source, "");
 
   var body_Lego = new MyObject(bodyVertex_Lego, body_faces_Lego, shader_fragment_source, shader_vertex_source, "");
-
-  var MaceWindufrontBodyWTexture = new MyObject(MaceWindu_FrontBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, "windu_depan.png"); // manggil gambar
-
-  var MaceWindubackBodyWTexture = new MyObject(MaceWindu_BackBodyVertexWTexture, MaceWindu_faces_Texture, shader_fragment_source3, shader_vertex_source3, "windu_belakang.png"); // manggil gambar
   
   var neck_Lego = new MyObject(neck_array_Lego.vertices, neck_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
 
@@ -3744,14 +3640,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   var innerLeftArm_Lego = new MyObject(inner_arm_array_Lego.vertices,inner_arm_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
 
   var neckDeco_Lego = new MyObject(neck_deco_array_Lego.vertices,neck_deco_array_Lego.faces, shader_fragment_source, shader_vertex_source, "");
-
-  var legMaceWindu1 = new MyObject(legMaceWinduVertices,legMaceWinduVertices, shader_fragment_source2, shader_vertex_source, "")
-
-  var legMaceWindu2 = new MyObject(legMaceWinduVertices2,legMaceWinduVertices2, shader_fragment_source2, shader_vertex_source, "")
-
-  var legMaceWindu3 = new MyObject(legMaceWinduVertices3,legMaceWinduVertices3, shader_fragment_source2, shader_vertex_source, "")
-
-  // var legMaceWindu4 = new MyObject(legMaceWinduVertices4,legMaceWinduVertices4, shader_fragment_source2, shader_vertex_source, "")
 
   body_Lego.addChild(rightArm_Lego);
   body_Lego.addChild(leftArm_Lego);
@@ -3807,21 +3695,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
   var robotSocketEye = new MyObject(robot_eye_socket.vertices , robot_eye_socket.faces , shader_fragment_source , shader_vertex_source, "");
 
-  var robotLegDeco = new MyObject(robotDecoVertices , robotDecoVertices , shader_fragment_source , shader_vertex_source)
-
-  var robotLegDeco2 = new MyObject(robotDecoVertices2 , robotDecoVertices2 , shader_fragment_source , shader_vertex_source)
-
-  var robotLegDeco3 = new MyObject(robotDecoVertices3 , robotDecoVertices3 , shader_fragment_source , shader_vertex_source)
-
-  var robotLegDeco4 = new MyObject(robotDecoVertices4 , robotDecoVertices4 , shader_fragment_source , shader_vertex_source)
-
-  var robotFrontBodyWTexture = new MyObject(robotFrontBodyVertexWTexture, robotTextureFaces, shader_fragment_source3, shader_vertex_source3, "resized_robot.jpg");
-
-
-
-
-
-  robotBody.addChild(topRobot);
   robotBody.addChild(bottomRobot);
   robotBody.addChild(robotHead);
   robotBody.addChild(triangleRobot);
@@ -3837,8 +3710,53 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
   //Environment
 
+  // hangar
+  var plane_body_array = generateSphereFull(0 , 0, -0.25, 1.3, 100, [200/255, 200/255, 200/255]);
+
+  var plane_gun_array = generateCylinderHorizonRotate(0, 1.3, (CANVAS.width/5), (CANVAS.height/5), [1, 0, 0]);
+
+  var plane_wing_deco_array = generateCylinderHorizonRotate(0, 3, (CANVAS.width/5), (CANVAS.height/5), [0, 1, 1]);
+
   var hangar = new MyObject(cube_vertex , cube_faces , shader_fragment_source , shader_vertex_source, "");
+
+  // plane
+  var leftPlaneWing = new MyObject(planeWingVertex , planeWingFaces , shader_fragment_source , shader_vertex_source, "");
+
+  var rightPlaneWing = new MyObject(planeWingVertex , planeWingFaces , shader_fragment_source , shader_vertex_source, "");
+
+  var leftPlaneHandWing = new MyObject(planeWingHandVertex , planeWingHandFaces , shader_fragment_source , shader_vertex_source, "");
+
+  var rightPlaneHandWing = new MyObject(planeWingHandVertex , planeWingHandFaces , shader_fragment_source , shader_vertex_source, "");
+
+  var rightPlaneHandWing = new MyObject(planeWingHandVertex , planeWingHandFaces , shader_fragment_source , shader_vertex_source, "");
+
+  var plane_body = new MyObject(plane_body_array.vertices, plane_body_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  var plane_body = new MyObject(plane_body_array.vertices, plane_body_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  var plane_gun = new MyObject(plane_gun_array.vertices, plane_gun_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  var planeWingDeco1 = new MyObject(plane_wing_deco_array.vertices, plane_wing_deco_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  var planeWingDeco2 = new MyObject(plane_wing_deco_array.vertices, plane_wing_deco_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  var planeWingDeco3 = new MyObject(plane_wing_deco_array.vertices, plane_wing_deco_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  var planeWingDeco4 = new MyObject(plane_wing_deco_array.vertices, plane_wing_deco_array.faces, shader_fragment_source , shader_vertex_source, "");
+
+  plane_body.addChild(rightPlaneHandWing)
+  plane_body.addChild(leftPlaneHandWing)
+  plane_body.addChild(plane_gun)
+  rightPlaneHandWing.addChild(rightPlaneWing)
+  leftPlaneHandWing.addChild(leftPlaneWing)
+  leftPlaneWing.addChild(planeWingDeco1)
+  leftPlaneWing.addChild(planeWingDeco2)
+  rightPlaneWing.addChild(planeWingDeco3)
+  rightPlaneWing.addChild(planeWingDeco4)
+// planet
   var planet1 = new MyObject(planet1_array.vertices , planet1_array.faces , shader_fragment_source , shader_vertex_source , "")
+
+  var planet2 = new MyObject(planet2_array.vertices , planet2_array.faces , shader_fragment_source , shader_vertex_source , "")
 
 
   var PROJMATRIX = LIBS.get_projection(
@@ -3848,6 +3766,57 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     100
   );
   var VIEWMATRIX = LIBS.get_I4();
+
+  var cameraSpeed = 1.5;
+  var zoomSpeed = 0.2;
+    var keysPressed = {
+      w: false,
+      a: false,
+      s: false,
+      d: false
+  };
+    document.addEventListener('wheel', function (event) {
+        event.preventDefault()
+        // Menentukan arah scroll
+        scaleZ += Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+        // Memastikan kamera tidak terlalu dekat atau terlalu jauh
+        // if (scaleZ < -20) {
+        //     scaleZ = -20;
+        // }
+        // if (scaleZ > -1) {
+        //     scaleZ = -1;
+        // }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      var keyCode = event.keyCode;
+      if (keyCode === 87) { // W key
+          keysPressed.w = true;
+          scaleY -= cameraSpeed
+      } else if (keyCode === 65) { // A key
+          keysPressed.a = true;
+          scaleX += cameraSpeed
+      } else if (keyCode === 83) { // S key
+          keysPressed.s = true;
+          scaleY += cameraSpeed
+      } else if (keyCode === 68) { // D key
+          keysPressed.d = true;
+          scaleX -= cameraSpeed
+      }
+  });
+
+  document.addEventListener('keyup', function (event) {
+      var keyCode = event.keyCode;
+      if (keyCode === 87) { // W key
+          keysPressed.w = false;
+      } else if (keyCode === 65) { // A key
+          keysPressed.a = false;
+      } else if (keyCode === 83) { // S key
+          keysPressed.s = false;
+      } else if (keyCode === 68) { // D key
+          keysPressed.d = false;
+      }
+  });
 
   wraist.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(wraist.MOVEMATRIX, wraist.MOVEMATRIX, [-1.15, 0.0, 0.0]);
@@ -3995,13 +3964,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,4.4 , 0.3 ])
       glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
 
-      robotLegDeco.MOVEMATRIX = glMatrix.mat4.create();
-      robotLegDeco2.MOVEMATRIX = glMatrix.mat4.create();
-      robotLegDeco3.MOVEMATRIX = glMatrix.mat4.create();
-      robotLegDeco4.MOVEMATRIX = glMatrix.mat4.create();
-
-      robotFrontBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
-
   
 
   //Mace Windu
@@ -4089,25 +4051,28 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   neckDeco_Lego.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(neckDeco_Lego.MOVEMATRIX, neckDeco_Lego.MOVEMATRIX, [-6.0, 3.4, 0.0]);
 
-  legMaceWindu1.MOVEMATRIX = glMatrix.mat4.create();
-  legMaceWindu2.MOVEMATRIX = glMatrix.mat4.create();
-  legMaceWindu3.MOVEMATRIX = glMatrix.mat4.create();
-  // legMaceWindu4.MOVEMATRIX = glMatrix.mat4.create();
-
-  MaceWindufrontBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(MaceWindufrontBodyWTexture.MOVEMATRIX, MaceWindufrontBodyWTexture.MOVEMATRIX, [-5.50, 0.95, 0.0]);
-
-  MaceWindubackBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(MaceWindubackBodyWTexture.MOVEMATRIX, MaceWindubackBodyWTexture.MOVEMATRIX, [-5.50, 0.95, 0.0]);
-
   //Environment
 
   hangar.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(hangar.MOVEMATRIX , hangar.MOVEMATRIX , [10 , 28.4 , 0])
 
   planet1.MOVEMATRIX = glMatrix.mat4.create();
-  glMatrix.mat4.translate(planet1.MOVEMATRIX , planet1.MOVEMATRIX , [8 , 25 ,80])
+  glMatrix.mat4.translate(planet1.MOVEMATRIX , planet1.MOVEMATRIX , [12 , 25 ,80])
 
+  planet2.MOVEMATRIX = glMatrix.mat4.create();
+  glMatrix.mat4.translate(planet2.MOVEMATRIX , planet2.MOVEMATRIX , [4 , 25 ,80])
+
+  // Plane
+  leftPlaneWing.MOVEMATRIX = glMatrix.mat4.create();
+  rightPlaneWing.MOVEMATRIX = glMatrix.mat4.create();
+  leftPlaneHandWing.MOVEMATRIX = glMatrix.mat4.create();
+  rightPlaneHandWing.MOVEMATRIX = glMatrix.mat4.create();
+  plane_body.MOVEMATRIX = glMatrix.mat4.create();
+  plane_gun.MOVEMATRIX = glMatrix.mat4.create();
+  planeWingDeco1.MOVEMATRIX = glMatrix.mat4.create();
+  planeWingDeco2.MOVEMATRIX = glMatrix.mat4.create();
+  planeWingDeco3.MOVEMATRIX = glMatrix.mat4.create();
+  planeWingDeco4.MOVEMATRIX = glMatrix.mat4.create();
   
   // Drawing
   GL.clearColor(0.0, 0.0, 0.0, 0.0);
@@ -4157,6 +4122,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
   
   var MaceWinduRotateSpeed = 0.05; // buat leg
 
+  var i = 0.05;
   var animate = function (time) {
     var dt = time - time_prev;
     if (time > 0) {
@@ -4169,10 +4135,26 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
         PHI += dY;
       }
       VIEWMATRIX = LIBS.get_I4();
-      LIBS.translateZ(VIEWMATRIX, scale);
-      console.log(scale)
+      LIBS.translateZ(VIEWMATRIX, scaleZ*AMORTIZATION);
+      LIBS.translateX(VIEWMATRIX, scaleX*AMORTIZATION);
+      LIBS.translateY(VIEWMATRIX, scaleY*AMORTIZATION);
       LIBS.rotateX(VIEWMATRIX, PHI);
       LIBS.rotateY(VIEWMATRIX, THETA);
+
+    //   if (keysPressed.s) {
+    //     LIBS.translateZ(VIEWMATRIX, -cameraSpeed);
+    // }
+    // else if (keysPressed.a) {
+    //     LIBS.translateX(VIEWMATRIX, -cameraSpeed);
+    // }
+    // else if (keysPressed.w) {
+    //     LIBS.translateZ(VIEWMATRIX, cameraSpeed);
+    // }
+    // else if (keysPressed.d) {
+    //     LIBS.translateX(VIEWMATRIX, cameraSpeed);
+    // } else{
+      // LIBS.translateZ(VIEWMATRIX, scaleZ);
+    // }
       time_prev = time;
       // LIBS.rotateX(MOVEMATRIX, dt*0.0004);
       // LIBS.rotateY(MOVEMATRIX, dt*0.0004);
@@ -4234,12 +4216,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     triangleRobot2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     robotEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     robotSocketEye.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    robotLegDeco.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    robotLegDeco2.setuniformmatrix4(PROJMATRIX , VIEWMATRIX);
-    robotLegDeco3.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    robotLegDeco4.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    robotFrontBodyWTexture.setuniformmatrix4(PROJMATRIX,VIEWMATRIX);
-    
 
 
     //Mace Windu
@@ -4269,18 +4245,16 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     mata.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     mata2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     mulut.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    legMaceWindu1.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    legMaceWindu2.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    legMaceWindu3.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    // legMaceWindu4.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    MaceWindufrontBodyWTexture.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
-    MaceWindubackBodyWTexture.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
 
     //Environment
     
     hangar.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
     planet1.setuniformmatrix4(PROJMATRIX , VIEWMATRIX);
+    planet2.setuniformmatrix4(PROJMATRIX , VIEWMATRIX);
+    // plane
+    plane_body.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
+    plane_gun.setuniformmatrix4(PROJMATRIX, VIEWMATRIX);
 
 
     // wraist.setIdentityMove();
@@ -4384,40 +4358,40 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     glMatrix.mat4.rotateX(rightHand.MOVEMATRIX, rightHand.MOVEMATRIX, LIBS.degToRad(90));
 
     rightShoulder.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.62, 2,1+c3poPos[2]]);
+    glMatrix.mat4.translate(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, [-1.62, 2,1.025+c3poPos[2]]);
     glMatrix.mat4.rotateX(rightShoulder.MOVEMATRIX, rightShoulder.MOVEMATRIX, LIBS.degToRad(-100));
 
     leftHand.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.55, 2, 1.2+c3poPos[2]]);
+    glMatrix.mat4.translate(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, [1.55, 2, 1.275+c3poPos[2]]);
     glMatrix.mat4.rotateY(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, LIBS.degToRad(180));
     glMatrix.mat4.rotateZ(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, LIBS.degToRad(-8));
     glMatrix.mat4.rotateX(leftHand.MOVEMATRIX, leftHand.MOVEMATRIX, LIBS.degToRad(90));
 
     leftShoulder.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.62, 2.5,0.9+c3poPos[2]]);
+    glMatrix.mat4.translate(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, [1.62, 2.5,0.94+c3poPos[2]]);
     // 
     glMatrix.mat4.rotateY(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, LIBS.degToRad(180));
     glMatrix.mat4.rotateX(leftShoulder.MOVEMATRIX, leftShoulder.MOVEMATRIX, LIBS.degToRad(100));
 
     rightArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.5, 2.25,1.7])
+    glMatrix.mat4.translate(rightArm.MOVEMATRIX, rightArm.MOVEMATRIX, [-1.55, 2.25,1.7])
     LIBS.translateZ(rightArm.MOVEMATRIX, c3poPos[2])
     LIBS.rotateX(rightArm.MOVEMATRIX, LIBS.degToRad(90))
 
 
     leftArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.5, 2.25,1.7]);
+    glMatrix.mat4.translate(leftArm.MOVEMATRIX, leftArm.MOVEMATRIX, [1.55, 2.25,1.6]);
     LIBS.translateZ(leftArm.MOVEMATRIX, c3poPos[2])
     LIBS.rotateX(leftArm.MOVEMATRIX, LIBS.degToRad(90))
 
     innerRightArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.5, 2.259,1.85]);
+    glMatrix.mat4.translate(innerRightArm.MOVEMATRIX, innerRightArm.MOVEMATRIX, [-1.55, 2.259,1.84]);
     LIBS.translateZ(innerRightArm.MOVEMATRIX, c3poPos[2])
     LIBS.rotateX(innerRightArm.MOVEMATRIX, LIBS.degToRad(90))
 
 
     innerLeftArm.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.5, 2.259,1.85]);
+    glMatrix.mat4.translate(innerLeftArm.MOVEMATRIX, innerLeftArm.MOVEMATRIX, [1.55, 2.259,1.725]);
     LIBS.translateZ(innerLeftArm.MOVEMATRIX, c3poPos[2])
     LIBS.rotateX(innerLeftArm.MOVEMATRIX, LIBS.degToRad(90))
 
@@ -4525,16 +4499,16 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       LIBS.rotateY(innerRightEye.MOVEMATRIX, Math.PI);
       LIBS.translateZ(innerRightEye.MOVEMATRIX, -0.165);
       LIBS.rotateY(leftShoulder.MOVEMATRIX, LIBS.degToRad(190))
-      LIBS.translateZ(leftShoulder.MOVEMATRIX, -1.65)
+      LIBS.translateZ(leftShoulder.MOVEMATRIX, -1.8375)
       LIBS.translateX(leftShoulder.MOVEMATRIX, -1.1)
-      LIBS.translateZ(leftHand.MOVEMATRIX, -1.3)
+      LIBS.translateZ(leftHand.MOVEMATRIX, -1.5)
       LIBS.translateZ(leftArm.MOVEMATRIX, -2.1)
       LIBS.translateZ(innerLeftArm.MOVEMATRIX, -3.675)
       LIBS.translateZ(leftArm.MOVEMATRIX, -1.3)
       LIBS.rotateY(rightShoulder.MOVEMATRIX, LIBS.degToRad(-190))
-      LIBS.translateZ(rightShoulder.MOVEMATRIX, -1.8)
+      LIBS.translateZ(rightShoulder.MOVEMATRIX, -1.975)
       LIBS.translateX(rightShoulder.MOVEMATRIX, 1.1)
-      LIBS.translateZ(rightHand.MOVEMATRIX, -1.4)
+      LIBS.translateZ(rightHand.MOVEMATRIX, -1.475)
       LIBS.translateX(rightHand.MOVEMATRIX, -0.1)
       LIBS.translateX(leftHand.MOVEMATRIX, 0.1)
       LIBS.translateX(rightArm.MOVEMATRIX, -0.1)
@@ -4570,7 +4544,7 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     if (walkFront == true) {
       robotPos[2] += robotMoveSpeed;
       // console.log("run")
-      LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(-0.2))
+      // LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(-0.2))
       // LIBS.rotateZ(robotHead.MOVEMATRIX , LIBS.degToRad(-0.2))
       // LIBS.rotateZ(topRobot.MOVEMATRIX , LIBS.degToRad(-0.2))
       // LIBS.rotateZ(armExtension.MOVEMATRIX , LIBS.degToRad(-0.2))
@@ -4597,12 +4571,12 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       // LIBS.rotateZ(armRobot.MOVEMATRIX , LIBS.degToRad(2))
       // LIBS.rotateZ(armRobot2.MOVEMATRIX , LIBS.degToRad(2))
       // LIBS.rotateZ(footRobot.MOVEMATRIX , LIBS.degToRad(2))
-      LIBS.rotateZ(footRobot2.MOVEMATRIX , LIBS.degToRad(2))
-      LIBS.rotateZ(bottomRobot.MOVEMATRIX , LIBS.degToRad(2))
-      LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(2))
-      LIBS.rotateZ(triangleRobot.MOVEMATRIX , LIBS.degToRad(2))
-      LIBS.rotateZ(triangleRobot2 .MOVEMATRIX , LIBS.degToRad(2))
-      LIBS.rotateZ(robotEye.MOVEMATRIX , LIBS.degToRad(2))
+      // LIBS.rotateZ(footRobot2.MOVEMATRIX , LIBS.degToRad(2))
+      // LIBS.rotateZ(bottomRobot.MOVEMATRIX , LIBS.degToRad(2))
+      // LIBS.rotateZ(robotBody.MOVEMATRIX , LIBS.degToRad(2))
+      // LIBS.rotateZ(triangleRobot.MOVEMATRIX , LIBS.degToRad(2))
+      // LIBS.rotateZ(triangleRobot2 .MOVEMATRIX , LIBS.degToRad(2))
+      // LIBS.rotateZ(robotEye.MOVEMATRIX , LIBS.degToRad(2))
 
       
       
@@ -4623,8 +4597,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       
       // rotateExecuted = false;
     }
-
-
 
     robotBody.MOVEMATRIX = glMatrix.mat4.create();
   glMatrix.mat4.translate(robotBody.MOVEMATRIX, robotBody.MOVEMATRIX, [6, -1.05, 0.0]);
@@ -4700,11 +4672,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       glMatrix.mat4.translate(robotSocketEye.MOVEMATRIX, robotSocketEye.MOVEMATRIX ,  [6 ,3.35 , 0.3 ])
       glMatrix.mat4.rotateX(robotSocketEye.MOVEMATRIX , robotSocketEye.MOVEMATRIX , LIBS.degToRad(90))
 
-      robotLegDeco.MOVEMATRIX = glMatrix.mat4.create();
-      
-      robotLegDeco2.MOVEMATRIX = glMatrix.mat4.create();
-
-    LIBS.translateZ(topRobot.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotBody.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotHead.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(bottomRobot.MOVEMATRIX, robotPos[2]);
@@ -4720,10 +4687,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     LIBS.translateZ(footRobot2.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotEye.MOVEMATRIX, robotPos[2]);
     LIBS.translateZ(robotSocketEye.MOVEMATRIX,robotPos[2]);
-    LIBS.translateZ(robotLegDeco.MOVEMATRIX , robotPos[2]);
-    LIBS.translateZ(robotLegDeco2.MOVEMATRIX , robotPos[2]);
-      // LIBS.translateZ(robotLegDeco3.MOVEMATRIX , robotPos[2]);
-      // LIBS.translateZ(robotLegDeco4.MOVEMATRIX , robotPos[2]);
  
     // LIBS.rotateX(body.MOVEMATRIX, 1.5);
 
@@ -4749,7 +4712,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
        LIBS.translateZ(robotHead.MOVEMATRIX, 0.68)
        LIBS.translateZ(robotEye.MOVEMATRIX, 0.68)
        LIBS.translateZ(robotSocketEye.MOVEMATRIX, 0.68)
-       LIBS.translateZ(topRobot.MOVEMATRIX, 0.68)
        rotateExecuted = false
     //  }
      if(eyeRotateDec){
@@ -4836,7 +4798,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
         LIBS.translateZ(robotHead.MOVEMATRIX, -0.68)
         LIBS.translateZ(robotEye.MOVEMATRIX, - 0.68)
         LIBS.translateZ(robotSocketEye.MOVEMATRIX, -0.68)
-        LIBS.translateZ(topRobot.MOVEMATRIX,-0.68)
       // }
     }
 
@@ -4856,11 +4817,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     // triangleRobot2.draw();
     robotEye.draw();
     robotSocketEye.draw();
-    robotLegDeco.drawSpline(0.68);
-    robotLegDeco2.drawSpline(0.68);
-    // robotFrontBodyWTexture.drawWTexture();
-    // robotLegDeco3.drawSpline(0.8);
-    // robotLegDeco4.drawSpline(0.8);
 
     //Mace Windu buat animasi gerak
     
@@ -4882,11 +4838,6 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     glMatrix.mat4.translate(body_Lego.MOVEMATRIX, body_Lego.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
     // LIBS.rotateX(body_Lego.MOVEMATRIX, 1.5);
 
-    MaceWindufrontBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(MaceWindufrontBodyWTexture.MOVEMATRIX, MaceWindufrontBodyWTexture.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
-    MaceWindubackBodyWTexture.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(MaceWindubackBodyWTexture.MOVEMATRIX, MaceWindubackBodyWTexture.MOVEMATRIX, [-5.55, 0.95, MaceWinduPos[2]]);
-
     wraist_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(wraist_Lego.MOVEMATRIX, wraist_Lego.MOVEMATRIX, [-6.75, 0.0, MaceWinduPos[2]]);
 
@@ -4903,8 +4854,8 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
     rightHand_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, [-7.15, 0.82, -0.0+MaceWinduPos[2]]);
-    glMatrix.mat4.rotateZ(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8));
-    // glMatrix.mat4.rotateX(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90));
+    glMatrix.mat4.rotateZ(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, LIBS.degToRad(-8));
+    // glMatrix.mat4.rotateX(rightHand_Lego.MOVEMATRIX, rightHand_Lego.MOVEMATRIX, LIBS.degToRad(90));
 
     rightShoulder_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(rightShoulder_Lego.MOVEMATRIX, rightShoulder_Lego.MOVEMATRIX, [-7.055, 1.1,-0.25+MaceWinduPos[2]]);
@@ -4912,125 +4863,108 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
 
     leftHand_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, [-4.18, 2, 1.2+MaceWinduPos[2]]);
-    glMatrix.mat4.rotateY(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(180));
-    glMatrix.mat4.rotateZ(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8));
-    glMatrix.mat4.rotateX(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90));
+    glMatrix.mat4.rotateY(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, LIBS.degToRad(180));
+    glMatrix.mat4.rotateZ(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, LIBS.degToRad(-8));
+    glMatrix.mat4.rotateX(leftHand_Lego.MOVEMATRIX, leftHand_Lego.MOVEMATRIX, LIBS.degToRad(90));
 
     leftShoulder_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, [-4.10, 2.5,0.9+MaceWinduPos[2]]);
     // 
-    glMatrix.mat4.rotateY(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(180));
-    glMatrix.mat4.rotateX(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(100));
+    glMatrix.mat4.rotateY(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, LIBS.degToRad(180));
+    glMatrix.mat4.rotateX(leftShoulder_Lego.MOVEMATRIX, leftShoulder_Lego.MOVEMATRIX, LIBS.degToRad(100));
 
     rightArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(rightArm_Lego.MOVEMATRIX, rightArm_Lego.MOVEMATRIX, [-7.20, 0.41,-0.3])
     LIBS.translateZ(rightArm_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(rightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(rightArm_Lego.MOVEMATRIX, LIBS.degToRad(0))
 
 
     leftArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(leftArm_Lego.MOVEMATRIX, leftArm_Lego.MOVEMATRIX, [-4.18, 2.25,1.63]);
     LIBS.translateZ(leftArm_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(leftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(leftArm_Lego.MOVEMATRIX, LIBS.degToRad(90))
     
 
     innerRightArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(innerRightArm_Lego.MOVEMATRIX, innerRightArm_Lego.MOVEMATRIX, [-7.20, 0.30,-0.305]);
     LIBS.translateZ(innerRightArm_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(innerRightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(innerRightArm_Lego.MOVEMATRIX, LIBS.degToRad(0))
 
 
     innerLeftArm_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(innerLeftArm_Lego.MOVEMATRIX, innerLeftArm_Lego.MOVEMATRIX, [-4.18, 2.259,1.75]);
     LIBS.translateZ(innerLeftArm_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(innerLeftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(innerLeftArm_Lego.MOVEMATRIX, LIBS.degToRad(90))
 
     sayap.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(sayap.MOVEMATRIX, sayap.MOVEMATRIX, [-5.55, -0.91, -1.532]);
     LIBS.translateZ(sayap.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(sayap.MOVEMATRIX, degrees_to_radians_Lego(0.1))
+    LIBS.rotateX(sayap.MOVEMATRIX, LIBS.degToRad(0.1))
 
     neck_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(neck_Lego.MOVEMATRIX, neck_Lego.MOVEMATRIX, [-5.55, 1.5, 0.0]);
     LIBS.translateZ(neck_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(neck_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(neck_Lego.MOVEMATRIX, LIBS.degToRad(0))
 
     head_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(head_Lego.MOVEMATRIX, head_Lego.MOVEMATRIX, [-5.55, 3.6,-0.04]);
     LIBS.translateZ(head_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(head_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(head_Lego.MOVEMATRIX, LIBS.degToRad(0))
 
     headKecil.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(headKecil.MOVEMATRIX, headKecil.MOVEMATRIX, [-5.55, 4.2, -0.004]);
     LIBS.translateZ(headKecil.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(headKecil.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(headKecil.MOVEMATRIX, LIBS.degToRad(0))
 
     neckDeco_Lego.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(neckDeco_Lego.MOVEMATRIX, neckDeco_Lego.MOVEMATRIX, [-6.0, 3.4, 0.0]);
     LIBS.translateZ(neckDeco_Lego.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(neckDeco_Lego.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(neckDeco_Lego.MOVEMATRIX, LIBS.degToRad(0))
 
     mata.MOVEMATRIX = glMatrix.mat4.create(); // mata kiri
     glMatrix.mat4.translate(mata.MOVEMATRIX, mata.MOVEMATRIX, [-5.20, 3.80, 0.500]);
     LIBS.translateZ(mata.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(mata.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(mata.MOVEMATRIX, LIBS.degToRad(0))
 
     mata2.MOVEMATRIX = glMatrix.mat4.create(); // mata kanan
     glMatrix.mat4.translate(mata2.MOVEMATRIX, mata2.MOVEMATRIX, [-5.90, 3.80, 0.500]);
     LIBS.translateZ(mata2.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(mata2.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(mata2.MOVEMATRIX, LIBS.degToRad(0))
 
     mulut.MOVEMATRIX = glMatrix.mat4.create();
     glMatrix.mat4.translate(mulut.MOVEMATRIX, mulut.MOVEMATRIX, [-5.55, 3.35, 0.196]);
     LIBS.translateZ(mulut.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(mulut.MOVEMATRIX, degrees_to_radians_Lego(0))
+    LIBS.rotateX(mulut.MOVEMATRIX, LIBS.degToRad(0))
 
     saber6.MOVEMATRIX = glMatrix.mat4.create(); // pegangan buat tangannya
     glMatrix.mat4.translate(saber6.MOVEMATRIX, saber6.MOVEMATRIX, [-4.18, 1.855, 1.800]);
     LIBS.translateZ(saber6.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(saber6.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(saber6.MOVEMATRIX, LIBS.degToRad(90))
 
     saber5.MOVEMATRIX = glMatrix.mat4.create(); //atas pegangan atas lagi bentuk medium
     glMatrix.mat4.translate(saber5.MOVEMATRIX, saber5.MOVEMATRIX, [-4.18, 2.700, 1.700]);
     LIBS.translateZ(saber5.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(saber5.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(saber5.MOVEMATRIX, LIBS.degToRad(90))
 
     saber4.MOVEMATRIX = glMatrix.mat4.create(); // bawah pegangan bawah lagi bentuk kecil
     glMatrix.mat4.translate(saber4.MOVEMATRIX, saber4.MOVEMATRIX, [-4.18, 1.300, 1.700]);
     LIBS.translateZ(saber4.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(saber4.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(saber4.MOVEMATRIX, LIBS.degToRad(90))
 
     saber3.MOVEMATRIX = glMatrix.mat4.create(); // bawah pegangan
     glMatrix.mat4.translate(saber3.MOVEMATRIX, saber3.MOVEMATRIX, [-4.18, 1.500, 1.700]);
     LIBS.translateZ(saber3.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(saber3.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(saber3.MOVEMATRIX, LIBS.degToRad(90))
 
     saber2.MOVEMATRIX = glMatrix.mat4.create(); // atas pegangan
     glMatrix.mat4.translate(saber2.MOVEMATRIX, saber2.MOVEMATRIX, [-4.18, 2.390, 1.700]);
     LIBS.translateZ(saber2.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(saber2.MOVEMATRIX, degrees_to_radians_Lego(90))
+    LIBS.rotateX(saber2.MOVEMATRIX, LIBS.degToRad(90))
 
     saber1.MOVEMATRIX = glMatrix.mat4.create(); //lampu / pedang lightsaber
     glMatrix.mat4.translate(saber1.MOVEMATRIX, saber1.MOVEMATRIX, [-4.18, 4.850, 1.750]);
     LIBS.translateZ(saber1.MOVEMATRIX, MaceWinduPos[2])
-    LIBS.rotateX(saber1.MOVEMATRIX, degrees_to_radians_Lego(90))
-
-    //spline 
-    legMaceWindu1.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu1.MOVEMATRIX, legMaceWindu1.MOVEMATRIX, [-6.50, 0, 0]); // buat kiri
-    LIBS.translateZ(legMaceWindu1.MOVEMATRIX, MaceWinduPos[2])
-
-    legMaceWindu2.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu2.MOVEMATRIX, legMaceWindu2.MOVEMATRIX, [-5.70, -0.50, 0]); //buat bawah
-    LIBS.translateZ(legMaceWindu2.MOVEMATRIX, MaceWinduPos[2])
-
-    legMaceWindu3.MOVEMATRIX = glMatrix.mat4.create();
-    glMatrix.mat4.translate(legMaceWindu3.MOVEMATRIX, legMaceWindu3.MOVEMATRIX, [-5.15, 0, 0]); //buat kanan
-    LIBS.translateZ(legMaceWindu3.MOVEMATRIX, MaceWinduPos[2])
-
-    // legMaceWindu4.MOVEMATRIX = glMatrix.mat4.create();
-    // glMatrix.mat4.translate(legMaceWindu4.MOVEMATRIX, legMaceWindu4.MOVEMATRIX, [-5.30, 0, 0]);
-    // LIBS.translateZ(legMaceWindu4.MOVEMATRIX, MaceWinduPos[2])
+    LIBS.rotateX(saber1.MOVEMATRIX, LIBS.degToRad(90))
 
     // leg animation Mace Windu
     // Kaki kiri
@@ -5101,61 +5035,61 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       LIBS.translateZ(mata.MOVEMATRIX, -1.1);
 
       //bahu kiri
-      LIBS.rotateY(leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(-35))
-      LIBS.rotateZ(leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(5))
-      LIBS.rotateX(leftShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(100))
+      LIBS.rotateY(leftShoulder_Lego.MOVEMATRIX, LIBS.degToRad(-35))
+      LIBS.rotateZ(leftShoulder_Lego.MOVEMATRIX, LIBS.degToRad(5))
+      LIBS.rotateX(leftShoulder_Lego.MOVEMATRIX, LIBS.degToRad(100))
       LIBS.translateZ(leftShoulder_Lego.MOVEMATRIX, -0.70)
       LIBS.translateX(leftShoulder_Lego.MOVEMATRIX, -0.54)
       LIBS.translateY(leftShoulder_Lego.MOVEMATRIX, -1.5)
       
       // bahu kanan
-      LIBS.rotateZ(rightShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(40))
-      LIBS.rotateX(rightShoulder_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.rotateZ(rightShoulder_Lego.MOVEMATRIX, LIBS.degToRad(40))
+      LIBS.rotateX(rightShoulder_Lego.MOVEMATRIX, LIBS.degToRad(90))
       LIBS.translateZ(rightShoulder_Lego.MOVEMATRIX, -0.90) // depan belakang
       LIBS.translateX(rightShoulder_Lego.MOVEMATRIX, 0.5) //kanan kiri
       LIBS.translateY(rightShoulder_Lego.MOVEMATRIX, 1.28) // atas bawah
       
       // tangan kanan
-      LIBS.rotateX(rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
-      LIBS.rotateY(rightHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(-8))
+      LIBS.rotateX(rightHand_Lego.MOVEMATRIX, LIBS.degToRad(90))
+      LIBS.rotateY(rightHand_Lego.MOVEMATRIX, LIBS.degToRad(-8))
       LIBS.translateZ(rightHand_Lego.MOVEMATRIX, -1.40)
       LIBS.translateX(rightHand_Lego.MOVEMATRIX, 0.12)
       LIBS.translateY(rightHand_Lego.MOVEMATRIX, 1.28)
 
       // tangan kiri
-      LIBS.rotateX(leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
-      LIBS.rotateZ(leftHand_Lego.MOVEMATRIX, degrees_to_radians_Lego(8))
+      LIBS.rotateX(leftHand_Lego.MOVEMATRIX, LIBS.degToRad(90))
+      LIBS.rotateZ(leftHand_Lego.MOVEMATRIX, LIBS.degToRad(8))
       LIBS.translateX(leftHand_Lego.MOVEMATRIX, 0.15)
       LIBS.translateY(leftHand_Lego.MOVEMATRIX, -1.30)
       LIBS.translateZ(leftHand_Lego.MOVEMATRIX, -1.15)
 
       // kanan
-      LIBS.rotateX(rightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.rotateX(rightArm_Lego.MOVEMATRIX, LIBS.degToRad(90))
       LIBS.translateX(rightArm_Lego.MOVEMATRIX, 0.15)
       LIBS.translateZ(rightArm_Lego.MOVEMATRIX, -1.50)
       LIBS.translateY(rightArm_Lego.MOVEMATRIX, 2.00)
 
       // kanan
-      LIBS.rotateX(innerRightArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(90))
+      LIBS.rotateX(innerRightArm_Lego.MOVEMATRIX, LIBS.degToRad(90))
       LIBS.translateX(innerRightArm_Lego.MOVEMATRIX, 0.15)
       LIBS.translateZ(innerRightArm_Lego.MOVEMATRIX, -1.62)
       LIBS.translateY(innerRightArm_Lego.MOVEMATRIX, 2.115)
 
       // kiri
-      LIBS.rotateX(leftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(-90))
+      LIBS.rotateX(leftArm_Lego.MOVEMATRIX, LIBS.degToRad(-90))
       LIBS.translateX(leftArm_Lego.MOVEMATRIX, 0.18)
       LIBS.translateZ(leftArm_Lego.MOVEMATRIX, -2)
       LIBS.translateY(leftArm_Lego.MOVEMATRIX, -1.93)
 
       // kiri
-      LIBS.rotateX(innerLeftArm_Lego.MOVEMATRIX, degrees_to_radians_Lego(-90))
+      LIBS.rotateX(innerLeftArm_Lego.MOVEMATRIX, LIBS.degToRad(-90))
       LIBS.translateX(innerLeftArm_Lego.MOVEMATRIX, 0.180)
       LIBS.translateZ(innerLeftArm_Lego.MOVEMATRIX, -2.1250)
       LIBS.translateY(innerLeftArm_Lego.MOVEMATRIX, -2.06)
 
       
       // sayap
-      LIBS.rotateX(sayap.MOVEMATRIX, degrees_to_radians_Lego(-30))
+      LIBS.rotateX(sayap.MOVEMATRIX, LIBS.degToRad(-30))
       LIBS.translateZ(sayap.MOVEMATRIX, 3.07)
       LIBS.translateX(sayap.MOVEMATRIX, -0.05)
       LIBS.translateY(sayap.MOVEMATRIX, 0.050)
@@ -5191,28 +5125,77 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
       LIBS.translateX(saber6.MOVEMATRIX, -2.88) //kanan kiri
       LIBS.translateZ(saber6.MOVEMATRIX, -3.7780) // depan belakang
       LIBS.translateY(saber6.MOVEMATRIX, 0.30) // atas bawah
-
-      // texture
-      LIBS.rotateY(MaceWindufrontBodyWTexture.MOVEMATRIX, Math.PI)
-      LIBS.translateZ(MaceWindubackBodyWTexture.MOVEMATRIX, 1.01)
-      LIBS.translateX(MaceWindubackBodyWTexture.MOVEMATRIX, -0.02)
-
-      LIBS.translateZ(MaceWindufrontBodyWTexture.MOVEMATRIX, -0.025)
-      LIBS.translateX(MaceWindufrontBodyWTexture.MOVEMATRIX, -0.10)
-
-      //spline
-
-      LIBS.rotateY(legMaceWindu1.MOVEMATRIX, Math.PI)//kiri
-      LIBS.translateX(legMaceWindu1.MOVEMATRIX, 1.7)
-
-      LIBS.rotateY(legMaceWindu2.MOVEMATRIX, Math.PI) //bawah
-      LIBS.translateX(legMaceWindu2.MOVEMATRIX, 0.25)
-
-      LIBS.rotateY(legMaceWindu3.MOVEMATRIX, Math.PI) // kanan
-      LIBS.translateX(legMaceWindu3.MOVEMATRIX, -0.9)
-
-      // LIBS.rotateY(legMaceWindu4.MOVEMATRIX, Math.PI)
     }
+
+    // Environment
+    leftPlaneWing.MOVEMATRIX = glMatrix.mat4.create();
+    rightPlaneWing.MOVEMATRIX = glMatrix.mat4.create();
+    leftPlaneWing.MOVEMATRIX = glMatrix.mat4.create();
+    rightPlaneWing.MOVEMATRIX = glMatrix.mat4.create();
+    leftPlaneHandWing.MOVEMATRIX = glMatrix.mat4.create();
+    rightPlaneHandWing.MOVEMATRIX = glMatrix.mat4.create();
+    plane_body.MOVEMATRIX = glMatrix.mat4.create();
+    plane_gun.MOVEMATRIX = glMatrix.mat4.create();
+    planeWingDeco1.MOVEMATRIX = glMatrix.mat4.create();
+    planeWingDeco2.MOVEMATRIX = glMatrix.mat4.create();
+    planeWingDeco3.MOVEMATRIX = glMatrix.mat4.create();
+    planeWingDeco4.MOVEMATRIX = glMatrix.mat4.create();
+    LIBS.translateY(plane_body.MOVEMATRIX, 1.5)
+    LIBS.translateY(plane_gun.MOVEMATRIX, 1.5)
+
+    LIBS.translateY(leftPlaneWing.MOVEMATRIX, 20)
+    LIBS.translateY(rightPlaneWing.MOVEMATRIX, 20)
+    LIBS.translateY(leftPlaneHandWing.MOVEMATRIX, 20)
+    LIBS.translateY(rightPlaneHandWing.MOVEMATRIX, 20)
+    LIBS.translateY(plane_gun.MOVEMATRIX, 20)
+    LIBS.translateY(plane_body.MOVEMATRIX, 20)
+    LIBS.translateY(planeWingDeco1.MOVEMATRIX, 20)
+    LIBS.translateY(planeWingDeco2.MOVEMATRIX, 20)
+    LIBS.translateY(planeWingDeco3.MOVEMATRIX, 20)
+    LIBS.translateY(planeWingDeco4.MOVEMATRIX, 20)
+
+    
+    glMatrix.mat4.translate(plane_body.MOVEMATRIX, plane_body.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(plane_body.MOVEMATRIX, plane_body.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(plane_body.MOVEMATRIX, plane_body.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(leftPlaneWing.MOVEMATRIX, leftPlaneWing.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(leftPlaneWing.MOVEMATRIX, leftPlaneWing.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(leftPlaneWing.MOVEMATRIX, leftPlaneWing.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(rightPlaneWing.MOVEMATRIX, rightPlaneWing.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(rightPlaneWing.MOVEMATRIX, rightPlaneWing.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(rightPlaneWing.MOVEMATRIX, rightPlaneWing.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(leftPlaneHandWing.MOVEMATRIX, leftPlaneHandWing.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(leftPlaneHandWing.MOVEMATRIX, leftPlaneHandWing.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(leftPlaneHandWing.MOVEMATRIX, leftPlaneHandWing.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(rightPlaneHandWing.MOVEMATRIX, rightPlaneHandWing.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(rightPlaneHandWing.MOVEMATRIX, rightPlaneHandWing.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(rightPlaneHandWing.MOVEMATRIX, rightPlaneHandWing.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(plane_gun.MOVEMATRIX, plane_gun.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(plane_gun.MOVEMATRIX, plane_gun.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(plane_gun.MOVEMATRIX, plane_gun.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+    
+    glMatrix.mat4.translate(planeWingDeco1.MOVEMATRIX, planeWingDeco1.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(planeWingDeco1.MOVEMATRIX, planeWingDeco1.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(planeWingDeco1.MOVEMATRIX, planeWingDeco1.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(planeWingDeco2.MOVEMATRIX, planeWingDeco2.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(planeWingDeco2.MOVEMATRIX, planeWingDeco2.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(planeWingDeco2.MOVEMATRIX, planeWingDeco2.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(planeWingDeco3.MOVEMATRIX, planeWingDeco3.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(planeWingDeco3.MOVEMATRIX, planeWingDeco3.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(planeWingDeco3.MOVEMATRIX, planeWingDeco3.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    glMatrix.mat4.translate(planeWingDeco4.MOVEMATRIX, planeWingDeco4.MOVEMATRIX, [20.0, 0.0, 0.0]);
+    glMatrix.mat4.rotateY(planeWingDeco4.MOVEMATRIX, planeWingDeco4.MOVEMATRIX, LIBS.degToRad(i*0.1));
+    glMatrix.mat4.translate(planeWingDeco4.MOVEMATRIX, planeWingDeco4.MOVEMATRIX, [-20.0, 0.0, 0.0]);
+
+    i+=10;
 
     body_Lego.draw();
     sayap.draw();
@@ -5224,19 +5207,18 @@ var planet1_array = generateSphereFull(0 , 0, -0.25, 1, 100)
     saber5.draw();
     saber6.draw();
 
-    legMaceWindu1.drawSpline(0.533);
-    legMaceWindu2.drawSpline(0.533);
-    legMaceWindu3.drawSpline(0.533);
-    // legMaceWindu4.drawSpline(0.533);
-
-    MaceWindubackBodyWTexture.drawWTexture();
-    MaceWindufrontBodyWTexture.drawWTexture();
-
 
      //Environment
 
      hangar.draw();
      planet1.draw();
+     planet2.draw();
+    //  leftPlaneWing.draw();
+    //  rightPlaneWing.draw();
+    //  leftPlaneHandWing.draw();
+    //  rightPlaneHandWing.draw();
+     plane_body.draw();
+    //  plane_gun.draw();
     
     GL.flush();
     window.requestAnimationFrame(animate);
